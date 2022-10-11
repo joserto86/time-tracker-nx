@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/time-tracker-front",
         "index": "apps/time-tracker-front/src/index.html",
@@ -19,7 +21,10 @@
           "apps/time-tracker-front/src/favicon.ico",
           "apps/time-tracker-front/src/assets"
         ],
-        "styles": ["apps/time-tracker-front/src/styles.scss"],
+        "styles": [
+          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "apps/time-tracker-front/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -84,7 +89,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/time-tracker-front"],
+      "outputs": [
+        "coverage/apps/time-tracker-front"
+      ],
       "options": {
         "jestConfig": "apps/time-tracker-front/jest.config.ts",
         "passWithNoTests": true

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { JwtCredentials } from '@time-tracker/shared';
 import { Observable } from 'rxjs';
@@ -14,14 +14,14 @@ import * as fromAuth from '../../reducers';
 export class LoginPageComponent {
 
   pending$: Observable<boolean | null>;
+  error$: Observable<string | null>;
 
   constructor(public store: Store) { 
     this.pending$ = this.store.select(fromAuth.selectLoginPagePending);
+    this.error$ = this.store.select(fromAuth.selectLoginPageError);
   }
 
   onSubmit(credentials: JwtCredentials) {
-
-    console.log('before dispatach');
     this.store.dispatch(LoginPageActions.login({ credentials }));
   }
 

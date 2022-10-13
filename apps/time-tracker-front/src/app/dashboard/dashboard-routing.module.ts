@@ -6,8 +6,7 @@ import { DashboardComponent } from './pages/dashboard.component';
 const routes: Routes = [
   { 
     path: 'dashboard',
-    component: DashboardComponent,
-    canLoad: [AuthGuard]
+    component: DashboardComponent
   }
 ];
 

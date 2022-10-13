@@ -3,6 +3,7 @@
     <time-tracker-nx-login-form
       (submitted)="onSubmit($event)"
       [pending]="(pending$ | async)!"
+      [errorMessage]="(error$ |async)"
     ></time-tracker-nx-login-form>
   </div>
 </main>

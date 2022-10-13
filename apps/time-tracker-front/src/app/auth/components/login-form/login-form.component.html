@@ -52,7 +52,6 @@
     </span>
   </mat-form-field>
 
-
   <button
     type="submit"
     mat-raised-button
@@ -62,11 +61,6 @@
     Submit
   </button>
   <button mat-raised-button (click)="onClear()">Clear</button>
-</form>
 
-<!-- <p>
-    {{ loginForm.value| json }}
-  </p>
-  <p>
-    {{ loginForm.get('username')| json }}
-  </p> -->
+  <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+</form>

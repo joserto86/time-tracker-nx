@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { JwtCredentials } from '@time-tracker/shared';
+import { JwtCredentials, JwtResponse } from '@time-tracker/shared';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -28,33 +28,37 @@ export class AuthEffects {
       map((action) => action.credentials),
       exhaustMap((auth: JwtCredentials) =>
         this.authService.login(auth).pipe(
-          map((jwt) => AuthApiActions.loginSuccess({ jwt })),
+          map((jwt: JwtResponse) => 
+          {
+            console.log(jwt);
+            return AuthApiActions.loginSuccess({ jwt });
+          }),
           catchError((error) => of(AuthApiActions.loginFailure({ error })))
         )
       )
     )
   );
 
-//   refresh$ = createEffect(() => {
-//     return this.actions$.pipe(
-//       ofType(AuthActions.refreshToken),
-//       concatLatestFrom(() => this.store.select(fromAuth.selectJwtRefreshToken)),
-//       exhaustMap(([, refreshToken]) => {
-//         return this.authService.refresh(refreshToken || '').pipe(
-//           map((jwt) => AuthApiActions.setUser({ jwt })),
-//           catchError((error) => {
-//             return of(AuthApiActions.loginFailure({ error }));
-//           })
-//         );
-//       })
-//     );
-//   });
+  refresh$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.refreshToken),
+      concatLatestFrom(() => this.store.select(fromAuth.selectJwtRefreshToken)),
+      exhaustMap(([, refreshToken]) => {
+        return this.authService.refresh(refreshToken || '').pipe(
+          map((jwt) => AuthApiActions.setUser({ jwt })),
+          catchError((error) => {
+            return of(AuthApiActions.loginFailure({ error }));
+          })
+        );
+      })
+    );
+  });
 
   loginSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthApiActions.loginSuccess),
       map(({ jwt }) => AuthApiActions.setUser({ jwt })),
-      tap(() => this.router.navigate(['/']))
+      tap(() => this.router.navigate(['/dashboard']))
     );
   });
 

@@ -14,6 +14,7 @@ export class LoginFormComponent {
   hideCode = true;
 
   @Output() submitted = new EventEmitter<JwtCredentials>();
+  @Input() errorMessage!: string | null;
   @Input()
   set pending(isPending: boolean) {
     if (isPending) {

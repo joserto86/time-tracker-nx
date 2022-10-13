@@ -10,24 +10,15 @@ import {
   export interface State {
     jwt?: {
       response: JwtResponse | null;
-    //   user: PublicUser | null;
+      user: string | null;
     };
-    // sap: {
-    //   uuid: string | null;
-    //   token?: string;
-    //   creationDate?: number;
-    // };
   }
   
   export const initialState: State = {
     jwt: {
       response: null,
-    //   user: null,
+      user: null,
     },
-    // sap: {
-    //   uuid: null,
-    //   token: undefined
-    // }
   };
   
   export const reducer = createReducer(
@@ -51,7 +42,7 @@ import {
     })),
   );
   
-//   export const getUser = (state: State) => state.jwt?.user;
+  export const getUser = (state: State) => state.jwt?.user;
   export const getJwt = (state: State) => state.jwt?.response;
 //   export const getSapUUID = (state: State) => state.sap?.uuid;
 //   export const getSapToken = (state: State) => state.sap?.token;

@@ -9,13 +9,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { AuthModule } from './auth/auth.module';
+import { reducers } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule, 
-    StoreModule.forRoot({}, {}),
+    HttpClientModule,
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictActionImmutability: true,
+        strictStateImmutability: true
+      }
+    }),
+    EffectsModule.forRoot([]),
     AppRoutingModule,
     AuthModule,
     SharedModule

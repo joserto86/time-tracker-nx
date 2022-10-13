@@ -1,27 +1,72 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
-    <mat-form-field  appearance="fill" class="full-width">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" id="email" placeholder="Email" required (blur)="onEmailBlur($event)">
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Password</mat-label>
-      <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" id="password" placeholder="Password">
-      <span mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Username</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="username"
+      id="username"
+      placeholder="Username"
+      required
+      (blur)="onEmailBlur($event)"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Password</mat-label>
+    <input
+      [type]="hidePass ? 'password' : 'text'"
+      matInput
+      formControlName="password"
+      id="password"
+      placeholder="Password"
+    />
+    <span
+      mat-icon-button
+      matSuffix
+      (click)="hidePass = !hidePass"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePass"
+    >
+      <mat-icon>{{ hidePass ? 'visibility_off' : 'visibility' }}</mat-icon>
     </span>
-    </mat-form-field>
-  
-    <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Submit</button>
-    <button mat-raised-button (click)="onClear()">Clear</button>
-  
-  
-  </form>
-  
-  <!-- <p>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>2FA Code</mat-label>
+    <input
+      [type]="hideCode ? 'password' : 'text'"
+      matInput
+      formControlName="code"
+      id="code"
+      placeholder="2FA Code"
+    />
+    <span
+      mat-icon-button
+      matSuffix
+      (click)="hideCode = !hideCode"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hideCode"
+    >
+      <mat-icon>{{ hideCode ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </span>
+  </mat-form-field>
+
+
+  <button
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="loginForm.invalid"
+  >
+    Submit
+  </button>
+  <button mat-raised-button (click)="onClear()">Clear</button>
+</form>
+
+<!-- <p>
     {{ loginForm.value| json }}
   </p>
   <p>
-    {{ loginForm.get('email').| json }}
+    {{ loginForm.get('username')| json }}
   </p> -->

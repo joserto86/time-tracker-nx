@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  apiEndpoint: 'https://localhost:9187/api',
+  idleTimeoutMinutes: 5
 };
 
 /*

@@ -13,7 +13,7 @@ const modules = [
   MatIconModule,
   MatButtonModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
 ];
 
 @NgModule({

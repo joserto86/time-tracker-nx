@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { JwtCredentials } from '@time-tracker/shared';
 
 @Component({
   selector: 'time-tracker-nx-login-form',
@@ -7,24 +8,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent {
 
-  loginForm!: FormGroup;
+  hidePass = true;
+  hideCode = true;
 
-  hide = true;
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-    });
+  @Output() submitted = new EventEmitter<JwtCredentials>();
+  @Input()
+  set pending(isPending: boolean) {
+    if (isPending) {
+      this.loginForm.disable();
+    } else {
+      this.loginForm.enable();
+    }
   }
+
+  loginForm: FormGroup =  new FormGroup({
+    username: new FormControl(null, [Validators.required]),
+    password:  new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required]),
+  });
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      this.submitted.emit(this.loginForm.value)
     }
   }
 
@@ -33,7 +40,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onEmailBlur(event: any): void {
-    const emailControl = this.loginForm.get('email');
+    const emailControl = this.loginForm.get('username');
 
     if (emailControl?.dirty) {
       // console.log('hola');

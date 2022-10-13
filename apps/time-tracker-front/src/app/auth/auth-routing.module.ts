@@ -3,14 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
-  { 
+  {
     path: 'auth',
-    component: LoginPageComponent
-  }
+    component: LoginPageComponent,
+    data: { title: 'Login Page' },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

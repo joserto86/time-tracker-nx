@@ -1,5 +1,8 @@
 <main class="container">
   <div class="content">
-    <time-tracker-nx-login-form></time-tracker-nx-login-form>
+    <time-tracker-nx-login-form
+      (submitted)="onSubmit($event)"
+      [pending]="(pending$ | async)!"
+    ></time-tracker-nx-login-form>
   </div>
 </main>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtCredentials, JwtResponse } from '@time-tracker/shared';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class AuthService {
       })
       .pipe(
         catchError(({ error }) => {
-          return throwError(() => error?.code ?? error);
+          return throwError(() => error?.message ?? error);
         })
       );
   }
@@ -31,7 +31,7 @@ export class AuthService {
       })
       .pipe(
         catchError(({ error }) => {
-          return throwError(() => error?.code ?? error);
+          return throwError(() => error?.message ?? error);
         })
       );
   }
@@ -39,7 +39,7 @@ export class AuthService {
   logout() {
     return this.http.delete<JwtResponse>(this.api.getLoginEndpoint()).pipe(
       catchError(({ error }) => {
-        return throwError(() => error?.code ?? error);
+        return throwError(() => error?.message ?? error);
       })
     );
   }

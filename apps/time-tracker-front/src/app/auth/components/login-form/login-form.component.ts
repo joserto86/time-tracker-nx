@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtCredentials } from '@time-tracker/shared';
 
 @Component({
@@ -11,7 +11,6 @@ import { JwtCredentials } from '@time-tracker/shared';
 export class LoginFormComponent {
 
   hidePass = true;
-  hideCode = true;
 
   @Output() submitted = new EventEmitter<JwtCredentials>();
   @Input() errorMessage!: string | null;
@@ -38,15 +37,6 @@ export class LoginFormComponent {
 
   onClear(): void {
     this.loginForm.reset();
-  }
-
-  onEmailBlur(event: any): void {
-    const emailControl = this.loginForm.get('username');
-
-    if (emailControl?.dirty) {
-      // console.log('hola');
-      // this.loginForm.markAsUntouched();
-    }
   }
 
 }

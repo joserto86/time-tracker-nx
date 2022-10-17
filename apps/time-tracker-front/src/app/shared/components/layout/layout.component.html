@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon (click)="sidebarmenu.toggle()">menu</mat-icon>
+    </button>
+    <h2>Time Tracker</h2>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidebarmenu>
+    <mat-nav-list>
+      <a mat-list-item href="'/home'"> Home</a>
+      <a mat-list-item href="'/about'"> About </a>
+      <a mat-list-item href="'/products'"> Products </a>
+      <a mat-list-item href="'/contact'"> Contact </a>
+      <a mat-list-item href="'/profile'"> Profile </a>
+      <a mat-list-item (click)="sidebarmenu.toggle()" href="#" mat-list-item>
+        Close
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 92vh">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

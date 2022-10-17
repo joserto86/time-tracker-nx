@@ -29,7 +29,6 @@ export class AuthEffects {
       exhaustMap((auth: JwtCredentials) =>
         this.authService.login(auth).pipe(
           map((jwt: JwtResponse) => {
-            console.log(jwt);
             return AuthApiActions.loginSuccess({ jwt });
           }),
           catchError((error) => of(AuthApiActions.loginFailure({ error })))

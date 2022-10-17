@@ -3,7 +3,7 @@
     <button mat-icon-button>
       <mat-icon (click)="sidebarmenu.toggle()">menu</mat-icon>
     </button>
-    <h2>Time Tracker</h2>
+    <h2>Time Tracker <span ngIf="(user$ | async)">- {{ user$ | json}}</span></h2>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>

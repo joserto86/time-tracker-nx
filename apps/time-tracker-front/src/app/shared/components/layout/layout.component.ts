@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../auth/actions';
+import { PublicUser } from '../../../../../../../libs/src/lib/auth';
+import { Observable } from 'rxjs';
+import { selectLoggeduser } from '../../../auth/reducers/index';
 
 @Component({
   selector: 'time-tracker-nx-layout',
@@ -10,7 +13,12 @@ import { AuthActions } from '../../../auth/actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-  constructor(private router: Router, private store: Store) {}
+  user$: Observable<PublicUser> | unknown;
+
+
+  constructor(private router: Router, private store: Store) {
+    this.user$ = this.store.select(selectLoggeduser);
+  }
 
   ngOnInit(): void {}
 

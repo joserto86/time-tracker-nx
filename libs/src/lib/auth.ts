@@ -3,16 +3,22 @@ export interface JwtCredentials {
     password: string;
     code: string;
   }
-  
+
   export interface JwtRefresh {
     refreshToken: string;
   }
-  
+
   export interface JwtResponse {
     token: string;
     refreshToken: string;
   }
-  
+
+  export interface PublicUser {
+    username: string;
+    roles: string[];
+    exp: number;
+  }
+
 //   export interface JwtRefreshToken {
 //     uuid: string;
 //     jwtToken: string;

@@ -1,14 +1,15 @@
 import { JwtResponse } from '@time-tracker/shared';
 import { createReducer, on } from '@ngrx/store';
 import { AuthApiActions, AuthActions } from '../actions';
-//   import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
+import { PublicUser } from '../../../../../../libs/src/lib/auth';
 
 export const statusFeatureKey = 'status';
 
 export interface State {
   jwt?: {
     response: JwtResponse | null;
-    user: string | null;
+    user: PublicUser | null;
   };
 }
 
@@ -26,8 +27,8 @@ export const reducer = createReducer(
     ...state,
     jwt: {
       response: jwt,
-      // user: jwt_decode<PublicUser>(jwt.token, { header: false }),
-      user: jwt.token,
+      user: jwt_decode<PublicUser>(jwt.token, { header: false }),
+      // user: jwt.token,
     },
   })),
   on(AuthActions.refreshToken, (state) => ({

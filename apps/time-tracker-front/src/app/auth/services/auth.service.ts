@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  JwtCredentials,
-  JwtResponse
-} from '@time-tracker/shared';
+import { JwtCredentials, JwtResponse } from '@time-tracker/shared';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 
@@ -38,7 +35,6 @@ export class AuthService {
         })
       );
   }
-
 
   logout() {
     return this.http.delete<JwtResponse>(this.api.getLoginEndpoint()).pipe(

@@ -24,7 +24,7 @@ export function metaReducersFactory(): MetaReducer<unknown, Action>[] {
       rehydrate: true,
       storageKeySerializer: (key) => `FAGOR_LICENSES_${key}`,
       keys: [{[`${authFeatureKey}`]: [statusFeatureKey] }],
-      
+
     })(reducer);
 
   return !environment.production

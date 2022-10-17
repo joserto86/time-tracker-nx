@@ -9,14 +9,13 @@ import * as fromAuth from '../../reducers';
   selector: 'time-tracker-nx-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent {
-
   pending$: Observable<boolean | null>;
   error$: Observable<string | null>;
 
-  constructor(public store: Store) { 
+  constructor(public store: Store) {
     this.pending$ = this.store.select(fromAuth.selectLoginPagePending);
     this.error$ = this.store.select(fromAuth.selectLoginPageError);
   }
@@ -24,5 +23,4 @@ export class LoginPageComponent {
   onSubmit(credentials: JwtCredentials) {
     this.store.dispatch(LoginPageActions.login({ credentials }));
   }
-
 }

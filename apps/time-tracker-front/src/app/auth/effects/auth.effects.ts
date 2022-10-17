@@ -12,7 +12,7 @@ import {
   ignoreElements,
   map,
   of,
-  tap
+  tap,
 } from 'rxjs';
 // import { LayoutActions } from '../../core/actions';
 import { AuthActions, AuthApiActions, LoginPageActions } from '../actions';
@@ -28,8 +28,7 @@ export class AuthEffects {
       map((action) => action.credentials),
       exhaustMap((auth: JwtCredentials) =>
         this.authService.login(auth).pipe(
-          map((jwt: JwtResponse) => 
-          {
+          map((jwt: JwtResponse) => {
             console.log(jwt);
             return AuthApiActions.loginSuccess({ jwt });
           }),
@@ -74,23 +73,23 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-//   logoutConfirmation$ = createEffect(() =>
-//     this.actions$.pipe(
-//       ofType(AuthActions.logoutConfirmation),
-//       exhaustMap(() => {
-//         const dialogRef = this.dialog.open<
-//           LogoutConfirmationDialogComponent,
-//           undefined,
-//           boolean
-//         >(LogoutConfirmationDialogComponent);
+  //   logoutConfirmation$ = createEffect(() =>
+  //     this.actions$.pipe(
+  //       ofType(AuthActions.logoutConfirmation),
+  //       exhaustMap(() => {
+  //         const dialogRef = this.dialog.open<
+  //           LogoutConfirmationDialogComponent,
+  //           undefined,
+  //           boolean
+  //         >(LogoutConfirmationDialogComponent);
 
-//         return dialogRef.afterClosed();
-//       }),
-//       map((result) =>
-//         result ? AuthActions.logout() : AuthActions.logoutConfirmationDismiss()
-//       )
-//     )
-//   );
+  //         return dialogRef.afterClosed();
+  //       }),
+  //       map((result) =>
+  //         result ? AuthActions.logout() : AuthActions.logoutConfirmationDismiss()
+  //       )
+  //     )
+  //   );
 
   logout$ = createEffect(
     () => {
@@ -109,7 +108,7 @@ export class AuthEffects {
     private actions$: Actions,
     private store: Store,
     private authService: AuthService,
-    private router: Router,
-    // private dialog: MatDialog
-  ) {}
+    private router: Router
+  ) // private dialog: MatDialog
+  {}
 }

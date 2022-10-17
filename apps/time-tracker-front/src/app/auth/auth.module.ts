@@ -12,12 +12,8 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from './reducers';
 import { AuthEffects } from './effects/auth.effects';
 
-
 @NgModule({
-  declarations: [
-    LoginFormComponent,
-    LoginPageComponent
-  ],
+  declarations: [LoginFormComponent, LoginPageComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -28,6 +24,6 @@ import { AuthEffects } from './effects/auth.effects';
       reducer: fromAuth.reducers,
     }),
     EffectsModule.forFeature([AuthEffects]),
-  ]
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

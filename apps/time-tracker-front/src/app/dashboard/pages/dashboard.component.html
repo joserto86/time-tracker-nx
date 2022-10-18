@@ -1,7 +1,8 @@
 <main class="container">
     <div class="content">
         <p>Dashboard works!</p>
-
-        <p>LOGGED IN yeahh</p>
+    
+        <p *ngIf="(loading$ |async)">loading</p> 
+        <p *ngIf="(instances$ | async) as instances">{{ instances | json }}</p>
     </div>
   </main>

@@ -13,16 +13,21 @@ export class ApiService {
   }
 
   getRefreshTokenEndpoint(): string {
-    return `${this.base}/login/refresh`;
+    return `${this.base}/token/refresh`;
+  }
+
+  getInstancesEndpoint(): string {
+    return `${this.base}/instance`;
   }
 
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (
-      (request.method === 'POST' &&
-        request.url.indexOf(this.getLoginEndpoint()) >= 0) ||
-      (request.method === 'GET' &&
+      request.method === 'POST' &&
+      (request.url.indexOf(this.getLoginEndpoint()) >= 0 ||
+        request.url.indexOf(this.getRefreshTokenEndpoint()) >= 0)
+      /*(request.method === 'GET' &&
         // request.url.indexOf(this._getSAPCheckUUIDBaseEndpoint()) >= 0 &&
-        request.url.match(/secret$/))
+        request.url.match(/secret$/))*/
     ) {
       return false;
     }

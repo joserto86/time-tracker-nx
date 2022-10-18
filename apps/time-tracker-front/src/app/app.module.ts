@@ -11,11 +11,12 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { reducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { environment } from '../environments/environment'; // Angular CLI environment
 import { localStorageSync } from 'ngrx-store-localstorage';
 import * as fromAuth from './auth/reducers'
+import { AuthInterceptor } from './auth/services/auth.interceptor';
 
 export const authFeatureKey = 'auth';
 export const statusFeatureKey = fromAuth.statusFeatureKey
@@ -49,7 +50,9 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     AuthModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

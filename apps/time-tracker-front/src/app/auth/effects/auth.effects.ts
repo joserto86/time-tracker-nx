@@ -45,7 +45,8 @@ export class AuthEffects {
         return this.authService.refresh(refreshToken || '').pipe(
           map((jwt) => AuthApiActions.setUser({ jwt })),
           catchError((error) => {
-            return of(AuthApiActions.loginFailure({ error }));
+            console.log(error);
+            return of(AuthActions.logout());
           })
         );
       })

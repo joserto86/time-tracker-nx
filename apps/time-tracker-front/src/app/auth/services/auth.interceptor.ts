@@ -31,16 +31,11 @@ export class AuthInterceptor implements HttpInterceptor {
           return errors.pipe(
             switchMap((err) => {
               if (err.status === 401) {
-                if (request.url.includes('/sap/') === false) {
-                  this.store.dispatch(AuthActions.refreshToken());
-
-                  return this.store.select(fromAuth.selectJwt).pipe(
-                    filter((newJwt) => !!newJwt?.refreshToken),
-                    take(1)
-                  );
-                } else {
-                  this.store.dispatch(AuthActions.invalidateSAPToken({}));
-                }
+                this.store.dispatch(AuthActions.refreshToken());
+                return this.store.select(fromAuth.selectJwt).pipe(
+                  filter((newJwt) => !!newJwt?.refresh_token),
+                  take(1)
+                );
               }
 
               return throwError(() => err);

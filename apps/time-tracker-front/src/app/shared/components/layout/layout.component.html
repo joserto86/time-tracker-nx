@@ -1,11 +1,12 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-
     <button mat-icon-button [hidden]="!(user$ | async)">
       <mat-icon (click)="sidebarmenu ? sidebarmenu.toggle() : ''">menu</mat-icon>
     </button>
-
-    <h2>Time Tracker <span *ngIf="(user$ | async) as user">- {{ user?.username }}</span></h2>
+    <span [hidden]="(user$ | async)"></span>
+    <span>Time Tracker</span>
+    <span [hidden]="(user$ | async)"></span>
+    <span *ngIf="(user$ | async) as user" class="username">{{ user?.username }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>

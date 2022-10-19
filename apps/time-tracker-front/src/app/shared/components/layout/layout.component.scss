@@ -2,6 +2,12 @@
   display: none !important;
 }
 
+mat-toolbar-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between
+}
+
 .mat-list-item:first-child {
   background-color: #fff;
 }
@@ -13,7 +19,6 @@
     color: #fff;
   }
 }
-
 
 .nav-list {
   width: 250px;

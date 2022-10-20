@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules = [
   MatCardModule,
@@ -18,7 +20,9 @@ const modules = [
   MatInputModule,
   MatFormFieldModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatSelectModule,
+  MatCheckboxModule,
 ];
 
 @NgModule({

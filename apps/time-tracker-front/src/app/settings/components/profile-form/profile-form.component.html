@@ -1,0 +1,30 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <h2>Default view</h2>
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Default view</mat-label>
+    <mat-select formControlName="defaultView">
+      <mat-option *ngFor="let item of viewList" [value]="item.value">
+        {{item.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h2>Default columns</h2>
+
+  <div formGroupName="defaultColumns">
+    <mat-checkbox *ngFor="let checkbox of checkboxList" class="checkbox" [formControlName]="checkbox.name">{{
+      checkbox.label }}</mat-checkbox>
+  </div>
+
+
+  <div class="button-group">
+    <button type="submit" mat-raised-button color="primary" [disabled]="profileForm.invalid">
+      Save
+    </button>
+  </div>
+</form>
+
+<pre>{{ profileForm.value | json }}</pre>
+
+<pre> Valid: {{ profileForm.valid | json }}</pre>

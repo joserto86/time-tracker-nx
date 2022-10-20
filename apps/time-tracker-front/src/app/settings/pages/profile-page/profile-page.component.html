@@ -1,1 +1,6 @@
-<p>profile-page works!</p>
+<main class="main-container">
+  <h1 *ngIf="(user$ | async) as user">{{ user?.username }}</h1>
+  <mat-card>
+    <time-tracker-nx-profile-form></time-tracker-nx-profile-form>
+  </mat-card>
+</main>

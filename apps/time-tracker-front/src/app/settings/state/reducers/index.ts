@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Columns, DefaultView } from '@time-tracker/shared';
+import { Columns } from '@time-tracker/shared';
 
 import * as fromSettings from '../actions/index';
 
@@ -7,14 +7,14 @@ export const featuredKey = 'settings';
 
 export interface State {
   profile: {
-    defaultView: DefaultView;
+    defaultView: string;
     defaultColumns: Columns;
   };
 }
 
 export const initialState: State = {
   profile: {
-    defaultView: { label: 'Monthlyyyy', value: 'monthly' },
+    defaultView: 'monthly',
     defaultColumns: {
       namespace: false,
       name: false,

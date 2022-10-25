@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { atLeastOneCheckboxCheckedValidator } from '../../validators/profile.validator';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Columns, DefaultView, Profile } from '@time-tracker/shared';
+import { Profile } from '@time-tracker/shared';
 import { ProfileActions } from '../../state/actions';
 import { Store } from '@ngrx/store';
 
@@ -23,7 +23,7 @@ export class ProfileFormComponent implements OnInit {
 
   defaultColumnsGroup!: FormGroup;
 
-  viewList: DefaultView[] = [
+  viewList = [
     { value: 'monthly', label: 'Monthly' },
     { value: 'weekly', label: 'Weekly' },
   ];
@@ -38,7 +38,7 @@ export class ProfileFormComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.fb.group({
-      defaultView: [this.profile.defaultView.value, Validators.required],
+      defaultView: [this.profile.defaultView, Validators.required],
       defaultColumns: this.getDefaultColumns(),
     });
 
@@ -49,22 +49,10 @@ export class ProfileFormComponent implements OnInit {
     Object.keys(this.profile.defaultColumns).forEach((key) => {
       this.checkboxList.push({ name: key, label: key });
     });
-
-    console.log(this.profile.defaultColumns);
-
-    console.log(this.checkboxList);
   }
 
   getDefaultColumns() {
     const columns = this.profile.defaultColumns;
-    // const columns = this.profile.defaultColumns.reduce(
-    //   (accumulator, currentValue) => {
-    //     accumulator[currentValue.name] = currentValue.value;
-    //     return accumulator;
-    //   },
-    //   {} as { [index: string]: boolean }
-    // );
-
     return this.fb.group(columns);
   }
 

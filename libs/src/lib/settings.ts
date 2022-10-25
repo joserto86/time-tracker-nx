@@ -1,7 +1,3 @@
-export interface DefaultView {
-  value: string;
-  label: string;
-}
 
 export interface Columns {
   namespace: boolean;
@@ -12,11 +8,10 @@ export interface Columns {
 }
 
 export interface Profile {
-  defaultView: DefaultView;
+  defaultView: string;
   defaultColumns: Columns;
 }
 
 export interface SettingsState {
-  defaultView: DefaultView;
   profile: Profile;
 }

@@ -1,20 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { atLeastOneCheckboxCheckedValidator } from '../../validators/profile.validator';
 import {
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
-
-interface View {
-  value: string;
-  label: string;
-}
-
-interface Checkbox {
-  name: string;
-  label: string;
-}
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { atLeastOneCheckboxCheckedValidator } from '../../validators/profile.validator';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Columns, DefaultView, Profile } from '@time-tracker/shared';
+import { ProfileActions } from '../../state/actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'time-tracker-nx-profile-form',
@@ -23,44 +17,60 @@ interface Checkbox {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileFormComponent implements OnInit {
+  @Input() profile!: Profile;
+
   profileForm!: FormGroup;
 
   defaultColumnsGroup!: FormGroup;
 
-  viewList: View[] = [
+  viewList: DefaultView[] = [
     { value: 'monthly', label: 'Monthly' },
     { value: 'weekly', label: 'Weekly' },
   ];
 
-  checkboxList: Checkbox[] = [
-    { name: 'namespace', label: 'namespace' },
-    { name: 'name', label: 'name' },
-    { name: 'milestone', label: 'milestone' },
-    { name: 'issue', label: 'issue' },
-    { name: 'label', label: 'label' },
-  ];
+  checkboxList: { name: string; label: string }[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
+    this.createForm();
+  }
+
+  createForm() {
     this.profileForm = this.fb.group({
-      defaultView: [null, Validators.required],
-      defaultColumns: this.fb.group(
-        {
-          namespace: [true],
-          name: [true],
-          milestone: [true],
-          issue: [true],
-          label: [true],
-        },
-      ),
+      defaultView: [this.profile.defaultView.value, Validators.required],
+      defaultColumns: this.getDefaultColumns(),
     });
 
-    this.profileForm.get(['defaultColumns'])?.setValidators(atLeastOneCheckboxCheckedValidator());
+    this.profileForm
+      .get(['defaultColumns'])
+      ?.setValidators(atLeastOneCheckboxCheckedValidator());
+
+    Object.keys(this.profile.defaultColumns).forEach((key) => {
+      this.checkboxList.push({ name: key, label: key });
+    });
+
+    console.log(this.profile.defaultColumns);
+
+    console.log(this.checkboxList);
+  }
+
+  getDefaultColumns() {
+    const columns = this.profile.defaultColumns;
+    // const columns = this.profile.defaultColumns.reduce(
+    //   (accumulator, currentValue) => {
+    //     accumulator[currentValue.name] = currentValue.value;
+    //     return accumulator;
+    //   },
+    //   {} as { [index: string]: boolean }
+    // );
+
+    return this.fb.group(columns);
   }
 
   onSubmit(): void {
-    //TODO DISPATCH ACTION to save on store and localstorage
-    console.log('save profile settings ', this.profileForm.value);
+    this.store.dispatch(
+      ProfileActions.saveprofile({ profile: this.profileForm.value })
+    );
   }
 }

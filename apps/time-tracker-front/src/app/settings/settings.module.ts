@@ -9,6 +9,9 @@ import { MyFiltersPageComponent } from './pages/my-filters-page/my-filters-page.
 import { CredentialsPageComponent } from './pages/credentials-page/credentials-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
+import { StoreModule } from '@ngrx/store';
+
+import * as fromSettings from './state/reducers'
 
 
 @NgModule({
@@ -22,7 +25,8 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
     CommonModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
-    MaterialModule
+    MaterialModule,
+    StoreModule.forFeature(fromSettings.featuredKey ,fromSettings.reducer)
   ]
 })
 export class SettingsModule { }

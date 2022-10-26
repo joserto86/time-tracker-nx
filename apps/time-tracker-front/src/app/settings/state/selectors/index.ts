@@ -4,7 +4,7 @@ import { SettingsState } from '@time-tracker/shared';
 import * as fromSettings from '../reducers';
 
 export const selectSettingsState = createFeatureSelector<SettingsState>(
-  fromSettings.featuredKey
+  fromSettings.settingsFeaturedKey
 );
 
 export const selectProfileState = createSelector(

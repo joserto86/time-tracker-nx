@@ -26,7 +26,7 @@ import * as fromSettings from './state/reducers'
     ReactiveFormsModule,
     SettingsRoutingModule,
     MaterialModule,
-    StoreModule.forFeature(fromSettings.featuredKey ,fromSettings.reducer)
+    StoreModule.forFeature(fromSettings.settingsFeaturedKey ,fromSettings.reducer)
   ]
 })
 export class SettingsModule { }

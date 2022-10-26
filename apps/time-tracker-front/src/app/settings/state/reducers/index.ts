@@ -3,7 +3,7 @@ import { Columns } from '@time-tracker/shared';
 
 import * as fromSettings from '../actions/index';
 
-export const featuredKey = 'settings';
+export const settingsFeaturedKey = 'settings';
 
 export interface State {
   profile: {

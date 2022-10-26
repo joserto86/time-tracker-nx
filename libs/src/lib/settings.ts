@@ -1,4 +1,3 @@
-
 export interface Columns {
   namespace: boolean;
   name: boolean;
@@ -14,4 +13,11 @@ export interface Profile {
 
 export interface SettingsState {
   profile: Profile;
+}
+
+export interface Filter {
+  name: string;
+  column: string;
+  condition: string;
+  searchTerm: string;
 }

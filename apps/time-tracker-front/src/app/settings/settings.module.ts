@@ -11,7 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { StoreModule } from '@ngrx/store';
 
-import * as fromSettings from './state/reducers'
+import * as fromSettings from './state/reducers';
+import { FilterTableComponent } from './components/filter-table/filter-table.component'
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import * as fromSettings from './state/reducers'
     ProfilePageComponent,
     MyFiltersPageComponent,
     CredentialsPageComponent,
-    ProfileFormComponent
+    ProfileFormComponent,
+    FilterTableComponent
   ],
   imports: [
     CommonModule,

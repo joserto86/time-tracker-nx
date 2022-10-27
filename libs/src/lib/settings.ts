@@ -15,9 +15,28 @@ export interface SettingsState {
   profile: Profile;
 }
 
+
+export const filterColumns = [
+  'namespace',
+  'name',
+  'milestone',
+  'issue',
+  'label',
+] as const;
+export type FilterColumns = typeof filterColumns[number]
+
+export const filterConditions = [
+  'is',
+  'is not',
+  'is null',
+  'is not null',
+  'contains',
+] as const;
+export type FilterConditions = typeof filterConditions[number];
 export interface Filter {
+  id: string;
   name: string;
-  column: string;
-  condition: string;
+  column: FilterColumns;
+  condition: FilterConditions;
   searchTerm: string;
 }

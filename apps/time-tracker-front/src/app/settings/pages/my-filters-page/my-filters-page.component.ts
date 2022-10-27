@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Filter } from '@time-tracker/shared';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Filter, filterColumns, filterConditions } from '@time-tracker/shared';
 import { Observable, of } from 'rxjs';
+import { NewFilterDialogComponent } from '../../components/new-filter-dialog/new-filter-dialog.component';
 
 @Component({
   selector: 'time-tracker-nx-my-filters-page',
@@ -9,30 +11,44 @@ import { Observable, of } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyFiltersPageComponent implements OnInit {
-  private filters = [
+  private filters: Filter[] = [
     {
+      id: window.crypto.randomUUID(),
       name: 'filter One',
-      column: 'name',
-      condition: 'is',
+      column: filterColumns[0],
+      condition: filterConditions[0],
       searchTerm: 'My search term1',
     },
     {
+      id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb62',
       name: 'filter Two',
-      column: 'name',
-      condition: 'is',
+      column: filterColumns[1],
+      condition: filterConditions[1],
       searchTerm: 'My search term2',
     },
     {
+      id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb63',
       name: 'filter Three',
-      column: 'name',
-      condition: 'is',
+      column: filterColumns[2],
+      condition: filterConditions[2],
       searchTerm: 'My search term3',
     },
   ];
 
   filters$: Observable<Filter[]> = of(this.filters);
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}
+
+  openDialog() {
+    console.log('Opening dialog');
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '600px';
+
+    this.dialog.open(NewFilterDialogComponent, dialogConfig);
+  }
 }

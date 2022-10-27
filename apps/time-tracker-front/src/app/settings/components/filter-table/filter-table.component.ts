@@ -15,7 +15,7 @@ import { Filter } from '@time-tracker/shared';
 export class FilterTableComponent implements OnInit {
   @Input() filters!: Filter[];
 
-  displayedColumns: string[] = ['name', 'condition', 'searchTerm', 'actions'];
+  displayedColumns: string[] = ['name', 'column','condition', 'searchTerm', 'actions'];
 
   constructor() {}
 

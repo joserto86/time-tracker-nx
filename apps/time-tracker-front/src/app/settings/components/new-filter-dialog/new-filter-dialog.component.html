@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>New Filter</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="My filter example" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Column</mat-label>
+    <mat-select formControlName="column">
+      <mat-option *ngFor="let item of filterColumns" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Condition</mat-label>
+    <mat-select formControlName="condition">
+      <mat-option *ngFor="let item of filterConditions" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Search term</mat-label>
+    <input matInput placeholder="My search term" formControlName="searchTerm">
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>

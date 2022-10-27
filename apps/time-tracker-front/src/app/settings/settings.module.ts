@@ -12,7 +12,8 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { StoreModule } from '@ngrx/store';
 
 import * as fromSettings from './state/reducers';
-import { FilterTableComponent } from './components/filter-table/filter-table.component'
+import { FilterTableComponent } from './components/filter-table/filter-table.component';
+import { NewFilterDialogComponent } from './components/new-filter-dialog/new-filter-dialog.component'
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FilterTableComponent } from './components/filter-table/filter-table.com
     MyFiltersPageComponent,
     CredentialsPageComponent,
     ProfileFormComponent,
-    FilterTableComponent
+    FilterTableComponent,
+    NewFilterDialogComponent
   ],
   imports: [
     CommonModule,

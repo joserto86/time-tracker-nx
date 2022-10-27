@@ -12,6 +12,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const modules = [
   MatTableModule,
@@ -25,6 +26,7 @@ const modules = [
   MatListModule,
   MatSelectModule,
   MatCheckboxModule,
+  MatDialogModule,
 ];
 
 @NgModule({

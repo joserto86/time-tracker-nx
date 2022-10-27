@@ -58,7 +58,7 @@ export const selectCurrentAuthorizationToken = createSelector(
   selectLoggedIn,
   selectJwtToken,
   ({ loggedIn }, jwt) => {
-    if (loggedIn) {
+    if (loggedIn && !!jwt) {
       return `Bearer ${jwt}`;
     } else {
       return null;

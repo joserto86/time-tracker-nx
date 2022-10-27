@@ -29,10 +29,22 @@ export const reducer = createReducer(
       user: jwt_decode<PublicUser>(jwt.token, { header: false }),
     },
   })),
-  on(AuthActions.refreshToken, (state) => ({
-    ...state,
-    // jwt: initialState.jwt,
-  })),
+  on(AuthActions.refreshToken, (state) => {
+    if (state.jwt?.response?.token) {
+      return {
+        ...state,
+        jwt: {
+          ...state.jwt,
+          response: {
+          ...state.jwt.response,
+          token: '',
+          }
+        }
+      };
+    } else {
+      return state;
+    }
+  }),
   on(AuthActions.logout, (state) => ({
     ...state,
     jwt: initialState.jwt,

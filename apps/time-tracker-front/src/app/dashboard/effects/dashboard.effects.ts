@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of, EMPTY } from 'rxjs';
 import { DashboardActions } from '../actions';
 import { DashbordService } from '../services/dashboard.service';
 
@@ -16,7 +16,9 @@ export class DashboardEffects {
           map((response: unknown) => {
             return DashboardActions.loadInstancesSuccess({ instances: response });
           }),
-          catchError((error) => of(error))
+          catchError((error) => {
+            return EMPTY;
+          })
         )
       )
     )

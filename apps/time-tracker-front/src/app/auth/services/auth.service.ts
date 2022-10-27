@@ -27,10 +27,11 @@ export class AuthService {
   refresh(refreshToken: string): Observable<JwtResponse> {
     return this.http
       .post<JwtResponse>(this.api.getRefreshTokenEndpoint(), {
-        refreshToken,
+        refresh_token: refreshToken,
       })
       .pipe(
         catchError(({ error }) => {
+          console.log(error);
           return throwError(() => error?.message ?? error);
         })
       );

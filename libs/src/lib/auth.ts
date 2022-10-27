@@ -5,12 +5,12 @@ export interface JwtCredentials {
   }
 
   export interface JwtRefresh {
-    refreshToken: string;
+    refresh_token: string;
   }
 
   export interface JwtResponse {
     token: string;
-    refreshToken: string;
+    refresh_token: string;
   }
 
   export interface PublicUser {

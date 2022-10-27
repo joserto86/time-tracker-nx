@@ -38,12 +38,6 @@ export const selectUser = createSelector(
 
 export const selectJwt = createSelector(selectAuthStatusState, fromAuth.getJwt);
 
-export const selectJwtToken = createSelector(selectJwt, (jwt) => jwt?.token);
-export const selectJwtRefreshToken = createSelector(
-  selectJwt,
-  (jwt) => jwt?.refreshToken
-);
-
 export const selectLoggedIn = createSelector(selectJwt, (jwt) => {
   const isJwt = !!jwt;
 
@@ -53,13 +47,19 @@ export const selectLoggedIn = createSelector(selectJwt, (jwt) => {
   };
 });
 
+export const selectJwtToken = createSelector(selectJwt, (jwt) => jwt?.token);
+export const selectJwtRefreshToken = createSelector(
+  selectJwt,
+  (jwt) => jwt?.refresh_token
+);
+
+
 export const selectCurrentAuthorizationToken = createSelector(
   selectLoggedIn,
   selectJwtToken,
   ({ loggedIn }, jwt) => {
-    if (loggedIn) {
-      // return `Bearer ${jwt}`;
-      return `${jwt}`;
+    if (loggedIn && !!jwt) {
+      return `Bearer ${jwt}`;
     } else {
       return null;
     }

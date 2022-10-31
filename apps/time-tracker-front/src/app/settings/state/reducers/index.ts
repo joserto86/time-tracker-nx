@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Columns } from '@time-tracker/shared';
+import { Columns, Filter } from '@time-tracker/shared';
 
 import * as fromSettings from '../actions/index';
 
@@ -10,6 +10,7 @@ export interface State {
     defaultView: string;
     defaultColumns: Columns;
   };
+  filters: Filter[];
 }
 
 export const initialState: State = {
@@ -23,6 +24,7 @@ export const initialState: State = {
       label: false,
     },
   },
+  filters: [],
 };
 
 export const reducer = createReducer(
@@ -32,6 +34,26 @@ export const reducer = createReducer(
     return {
       ...state,
       profile,
+    };
+  }),
+  on(fromSettings.FilterActions.createFilter, (state, { filter }) => {
+    return {
+      ...state,
+      filters: [...state.filters, filter],
+    };
+  }),
+  on(fromSettings.FilterActions.deleteFilter, (state, { id }) => {
+    return {
+      ...state,
+      filters: state.filters.filter((item) => item.id !== id),
+    };
+  }),
+  on(fromSettings.FilterActions.updateFilter, (state, { filter }) => {
+    const id = filter.id;
+
+    return {
+      ...state,
+      filters: state.filters.map((item) => (item.id === id ? filter : item)),
     };
   })
 );

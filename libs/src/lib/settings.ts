@@ -13,6 +13,7 @@ export interface Profile {
 
 export interface SettingsState {
   profile: Profile;
+  filters: Filter[]
 }
 
 

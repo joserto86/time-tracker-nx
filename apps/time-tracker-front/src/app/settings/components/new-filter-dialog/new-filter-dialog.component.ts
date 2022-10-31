@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filterColumns, filterConditions } from '@time-tracker/shared';
-
-interface Data {
-  description: string;
-}
-
+import { Filter, filterColumns, filterConditions } from '@time-tracker/shared';
+import { Store } from '@ngrx/store';
+import { FilterActions } from '../../state/actions';
 @Component({
   selector: 'time-tracker-nx-new-filter-dialog',
   templateUrl: './new-filter-dialog.component.html',
@@ -20,7 +17,8 @@ export class NewFilterDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<NewFilterDialogComponent>
+    private dialogRef: MatDialogRef<NewFilterDialogComponent>,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -35,11 +33,17 @@ export class NewFilterDialogComponent implements OnInit {
   save() {
     console.log(this.form.value);
 
-    this.dialogRef.close(this.form.value);
+    const filter: Filter = {
+      id: window.crypto.randomUUID(),
+      ...this.form.value,
+    };
+
+    this.store.dispatch(FilterActions.createFilter({ filter }));
+
+    this.dialogRef.close();
   }
 
   close() {
     this.dialogRef.close();
   }
 }
-//https://blog.angular-university.io/angular-material-dialog/

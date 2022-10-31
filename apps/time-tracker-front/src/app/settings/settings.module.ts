@@ -13,7 +13,8 @@ import { StoreModule } from '@ngrx/store';
 
 import * as fromSettings from './state/reducers';
 import { FilterTableComponent } from './components/filter-table/filter-table.component';
-import { NewFilterDialogComponent } from './components/new-filter-dialog/new-filter-dialog.component'
+import { NewFilterDialogComponent } from './components/new-filter-dialog/new-filter-dialog.component';
+import { UpdateFilterDialogComponent } from './components/update-filter-dialog/update-filter-dialog.component'
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { NewFilterDialogComponent } from './components/new-filter-dialog/new-fil
     CredentialsPageComponent,
     ProfileFormComponent,
     FilterTableComponent,
-    NewFilterDialogComponent
+    NewFilterDialogComponent,
+    UpdateFilterDialogComponent
   ],
   imports: [
     CommonModule,

@@ -28,7 +28,7 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
 
-  on(fromSettings.ProfileActions.saveprofile, (state, { profile }) => {
+  on(fromSettings.ProfileActions.saveProfile, (state, { profile }) => {
     return {
       ...state,
       profile,

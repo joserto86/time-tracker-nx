@@ -58,7 +58,7 @@ export class ProfileFormComponent implements OnInit {
 
   onSubmit(): void {
     this.store.dispatch(
-      ProfileActions.saveprofile({ profile: this.profileForm.value })
+      ProfileActions.saveProfile({ profile: this.profileForm.value })
     );
   }
 }

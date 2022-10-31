@@ -41,3 +41,9 @@ export interface Filter {
   condition: FilterConditions;
   searchTerm: string;
 }
+
+export interface Instance {
+  id: number;
+  url: string;
+  added?: boolean;
+}

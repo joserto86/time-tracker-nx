@@ -8,7 +8,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Filter } from '@time-tracker/shared';
 import { deleteFilter } from '../../state/actions/filter.actions';
-import { selectFilter } from '../../state/selectors';
 import { UpdateFilterDialogComponent } from '../update-filter-dialog/update-filter-dialog.component';
 
 @Component({

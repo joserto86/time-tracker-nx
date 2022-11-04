@@ -15,8 +15,9 @@ import * as fromSettings from './state/reducers';
 import { FilterTableComponent } from './components/filter-table/filter-table.component';
 import { NewFilterDialogComponent } from './components/new-filter-dialog/new-filter-dialog.component';
 import { UpdateFilterDialogComponent } from './components/update-filter-dialog/update-filter-dialog.component';
-import { InstanceTableComponent } from './components/instance-table/instance-table.component'
-
+import { InstanceTableComponent } from './components/instance-table/instance-table.component';
+import { EffectsModule } from '@ngrx/effects';
+import { InstancesEffects } from './state/effects/instances.effects';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,11 @@ import { InstanceTableComponent } from './components/instance-table/instance-tab
     ReactiveFormsModule,
     SettingsRoutingModule,
     MaterialModule,
-    StoreModule.forFeature(fromSettings.settingsFeaturedKey ,fromSettings.reducer)
-  ]
+    StoreModule.forFeature(
+      fromSettings.settingsFeaturedKey,
+      fromSettings.reducer
+    ),
+    EffectsModule.forFeature([InstancesEffects]),
+  ],
 })
-export class SettingsModule { }
+export class SettingsModule {}

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Instance } from '@time-tracker/shared';
 import { Observable, of } from 'rxjs';
+import { Store } from "@ngrx/store";
+import {InstancesActions} from "../../state/actions";
 
 @Component({
   selector: 'time-tracker-nx-credentials-page',
@@ -11,7 +13,7 @@ import { Observable, of } from 'rxjs';
 export class CredentialsPageComponent implements OnInit {
   instances$: Observable<Instance[]>;
 
-  constructor() {
+  constructor(private store: Store) {
     this.instances$ = of([
       {
         id: 1,
@@ -26,5 +28,7 @@ export class CredentialsPageComponent implements OnInit {
     ]);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(InstancesActions.loadInstances());
+  }
 }

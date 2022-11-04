@@ -45,5 +45,5 @@ export interface Filter {
 export interface Instance {
   id: number;
   url: string;
-  added?: boolean;
+  added: boolean;
 }

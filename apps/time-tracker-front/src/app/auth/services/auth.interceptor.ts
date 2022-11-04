@@ -11,7 +11,7 @@ import {
   filter, switchMap, throwError,
   timeout
 } from 'rxjs';
-import { ApiService } from '../../core/services/api.service';
+import { ApiService } from '../../shared/services/api.service';
 import { AuthActions } from '../actions';
 import * as fromAuth from '../reducers';
 

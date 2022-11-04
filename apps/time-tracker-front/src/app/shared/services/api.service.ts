@@ -20,6 +20,10 @@ export class ApiService {
     return `${this.base}/instance`;
   }
 
+  getTimeNotesEndpoint(): string {
+    return `${this.base}/user/time-note`
+  }
+
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (
       request.method === 'POST' &&

@@ -1,18 +1,11 @@
-<main class="container">
-    <div class="content">
-        <p>Dashboard works!</p>
+<main class="main-container">
+    <h2>These are last time notes issues</h2>
 
-        <p *ngIf="(loading$ |async)">loading</p>
-        <p *ngIf="(instances$ | async) as instances">{{ instances | json }}</p>
-    </div>
+    <ng-container *ngIf="(timeNotes$ | async) as timeNotes">
+        <time-tracker-nx-issue-table [timeNotes]="timeNotes">
+        </time-tracker-nx-issue-table>
 
+        
 
-
-    <div>
-
- {{ data$  | async | json }}
-
-
-    </div>
-
-  </main>
+    </ng-container>
+</main>

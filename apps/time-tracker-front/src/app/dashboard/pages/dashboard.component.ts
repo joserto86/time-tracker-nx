@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
-import * as fromDashboard from '../reducers';
-import * as DashboardActions from './../actions/dashboard-actions';
+import { Observable, of, take } from 'rxjs';
+import * as fromDashboard from '../state/selectors';
+import * as DashboardActions from '../state/actions/dashboard-actions';
 import { DashbordService } from '../services/dashboard.service';
+import { ApiFilter, TimeNote } from '@time-tracker/shared';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,18 +14,24 @@ import { DashbordService } from '../services/dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   loading$: Observable<boolean | null>;
-  instances$: Observable<unknown | null>;
+  timeNotes$: Observable<TimeNote[] | null | undefined>;
 
+  filters: ApiFilter[] = [];
 
-  data$ = this.borrame.instances().pipe(
-    take(1)
-  )
   constructor(public store: Store, public borrame: DashbordService) {
-    this.loading$ = this.store.select(fromDashboard.selectInstancesLoading);
-    this.instances$ = this.store.select(fromDashboard.selectInstances);
+    this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
+    this.timeNotes$ = this.store.select(fromDashboard.selectTimeNotes);
+
   }
 
   ngOnInit(): void {
-    this.store.dispatch(DashboardActions.loadInstances());
+    this.filters.push({
+      field: 'spentAt',
+      value: '2022-10-31 00:00:00',
+      method: '>',
+    })
+
+
+    this.store.dispatch(DashboardActions.loadTimeNotes({filters: this.filters}));
   }
 }

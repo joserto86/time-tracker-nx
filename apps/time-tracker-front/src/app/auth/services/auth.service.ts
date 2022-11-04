@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtCredentials, JwtResponse } from '@time-tracker/shared';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ApiService } from '../../core/services/api.service';
+import { ApiService } from '../../shared/services/api.service';
 
 @Injectable({
   providedIn: 'root',

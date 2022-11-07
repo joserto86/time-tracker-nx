@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { LocalIssue } from '@time-tracker/shared';
 
 @Component({
   selector: 'time-tracker-nx-day-column',
@@ -20,5 +21,4 @@ export class DayColumnComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

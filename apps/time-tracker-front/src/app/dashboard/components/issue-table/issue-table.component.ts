@@ -55,11 +55,23 @@ export class IssueTableComponent implements OnInit {
       last.setDate(first.getDate() + 6);
     }
 
-    console.log(first);
-    console.log(last);
-
     let filters = this.datesService.getDaysFilters(first, last);
     this.updatePage.emit(filters);
+  }
+
+  getDayHours(issue: LocalIssue, day: string) {
+    console.log('here');
+    let dayDate = new Date(day);
+    let dayString = `${dayDate.getFullYear()}-${String(dayDate.getMonth() + 1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2, '0')}`
+
+    let dayNotes = issue.timeNotes.filter(x => x.spentAt.includes(dayString));
+
+    let totalSeconds:number =  dayNotes.reduce((acc:number, x) => {
+      let sum = +acc + x.computed;
+      return sum;
+    }, 0);
+
+    return totalSeconds / 3600;
   }
 
 }

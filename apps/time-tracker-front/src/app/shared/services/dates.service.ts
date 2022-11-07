@@ -18,7 +18,6 @@ export class DatesService {
       }
     }
 
-    console.log(result);
     return result;
   }
 
@@ -29,14 +28,14 @@ export class DatesService {
         value: `${firstDay.getFullYear()}-${
           firstDay.getMonth() + 1
         }-${firstDay.getDate()}`,
-        method: '>',
+        method: '>=',
       },
       {
         field: 'spentAt',
         value: `${lastDay.getFullYear()}-${
           lastDay.getMonth() + 1
         }-${lastDay.getDate()}`,
-        method: '<',
+        method: '<=',
       },
     ];
 

@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private calculateCurrentWeekFilters() {
-    let today = new Date('2022-08-03');
+    let today = new Date('2022-09-03');
 
     let firstDay = new Date(today.setDate(today.getDate() - today.getDay() + 1));
     let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7));

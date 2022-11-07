@@ -16,12 +16,13 @@ import { DatesService } from '../../shared/services/dates.service';
 export class DashboardComponent implements OnInit {
   loading$: Observable<boolean | null>;
   issues$: Observable<LocalIssue[]>;
-  daysRange:string[] = [];
+  daysRange$:Observable<string[]>;
 
   filters: ApiFilter[] = [];
 
   constructor(private store: Store, private dateService: DatesService ) {
     this.calculateCurrentWeekFilters();
+    this.daysRange$ = this.store.select(fromDashboard.selectDaysRange);
     this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
     this.issues$ = this.store.select(fromDashboard.selectTimeNotes).pipe(
      
@@ -76,24 +77,16 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(DashboardActions.loadTimeNotes({filters: this.filters}));
   }
 
+  updatePage(event:ApiFilter[]) {
+    this.store.dispatch(DashboardActions.loadTimeNotes({filters: event}));
+  }
+
   private calculateCurrentWeekFilters() {
-    let today = new Date();
+    let today = new Date('2022-08-03');
 
     let firstDay = new Date(today.setDate(today.getDate() - today.getDay() + 1));
     let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7));
 
-    this.daysRange = this.dateService.getDaysRange(firstDay, lastDay);
-
-    this.filters.push({
-      field: 'spentAt',
-      value: `${firstDay.getFullYear()}-${firstDay.getMonth()+1}-${firstDay.getDate()}` ,
-      method: '>',
-    });
-
-    this.filters.push({
-      field: 'spentAt',
-      value: `${lastDay.getFullYear()}-${lastDay.getMonth()+1}-${lastDay.getDate()}` ,
-      method: '<',
-    })
+    this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
   }
 }

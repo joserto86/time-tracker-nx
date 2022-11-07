@@ -1,11 +1,18 @@
 <main class="main-container">
-    <h2>These are last time notes issues</h2>
+  <h2>These are last time notes issues</h2>
 
-    <ng-container *ngIf="(issues$ | async) as issues">
-        <time-tracker-nx-issue-table 
-            [issues]="issues"
-            [daysRange]="daysRange"
-        >
-        </time-tracker-nx-issue-table>
+  <ng-container *ngIf="loading$ | async; else results">
+    loading ...
+  </ng-container>
+
+  <ng-template #results>
+    <ng-container *ngIf="issues$ | async as issues">
+      <time-tracker-nx-issue-table
+        [issues]="issues"
+        [daysRange]="(daysRange$ | async) || []"
+        (updatePage)="updatePage($event)"
+      >
+      </time-tracker-nx-issue-table>
     </ng-container>
+  </ng-template>
 </main>

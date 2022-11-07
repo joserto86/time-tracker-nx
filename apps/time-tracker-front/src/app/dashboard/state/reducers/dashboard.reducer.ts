@@ -7,7 +7,8 @@ export const dashboardFeatureKey = 'dashboard';
 
 export const initialState: DashboardState = {
   timeNotes: [],
-  loading: false,
+  daysRange: [],
+  loading: false
 };
 
 export const reducer = createReducer(
@@ -16,6 +17,7 @@ export const reducer = createReducer(
   on(DashboardActions.loadTimeNotesSuccess, (state, response) => ({
     ...state,
     timeNotes: response.timeNotes,
+    daysRange: response.daysRange,
     loading: false,
   })),
 
@@ -27,3 +29,4 @@ export const reducer = createReducer(
 
 export const getTimeNotes = (state: DashboardState) => state.timeNotes;
 export const getTimeNotesLoading = (state: DashboardState) => state.loading;
+export const getDaysRange= (state: DashboardState) => state.daysRange;

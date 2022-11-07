@@ -13,6 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const modules = [
   MatTableModule,
@@ -27,6 +28,7 @@ const modules = [
   MatSelectModule,
   MatCheckboxModule,
   MatDialogModule,
+  MatPaginatorModule
 ];
 
 @NgModule({

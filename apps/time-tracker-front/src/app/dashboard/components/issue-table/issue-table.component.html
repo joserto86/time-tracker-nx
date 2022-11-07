@@ -1,36 +1,32 @@
 <table mat-table [dataSource]="this.issues">
-
   <ng-container matColumnDef="namespace">
-    <th mat-header-cell *matHeaderCellDef> Namespace </th>
-    <td mat-cell *matCellDef="let issue"> {{issue.glNamespace}} </td>
+    <th mat-header-cell *matHeaderCellDef>Namespace</th>
+    <td mat-cell *matCellDef="let issue">{{ issue.glNamespace }}</td>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Project </th>
-    <td mat-cell *matCellDef="let issue"> {{issue.glProject}} </td>
+    <th mat-header-cell *matHeaderCellDef>Project</th>
+    <td mat-cell *matCellDef="let issue">{{ issue.glProject }}</td>
   </ng-container>
 
   <ng-container matColumnDef="milestone">
-    <th mat-header-cell *matHeaderCellDef> Milestone </th>
-    <td mat-cell *matCellDef="let issue"> {{issue.milestone}} </td>
+    <th mat-header-cell *matHeaderCellDef>Milestone</th>
+    <td mat-cell *matCellDef="let issue">{{ issue.milestone }}</td>
   </ng-container>
 
   <ng-container matColumnDef="issue">
-    <th mat-header-cell *matHeaderCellDef> Issue </th>
-    <td mat-cell *matCellDef="let issue"> {{issue.title}} </td>
+    <th mat-header-cell *matHeaderCellDef>Issue</th>
+    <td mat-cell *matCellDef="let issue">{{ issue.title }}</td>
   </ng-container>
 
   <ng-container *ngIf="daysRange.length">
-    <ng-container *ngFor="let day of daysRange">
-      <!-- <time-tracker-nx-day-column [day]="day"></time-tracker-nx-day-column> -->
-      <ng-container matColumnDef="{{ day }}">
-        <th mat-header-cell *matHeaderCellDef> {{ day }} </th>
-        <td mat-cell *matCellDef="let issue"> datos... </td>
-      </ng-container>
+    <!-- <time-tracker-nx-day-column [day]="day"></time-tracker-nx-day-column> -->
+    <ng-container *ngFor="let day of daysRange" matColumnDef="{{ day }}">
+      <th mat-header-cell *matHeaderCellDef>{{ day | date : 'EE d LLL'}}</th>
+      <td mat-cell *matCellDef="let issue">datos...</td>
     </ng-container>
   </ng-container>
-  
-  
+
   <!-- <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let filter">
@@ -47,6 +43,14 @@
   </ng-container> -->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<!-- <mat-paginator style-paginator showFirstLastButtons  [showTotalPages]="3" [length]="7130" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"> </mat-paginator> -->
+
+<mat-paginator hidePageSize="true"
+  [pageIndex]="1"
+  [length]="3"
+  [pageSize]="1"
+  [showFirstLastButtons]="false"
+  (page)="emitUpdatePage($event)"
+></mat-paginator>

@@ -8,7 +8,7 @@ export const loadTimeNotes = createAction(
 
 export const loadTimeNotesSuccess = createAction(
   '[Time Tracker] Load Time Notes Success',
-  props<{ timeNotes: TimeNote[] }>()
+  props<{ timeNotes: TimeNote[], daysRange: string[] }>()
 );
 
 export const loadTimeNotesFailure = createAction(

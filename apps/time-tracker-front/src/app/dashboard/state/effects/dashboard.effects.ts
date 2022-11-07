@@ -6,16 +6,21 @@ import { catchError, exhaustMap, map, of, EMPTY } from 'rxjs';
 import { DashboardActions } from '../actions';
 import { DashbordService } from '../../services/dashboard.service';
 import { TimeNote } from '@time-tracker/shared';
+import { DatesService } from '../../../shared/services/dates.service';
 
 @Injectable()
 export class DashboardEffects {
+
   loadTimeNotes$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardActions.loadTimeNotes),
       exhaustMap(({filters}) =>
         this.dashboardService.timeNotes(filters).pipe(
           map((response: TimeNote[]) => {
-            return DashboardActions.loadTimeNotesSuccess({ timeNotes: response });
+            return DashboardActions.loadTimeNotesSuccess({ 
+              timeNotes: response,
+              daysRange: this.datesService.getDaysRangeFromFilters(filters) 
+            });
           }),
           catchError((error) => {
             return EMPTY;
@@ -29,6 +34,7 @@ export class DashboardEffects {
     private actions$: Actions,
     private store: Store,
     private dashboardService: DashbordService,
+    private datesService: DatesService,
     private router: Router // private dialog: MatDialog
   ) {}
 }

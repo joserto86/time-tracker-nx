@@ -15,7 +15,12 @@ export const selectTimeNotes = createSelector(
   fromDashboard.getTimeNotes
 );
 
-export const selectTimeNotesLoading= createSelector(
+export const selectTimeNotesLoading = createSelector(
   selectDashboardState,
   fromDashboard.getTimeNotesLoading
+);
+
+export const selectDaysRange = createSelector(
+  selectDashboardState,
+  fromDashboard.getDaysRange
 );

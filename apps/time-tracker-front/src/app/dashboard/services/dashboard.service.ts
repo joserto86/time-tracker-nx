@@ -13,21 +13,11 @@ export class DashbordService {
   timeNotes(filters: ApiFilter[]): Observable<TimeNote[]> {
     
     return this.http.get<TimeNote[]>(this.api.getTimeNotesEndpoint(), {
-      params: this.createParams(filters)
+      params: this.api.createParams(filters)
     }).pipe(
       catchError(({ error }) => {
         return throwError(() => error?.message ?? error);
       })
     );
-  }
-
-  createParams(filters: ApiFilter[]) {
-    const params : { page?: string, limit?: string, where?: string } = {};
-
-    if(filters.length > 0) {
-      params.where = JSON.stringify(filters);
-    }
-
-    return params;
   }
 }

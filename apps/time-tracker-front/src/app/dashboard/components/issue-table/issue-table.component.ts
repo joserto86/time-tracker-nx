@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { TimeNote } from '@time-tracker/shared';
+import { TimeNote, LocalIssue } from '@time-tracker/shared';
 
 @Component({
   selector: 'time-tracker-nx-issue-table',
@@ -15,19 +15,24 @@ import { TimeNote } from '@time-tracker/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IssueTableComponent implements OnInit {
-  @Input() timeNotes!: TimeNote[];
+  @Input() issues!: LocalIssue[];
+  @Input() daysRange:string[] = [];
 
-  displayedColumns: string[] = [
-    'namespace',
-    'name',
-    'milestone',
-    'issue'
-  ];
+  displayedColumns: string[] = [];
 
-  constructor(private dialog: MatDialog, private store: Store) {}
+  constructor(private dialog: MatDialog, private store: Store) {
+    
+  }
 
   ngOnInit(): void {
-  
+    this.displayedColumns = [
+      'namespace',
+      'name',
+      'milestone',
+      'issue',
+      ...this.daysRange
+    ];
+    console.log(this.displayedColumns);
   }
 
 }

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of, take } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
 import { DashbordService } from '../services/dashboard.service';
-import { ApiFilter, TimeNote } from '@time-tracker/shared';
+import { ApiFilter, TimeNote, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
+import { DatesService } from '../../shared/services/dates.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,24 +15,85 @@ import { ApiFilter, TimeNote } from '@time-tracker/shared';
 })
 export class DashboardComponent implements OnInit {
   loading$: Observable<boolean | null>;
-  timeNotes$: Observable<TimeNote[] | null | undefined>;
+  issues$: Observable<LocalIssue[]>;
+  daysRange:string[] = [];
 
   filters: ApiFilter[] = [];
 
-  constructor(public store: Store, public borrame: DashbordService) {
+  constructor(private store: Store, private dateService: DatesService ) {
+    this.calculateCurrentWeekFilters();
     this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
-    this.timeNotes$ = this.store.select(fromDashboard.selectTimeNotes);
+    this.issues$ = this.store.select(fromDashboard.selectTimeNotes).pipe(
+     
+      map(data => {
+        if (!data) {
+          return [];
+        }
+        const uniqueIssueIds = [...new Set(data.map((note) => note.glIssueId))] || [];
+
+        const result: LocalIssue[] = uniqueIssueIds.reduce((acc: LocalIssue[], glIssueId) => {
+          const note = data.find((note) => note.glIssueId === glIssueId);
+        
+          if (note) {
+            const timeNotes: LocalTimeNote[] = data
+              .filter((item) => item.glIssueId === glIssueId)
+              .map((note) => ({
+                id: note.id,
+                body: note.body,
+                secondsAdded: note.secondsAdded,
+                secondsSubstracted: note.secondsSubtracted,
+                secondsRemoved: note.secondsRemoved,
+                createdAt: note.createdAt,
+                updatedAt: note.updatedAt,
+                spentAt: note.spentAt,
+                computed: note.computed,
+                author: note.author,
+              }));
+        
+            const newNote: LocalIssue = {
+              id: note.glIssueId,
+              glInstance: note.glInstance,
+              glProjectId: note.glProjectId,
+              glProject: note.glProject,
+              glNamespace: note.glNamespace,
+              milestone: note.milestone,
+              title: note.glIssue,
+              timeNotes,
+            };
+        
+            return [...acc, newNote];
+          } else {
+            return [...acc];
+          }
+        }, []);
+        return result;
+      })
+    );
 
   }
 
   ngOnInit(): void {
+    this.store.dispatch(DashboardActions.loadTimeNotes({filters: this.filters}));
+  }
+
+  private calculateCurrentWeekFilters() {
+    let today = new Date();
+
+    let firstDay = new Date(today.setDate(today.getDate() - today.getDay() + 1));
+    let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7));
+
+    this.daysRange = this.dateService.getDaysRange(firstDay, lastDay);
+
     this.filters.push({
       field: 'spentAt',
-      value: '2022-10-31 00:00:00',
+      value: `${firstDay.getFullYear()}-${firstDay.getMonth()+1}-${firstDay.getDate()}` ,
       method: '>',
+    });
+
+    this.filters.push({
+      field: 'spentAt',
+      value: `${lastDay.getFullYear()}-${lastDay.getMonth()+1}-${lastDay.getDate()}` ,
+      method: '<',
     })
-
-
-    this.store.dispatch(DashboardActions.loadTimeNotes({filters: this.filters}));
   }
 }

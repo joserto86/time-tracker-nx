@@ -30,3 +30,27 @@ export interface TimeNote {
   glIssueIid: number;
   computed: number;
 }
+
+export interface LocalTimeNote {
+  id: number;
+  body: string;
+  secondsAdded: number;
+  secondsSubstracted: number;
+  secondsRemoved: boolean;
+  createdAt: string;
+  updatedAt: string;
+  spentAt: string;
+  computed: number;
+  author: string;
+}
+
+export interface LocalIssue {
+  id: number;
+  glInstance: string;
+  glProjectId: number;
+  glProject: string;
+  glNamespace: string;
+  milestone?: string | null;
+  title: string;
+  timeNotes: LocalTimeNote[];
+}

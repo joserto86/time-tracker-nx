@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Filter, Instance, Profile } from '@time-tracker/shared';
 
 import { FilterActions, InstancesActions, ProfileActions } from '../actions';
+import { saveInstanceTokenOk } from '../actions/instances.actions';
 
 export const settingsFeaturedKey = 'settings';
 
@@ -56,6 +57,21 @@ export const reducer = createReducer(
     };
   }),
   on(InstancesActions.loadInstancesOk, (state, { instances }): State => {
+    return {
+      ...state,
+      instances,
+    };
+  }),
+  on(InstancesActions.saveInstanceTokenOk, (state, { id }): State => {
+    const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
+
+    instances.map((item) => {
+      if (item.id === id) {
+        item.added = true;
+      }
+      return item;
+    });
+
     return {
       ...state,
       instances,

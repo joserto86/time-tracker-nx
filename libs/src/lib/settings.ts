@@ -41,3 +41,8 @@ export interface Instance {
   url: string;
   added: boolean;
 }
+
+export interface InstanceToken {
+  id: number;
+  token: string;
+}

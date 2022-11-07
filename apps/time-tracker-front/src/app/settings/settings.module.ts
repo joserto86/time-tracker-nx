@@ -18,6 +18,7 @@ import { UpdateFilterDialogComponent } from './components/update-filter-dialog/u
 import { InstanceTableComponent } from './components/instance-table/instance-table.component';
 import { EffectsModule } from '@ngrx/effects';
 import { InstancesEffects } from './state/effects/instances.effects';
+import { UpdateTokenDialogComponent } from './components/update-token-dialog/update-token-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { InstancesEffects } from './state/effects/instances.effects';
     FilterTableComponent,
     NewFilterDialogComponent,
     UpdateFilterDialogComponent,
+    UpdateTokenDialogComponent,
     InstanceTableComponent
   ],
   imports: [

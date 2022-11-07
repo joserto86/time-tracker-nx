@@ -1,16 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { Columns, Filter } from '@time-tracker/shared';
+import { Filter, Instance, Profile } from '@time-tracker/shared';
 
-import * as fromSettings from '../actions/index';
+import { FilterActions, InstancesActions, ProfileActions } from '../actions';
 
 export const settingsFeaturedKey = 'settings';
 
 export interface State {
-  profile: {
-    defaultView: string;
-    defaultColumns: Columns;
-  };
+  profile: Profile;
   filters: Filter[];
+  instances: Instance[];
 }
 
 export const initialState: State = {
@@ -25,35 +23,42 @@ export const initialState: State = {
     },
   },
   filters: [],
+  instances: [],
 };
 
 export const reducer = createReducer(
   initialState,
 
-  on(fromSettings.ProfileActions.saveProfile, (state, { profile }) => {
+  on(ProfileActions.saveProfile, (state, { profile }) => {
     return {
       ...state,
       profile,
     };
   }),
-  on(fromSettings.FilterActions.createFilter, (state, { filter }) => {
+  on(FilterActions.createFilter, (state, { filter }) => {
     return {
       ...state,
       filters: [...state.filters, filter],
     };
   }),
-  on(fromSettings.FilterActions.deleteFilter, (state, { id }) => {
+  on(FilterActions.deleteFilter, (state, { id }) => {
     return {
       ...state,
       filters: state.filters.filter((item) => item.id !== id),
     };
   }),
-  on(fromSettings.FilterActions.updateFilter, (state, { filter }) => {
+  on(FilterActions.updateFilter, (state, { filter }) => {
     const id = filter.id;
 
     return {
       ...state,
       filters: state.filters.map((item) => (item.id === id ? filter : item)),
+    };
+  }),
+  on(InstancesActions.loadInstancesOk, (state, { instances }): State => {
+    return {
+      ...state,
+      instances,
     };
   })
 );

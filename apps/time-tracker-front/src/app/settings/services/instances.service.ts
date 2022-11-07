@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Instance } from '@time-tracker/shared';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 
@@ -9,8 +10,8 @@ import { ApiService } from '../../core/services/api.service';
 export class InstancesService {
   constructor(private http: HttpClient, private api: ApiService) {}
 
-  getInstances(): Observable<unknown> {
-    return this.http.get<unknown>(this.api.getInstancesEndpoint()).pipe(
+  getInstances(): Observable<Instance[]> {
+    return this.http.get<Instance[]>(this.api.getInstancesEndpoint()).pipe(
       catchError(({ error }) => {
         return throwError(() => error?.message ?? error);
       })

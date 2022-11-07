@@ -7,5 +7,5 @@ export const loadInstances = createAction(
 
 export const loadInstancesOk = createAction(
   '[Instances/API] Loaded instances Ok',
-  props<{ instances: Instance[] | unknown }>()
+  props<{ instances: Instance[] }>()
 );

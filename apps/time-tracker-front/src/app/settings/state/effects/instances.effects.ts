@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InstancesActions } from '../actions';
-import { catchError, EMPTY, exhaustMap, map, of } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, of, tap } from 'rxjs';
 import { InstancesService } from '../../services/instances.service';
 import { Instance } from '@time-tracker/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,9 +20,9 @@ export class InstancesEffects {
       ofType(InstancesActions.loadInstances),
       exhaustMap(() => {
         return this.instancesService.getInstances().pipe(
-          map((instancesResponse: Instance[] | unknown) => {
+          map((instances: Instance[]) => {
             return InstancesActions.loadInstancesOk({
-              instances: instancesResponse,
+              instances
             });
           }),
           catchError((error) => {

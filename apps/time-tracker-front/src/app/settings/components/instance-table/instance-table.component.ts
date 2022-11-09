@@ -18,6 +18,7 @@ export class InstanceTableComponent implements OnInit {
 
   displayedColumns: string[] = [
     'url',
+    'username',
     'added',
     'actions',
   ];

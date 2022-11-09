@@ -40,9 +40,11 @@ export interface Instance {
   id: number;
   url: string;
   added: boolean;
+  username: string;
 }
 
 export interface InstanceToken {
   id: number;
-  token: string;
+  token?: string;
+  username?: string;
 }

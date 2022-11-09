@@ -5,6 +5,11 @@
     <td mat-cell *matCellDef="let instance"> {{instance.url}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef> Username </th>
+    <td mat-cell *matCellDef="let instance"> {{ instance.username }} - my username hardcoded </td>
+  </ng-container>
+
   <ng-container matColumnDef="added">
     <th mat-header-cell *matHeaderCellDef> Added </th>
     <td mat-cell *matCellDef="let instance"> {{instance.added ? 'added' : 'not added'}} </td>

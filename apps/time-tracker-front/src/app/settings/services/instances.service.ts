@@ -20,11 +20,22 @@ export class InstancesService {
     );
   }
   saveInstanceToken(instanceToken: InstanceToken) {
-    const { token } = instanceToken;
+    const { id, token, username } = instanceToken;
+
+    let dataTosend: InstanceToken = { id };
+
+    if (token) {
+      dataTosend.token = token;
+    }
+
+    if (username) {
+      dataTosend.username = username;
+    }
+
     return this.http
       .post<InstanceToken>(
         this.api.getTokenInstanceEndpoint(instanceToken.id),
-        { token }
+        dataTosend
       )
       .pipe(
         catchError(({ error }) => {

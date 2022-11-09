@@ -4,19 +4,22 @@ import { DashboardComponent } from './pages/dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { DashboardEffects } from './effects/dashboard.effects';
-import * as fromDashboard from './reducers';
-import { HttpClient } from '@angular/common/http';
-import { DashbordService } from './services/dashboard.service';
+import { DashboardEffects } from './state/effects/dashboard.effects';
+import * as fromDashboard from './state/reducers/dashboard.reducer';
+import { IssueTableComponent } from './components/issue-table/issue-table.component';
+import { MaterialModule } from '../material/material.module';
+import { DayColumnComponent } from './components/day-column.component';
+import { FiltersComponent } from './components/filters.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    MaterialModule,
     StoreModule.forFeature({
       name: fromDashboard.dashboardFeatureKey,
-      reducer: fromDashboard.reducers,
+      reducer: fromDashboard.reducer,
     }),
     EffectsModule.forFeature([DashboardEffects]),
   ],

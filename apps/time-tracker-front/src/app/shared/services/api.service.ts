@@ -1,5 +1,6 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ApiFilter } from '@time-tracker/shared';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -24,6 +25,10 @@ export class ApiService {
     return `${this.base}/instance/${id}`;
   }
 
+  getTimeNotesEndpoint(): string {
+    return `${this.base}/user/time-note`
+  }
+  
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (
       request.method === 'POST' &&
@@ -36,5 +41,15 @@ export class ApiService {
       return false;
     }
     return true;
+  }
+
+  createParams(filters: ApiFilter[]) {
+    const params : { page?: string, limit?: string, where?: string } = {};
+
+    if(filters.length > 0) {
+      params.where = JSON.stringify(filters);
+    }
+
+    return params;
   }
 }

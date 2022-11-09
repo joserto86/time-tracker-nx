@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Instance } from '@time-tracker/shared';
-import { catchError, Observable, throwError } from 'rxjs';
-import { ApiService } from '../../core/services/api.service';
+import { catchError, Observable, throwError } from 'rxjs';;
 import { InstanceToken } from '../../../../../../libs/src/lib/settings';
+import { ApiService } from '../../shared/services/api.service';
 
 @Injectable({
   providedIn: 'root',

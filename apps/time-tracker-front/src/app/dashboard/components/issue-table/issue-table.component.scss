@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+::ng-deep .mat-paginator-page-size{
+  display: none !important;
+}
+
+::ng-deep .mat-paginator-range-label{
+  display: none !important;
+}

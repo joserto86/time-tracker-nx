@@ -11,12 +11,6 @@ export interface Profile {
   defaultColumns: Columns;
 }
 
-export interface SettingsState {
-  profile: Profile;
-  filters: Filter[]
-}
-
-
 export const filterColumns = [
   'namespace',
   'name',
@@ -24,7 +18,7 @@ export const filterColumns = [
   'issue',
   'label',
 ] as const;
-export type FilterColumns = typeof filterColumns[number]
+export type FilterColumns = typeof filterColumns[number];
 
 export const filterConditions = [
   'is',
@@ -45,5 +39,12 @@ export interface Filter {
 export interface Instance {
   id: number;
   url: string;
-  added?: boolean;
+  added: boolean;
+  username: string;
+}
+
+export interface InstanceToken {
+  id: number;
+  token?: string;
+  username?: string;
 }

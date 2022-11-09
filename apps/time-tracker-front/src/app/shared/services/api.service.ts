@@ -21,10 +21,14 @@ export class ApiService {
     return `${this.base}/instance`;
   }
 
+  getTokenInstanceEndpoint(id: number): string {
+    return `${this.base}/instance/${id}`;
+  }
+
   getTimeNotesEndpoint(): string {
     return `${this.base}/user/time-note`
   }
-
+  
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (
       request.method === 'POST' &&

@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Save token {{ instance.url }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Token</mat-label>
+    <input matInput placeholder="My token" formControlName="token">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="input">
+    <mat-label>Username</mat-label>
+    <input matInput placeholder="My username" formControlName="username">
+  </mat-form-field>
+
+  <mat-error *ngIf="!form.valid && form.touched">You must enter at least one field, token or username</mat-error>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>

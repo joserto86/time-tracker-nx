@@ -45,7 +45,7 @@ export class InstancesEffects {
       exhaustMap((props) => {
         return this.instancesService.saveInstanceToken(props.token).pipe(
           map(() =>
-            InstancesActions.saveInstanceTokenOk({ id: props.token.id })
+            InstancesActions.saveInstanceTokenOk({ id: props.token.id, username: props.token.username })
           ),
           catchError((error) => {
             console.log({ error });

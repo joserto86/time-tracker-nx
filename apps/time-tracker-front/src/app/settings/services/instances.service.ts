@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Instance } from '@time-tracker/shared';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
-import { saveInstanceToken } from '../state/actions/instances.actions';
 import { InstanceToken } from '../../../../../../libs/src/lib/settings';
 
 @Injectable({
@@ -20,9 +19,9 @@ export class InstancesService {
     );
   }
   saveInstanceToken(instanceToken: InstanceToken) {
-    const { id, token, username } = instanceToken;
+    const { token, username } = instanceToken;
 
-    let dataTosend: InstanceToken = { id };
+    let dataTosend: Partial<InstanceToken> = {};
 
     if (token) {
       dataTosend.token = token;
@@ -33,7 +32,7 @@ export class InstancesService {
     }
 
     return this.http
-      .post<InstanceToken>(
+      .put<InstanceToken>(
         this.api.getTokenInstanceEndpoint(instanceToken.id),
         dataTosend
       )

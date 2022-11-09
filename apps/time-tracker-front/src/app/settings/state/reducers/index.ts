@@ -62,12 +62,15 @@ export const reducer = createReducer(
       instances,
     };
   }),
-  on(InstancesActions.saveInstanceTokenOk, (state, { id }): State => {
+  on(InstancesActions.saveInstanceTokenOk, (state, { id, username }): State => {
     const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
 
     instances.map((item) => {
       if (item.id === id) {
         item.added = true;
+        if (username) {
+          item.username = username;
+        }
       }
       return item;
     });

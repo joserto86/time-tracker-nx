@@ -1,0 +1,22 @@
+<main class="main-container">
+  <mat-card>
+
+    <h2 mat-card-title>These are your filters</h2>
+
+    <ng-container *ngIf="(filters$ | async) as filters">
+
+      <time-tracker-nx-filter-table *ngIf="filters.length; else noFilters" [filters]="filters">
+      </time-tracker-nx-filter-table>
+
+      <ng-template #noFilters>
+        <p>You dont have any filters saved yet.</p>
+      </ng-template>
+
+    </ng-container>
+
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      Create new filter
+    </button>
+  </mat-card>
+
+</main>

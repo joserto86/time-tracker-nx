@@ -15,15 +15,25 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { environment } from '../environments/environment'; // Angular CLI environment
 import { localStorageSync } from 'ngrx-store-localstorage';
-import * as fromAuth from './auth/reducers'
+
+import * as fromAuth from './auth/reducers';
+import { settingsFeaturedKey } from './settings/state/reducers';
 import { AuthInterceptor } from './auth/services/auth.interceptor';
 
-export const authFeatureKey = 'auth';
-export const statusFeatureKey = fromAuth.statusFeatureKey
 
-export function localStorageSyncReducer(reducer: ActionReducer<unknown>): ActionReducer<unknown> {
+export const authFeatureKey = 'auth';
+export const statusFeatureKey = fromAuth.statusFeatureKey;
+
+export function localStorageSyncReducer(
+  reducer: ActionReducer<unknown>
+): ActionReducer<unknown> {
   return localStorageSync({
-    keys: [{[`${authFeatureKey}`]: [statusFeatureKey] }], rehydrate: true})(reducer);
+    keys: [
+      { [`${authFeatureKey}`]: [statusFeatureKey] },
+      { [`${settingsFeaturedKey}`]: ['profile', 'filters'] },
+    ],
+    rehydrate: true,
+  })(reducer);
 }
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
@@ -34,12 +44,14 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {metaReducers}//, {
-        // runtimeChecks: {
-        // strictActionImmutability: true,
-        // strictStateImmutability: true
+    StoreModule.forRoot(
+      reducers,
+      { metaReducers } //, {
+      // runtimeChecks: {
+      // strictActionImmutability: true,
+      // strictStateImmutability: true
       // }
-    // }
+      // }
     ),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -48,7 +60,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     EffectsModule.forRoot([]),
     AppRoutingModule,
     AuthModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

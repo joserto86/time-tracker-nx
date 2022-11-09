@@ -1,0 +1,25 @@
+[hidden] {
+  display: none !important;
+}
+
+mat-toolbar-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between
+}
+
+.mat-list-item:first-child {
+  background-color: #fff;
+}
+
+.mat-list-item.is-active {
+  &,
+  &:hover {
+    background-color: #3f51b5;
+    color: #fff;
+  }
+}
+
+.nav-list {
+  width: 250px;
+}

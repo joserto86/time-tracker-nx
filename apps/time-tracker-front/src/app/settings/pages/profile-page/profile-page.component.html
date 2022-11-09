@@ -1,0 +1,7 @@
+<main class="main-container">
+  <mat-card>
+    <h1 mat-title *ngIf="(user$ | async) as user">{{ user?.username }}</h1>
+    <time-tracker-nx-profile-form *ngIf="(profile$ | async) as profile" [profile]="profile">
+    </time-tracker-nx-profile-form>
+  </mat-card>
+</main>

@@ -9,9 +9,10 @@ import * as fromDashboard from './state/reducers/dashboard.reducer';
 import { IssueTableComponent } from './components/issue-table/issue-table.component';
 import { MaterialModule } from '../material/material.module';
 import { DayColumnComponent } from './components/day-column.component';
+import { FiltersComponent } from './components/filters.component';
 
 @NgModule({
-  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent],
+  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

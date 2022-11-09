@@ -35,12 +35,12 @@ export class IssueTableComponent implements OnInit {
       'name',
       'milestone',
       'issue',
-      ...this.daysRange
+      ...this.daysRange,
+      'total'
     ];
   }
 
   emitUpdatePage(ev:any):void {
-
     let first = null;
     let last = null;
     if (ev.pageIndex === 0) {
@@ -60,18 +60,31 @@ export class IssueTableComponent implements OnInit {
   }
 
   getDayHours(issue: LocalIssue, day: string) {
-    console.log('here');
     let dayDate = new Date(day);
     let dayString = `${dayDate.getFullYear()}-${String(dayDate.getMonth() + 1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2, '0')}`
 
     let dayNotes = issue.timeNotes.filter(x => x.spentAt.includes(dayString));
 
-    let totalSeconds:number =  dayNotes.reduce((acc:number, x) => {
+    let totalSeconds:number = dayNotes.reduce((acc, x) => {
       let sum = +acc + x.computed;
       return sum;
     }, 0);
 
+    if (totalSeconds === 0) {
+      return null;
+    }
+
     return totalSeconds / 3600;
   }
+
+  getTotalIssue(issue: LocalIssue) {
+    let result:number = issue.timeNotes.reduce((acc, x) => {
+      let sum = acc + x.computed;
+      return sum;
+    }, 0);
+
+    return result / 3600
+  }
+  
 
 }

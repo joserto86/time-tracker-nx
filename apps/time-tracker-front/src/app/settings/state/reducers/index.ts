@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { Filter, Instance, Profile } from '@time-tracker/shared';
 
 import { FilterActions, InstancesActions, ProfileActions } from '../actions';
-import { saveInstanceTokenOk } from '../actions/instances.actions';
 
 export const settingsFeaturedKey = 'settings';
 
@@ -16,11 +15,11 @@ export const initialState: State = {
   profile: {
     defaultView: 'monthly',
     defaultColumns: {
-      namespace: false,
-      name: false,
-      milestone: false,
-      issue: false,
-      label: false,
+      namespace: true,
+      name: true,
+      milestone: true,
+      issue: true,
+      label: true,
     },
   },
   filters: [],

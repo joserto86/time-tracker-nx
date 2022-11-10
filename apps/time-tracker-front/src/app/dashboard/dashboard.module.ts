@@ -10,9 +10,10 @@ import { IssueTableComponent } from './components/issue-table/issue-table.compon
 import { MaterialModule } from '../material/material.module';
 import { DayColumnComponent } from './components/day-column.component';
 import { FiltersComponent } from './components/filters.component';
+import { ColumnsMenuComponent } from './components/columns-menu.component';
 
 @NgModule({
-  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent],
+  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent, ColumnsMenuComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

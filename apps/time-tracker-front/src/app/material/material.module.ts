@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const modules = [
   MatTableModule,
@@ -33,6 +34,7 @@ const modules = [
   MatPaginatorModule,
   MatSnackBarModule,
   MatMenuModule,
+  MatTooltipModule
 ];
 
 @NgModule({

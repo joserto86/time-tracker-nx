@@ -55,6 +55,7 @@ export class DashboardComponent implements OnInit {
                   spentAt: note.spentAt,
                   computed: note.computed,
                   author: note.author,
+                  glId: note.glId,
                 }));
 
               const newNote: LocalIssue = {
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
                 glNamespace: note.glNamespace,
                 milestone: note.milestone,
                 title: note.glIssue,
+                glIssueIid: note.glIssueIid,
                 timeNotes,
               };
 

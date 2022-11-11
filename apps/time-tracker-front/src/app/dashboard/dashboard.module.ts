@@ -8,13 +8,20 @@ import { DashboardEffects } from './state/effects/dashboard.effects';
 import * as fromDashboard from './state/reducers/dashboard.reducer';
 import { IssueTableComponent } from './components/issue-table/issue-table.component';
 import { MaterialModule } from '../material/material.module';
-import { DayColumnComponent } from './components/day-column.component';
 import { FiltersComponent } from './components/filters.component';
+
 import { ColumnsMenuComponent } from './components/columns-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
 
 @NgModule({
-  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent, ColumnsMenuComponent],
+  declarations: [
+    DashboardComponent,
+    IssueTableComponent,
+    FiltersComponent,
+    ColumnsMenuComponent,
+    TrackerDetailInfoComponent,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,

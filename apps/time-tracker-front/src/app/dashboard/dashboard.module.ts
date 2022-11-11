@@ -8,11 +8,11 @@ import { DashboardEffects } from './state/effects/dashboard.effects';
 import * as fromDashboard from './state/reducers/dashboard.reducer';
 import { IssueTableComponent } from './components/issue-table/issue-table.component';
 import { MaterialModule } from '../material/material.module';
-import { DayColumnComponent } from './components/day-column.component';
 import { FiltersComponent } from './components/filters.component';
+import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
 
 @NgModule({
-  declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent],
+  declarations: [DashboardComponent, IssueTableComponent, FiltersComponent, TrackerDetailInfoComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

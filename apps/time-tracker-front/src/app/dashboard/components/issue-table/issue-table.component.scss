@@ -1,6 +1,18 @@
 table {
   width: 100%;
   margin-bottom: 2rem;
+
+  th.days {
+    text-align: center;
+  }
+
+  td {
+    min-width: 65px;
+  }
+}
+
+::ng-deep .issue-title-tooltip {
+  font-size: 14px;
 }
 
 ::ng-deep .mat-paginator-page-size{
@@ -9,4 +21,23 @@ table {
 
 ::ng-deep .mat-paginator-range-label{
   display: none !important;
+}
+
+.issue-info {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon {
+    display: none;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    mat-icon {
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
 }

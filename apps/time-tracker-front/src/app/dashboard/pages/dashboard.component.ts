@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, of, take } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
-import { DashbordService } from '../services/dashboard.service';
 import { ApiFilter, TimeNote, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
 import { DatesService } from '../../shared/services/dates.service';
 
@@ -49,6 +48,7 @@ export class DashboardComponent implements OnInit {
                 spentAt: note.spentAt,
                 computed: note.computed,
                 author: note.author,
+                glId: note.glId
               }));
         
             const newNote: LocalIssue = {
@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
               glNamespace: note.glNamespace,
               milestone: note.milestone,
               title: note.glIssue,
+              glIssueIid: note.glIssueIid,
               timeNotes,
             };
         

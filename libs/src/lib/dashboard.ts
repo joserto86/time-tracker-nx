@@ -43,6 +43,7 @@ export interface LocalTimeNote {
   spentAt: string;
   computed: number;
   author: string;
+  glId: number;
 }
 
 export interface LocalIssue {
@@ -53,5 +54,6 @@ export interface LocalIssue {
   glNamespace: string;
   milestone?: string | null;
   title: string;
+  glIssueIid: number;
   timeNotes: LocalTimeNote[];
 }

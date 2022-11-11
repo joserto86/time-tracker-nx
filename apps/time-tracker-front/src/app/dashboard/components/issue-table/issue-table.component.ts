@@ -19,28 +19,30 @@ import { DatesService } from '../../../shared/services/dates.service';
 })
 export class IssueTableComponent implements OnInit {
   @Input() issues!: LocalIssue[];
-  @Input() daysRange!:string[];
+  @Input() daysRange!: string[];
 
   @Output() updatePage = new EventEmitter();
 
   displayedColumns: string[] = [];
 
-  constructor(private dialog: MatDialog, private store: Store, private datesService: DatesService) {
-    
-  }
+  constructor(
+    private dialog: MatDialog,
+    private store: Store,
+    private datesService: DatesService
+  ) {}
 
   ngOnInit(): void {
     this.displayedColumns = [
       'namespace',
-      'name',
+      'project',
       'milestone',
       'issue',
       ...this.daysRange,
-      'total'
+      'total',
     ];
   }
 
-  emitUpdatePage(ev:any):void {
+  emitUpdatePage(ev: any): void {
     let first = null;
     let last = null;
     if (ev.pageIndex === 0) {
@@ -61,11 +63,13 @@ export class IssueTableComponent implements OnInit {
 
   getDayHours(issue: LocalIssue, day: string) {
     let dayDate = new Date(day);
-    let dayString = `${dayDate.getFullYear()}-${String(dayDate.getMonth() + 1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2, '0')}`
+    let dayString = `${dayDate.getFullYear()}-${String(
+      dayDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(dayDate.getDate()).padStart(2, '0')}`;
 
-    let dayNotes = issue.timeNotes.filter(x => x.spentAt.includes(dayString));
+    let dayNotes = issue.timeNotes.filter((x) => x.spentAt.includes(dayString));
 
-    let totalSeconds:number = dayNotes.reduce((acc, x) => {
+    let totalSeconds: number = dayNotes.reduce((acc, x) => {
       let sum = +acc + x.computed;
       return sum;
     }, 0);
@@ -78,13 +82,11 @@ export class IssueTableComponent implements OnInit {
   }
 
   getTotalIssue(issue: LocalIssue) {
-    let result:number = issue.timeNotes.reduce((acc, x) => {
+    let result: number = issue.timeNotes.reduce((acc, x) => {
       let sum = acc + x.computed;
       return sum;
     }, 0);
 
-    return result / 3600
+    return result / 3600;
   }
-  
-
 }

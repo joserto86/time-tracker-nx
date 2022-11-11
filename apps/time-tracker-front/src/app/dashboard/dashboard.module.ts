@@ -11,6 +11,7 @@ import { MaterialModule } from '../material/material.module';
 import { DayColumnComponent } from './components/day-column.component';
 import { FiltersComponent } from './components/filters.component';
 import { ColumnsMenuComponent } from './components/columns-menu.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DashboardComponent, IssueTableComponent, DayColumnComponent, FiltersComponent, ColumnsMenuComponent],
@@ -18,6 +19,7 @@ import { ColumnsMenuComponent } from './components/columns-menu.component';
     CommonModule,
     DashboardRoutingModule,
     MaterialModule,
+    ReactiveFormsModule,
     StoreModule.forFeature({
       name: fromDashboard.dashboardFeatureKey,
       reducer: fromDashboard.reducer,

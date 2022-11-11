@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { Columns } from '@time-tracker/shared';
 
 @Component({
   selector: 'time-tracker-nx-filters',
@@ -10,6 +16,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
       <span class="spacer"></span>
 
       <time-tracker-nx-columns-menu
+        [defaultColumns]="defaultColumns"
         class="right"
       ></time-tracker-nx-columns-menu>
     </mat-card>
@@ -31,6 +38,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent implements OnInit {
+  @Input() defaultColumns!: Columns;
+
   constructor() {}
 
   ngOnInit(): void {}

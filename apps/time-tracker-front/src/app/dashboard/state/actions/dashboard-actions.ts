@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ApiFilter, TimeNote } from '@time-tracker/shared';
+import { ApiFilter, Columns, TimeNote } from '@time-tracker/shared';
 
 export const loadTimeNotes = createAction(
   '[Time Tracker] Load Time Notes',
@@ -14,4 +14,9 @@ export const loadTimeNotesSuccess = createAction(
 export const loadTimeNotesFailure = createAction(
   '[Time Tracker] Load Time Notes Failure',
   props<{ error: string }>()
+);
+
+export const saveDefaultColumns = createAction(
+  '[Dashboard page] Save default columns',
+  props<{ defaultColumns: Columns }>()
 );

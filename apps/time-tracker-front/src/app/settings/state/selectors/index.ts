@@ -1,19 +1,25 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromSettings from '../reducers';
+import { SettingsState } from '../reducers/index';
 
-export const selectSettingsState = createFeatureSelector<fromSettings.State>(
+export const selectSettingsState = createFeatureSelector<SettingsState>(
   fromSettings.settingsFeaturedKey
 );
 
 export const selectProfileState = createSelector(
   selectSettingsState,
-  (state: fromSettings.State) => state.profile
+  (state: SettingsState) => state.profile
+);
+
+export const selectDefaultColumnsState = createSelector(
+  selectSettingsState,
+  (state: SettingsState) => state.profile.defaultColumns
 );
 
 export const selectFiltersState = createSelector(
   selectSettingsState,
-  (state: fromSettings.State) => state.filters
+  (state: SettingsState) => state.filters
 );
 
 export const selectFilter = (id: string) =>
@@ -24,5 +30,5 @@ export const selectFilter = (id: string) =>
 
 export const selectInstances = createSelector(
   selectSettingsState,
-  (state: fromSettings.State) => state.instances
+  (state: SettingsState) => state.instances
 );

@@ -19,6 +19,7 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 import * as fromAuth from './auth/reducers';
 import { settingsFeaturedKey } from './settings/state/reducers';
 import { AuthInterceptor } from './auth/services/auth.interceptor';
+import { SettingsModule } from './settings/settings.module';
 
 
 export const authFeatureKey = 'auth';
@@ -61,6 +62,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     AppRoutingModule,
     AuthModule,
     SharedModule,
+    SettingsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

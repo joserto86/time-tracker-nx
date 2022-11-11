@@ -1,9 +1,8 @@
 export interface Columns {
   namespace: boolean;
-  name: boolean;
+  project: boolean;
   milestone: boolean;
   issue: boolean;
-  label: boolean;
 }
 
 export interface Profile {

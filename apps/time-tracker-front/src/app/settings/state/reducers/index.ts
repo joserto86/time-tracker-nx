@@ -1,26 +1,28 @@
 import { createReducer, on } from '@ngrx/store';
-import { Filter, Instance, Profile } from '@time-tracker/shared';
+import { Columns, Filter, Instance, Profile } from '@time-tracker/shared';
+import { saveDefaultColumns } from '../../../dashboard/state/actions/dashboard-actions';
 
 import { FilterActions, InstancesActions, ProfileActions } from '../actions';
 
 export const settingsFeaturedKey = 'settings';
 
-export interface State {
+export interface SettingsState {
   profile: Profile;
   filters: Filter[];
   instances: Instance[];
 }
 
-export const initialState: State = {
+export const defaultColumns: Columns = {
+  namespace: true,
+  project: true,
+  milestone: true,
+  issue: true,
+};
+
+export const initialState: SettingsState = {
   profile: {
     defaultView: 'monthly',
-    defaultColumns: {
-      namespace: true,
-      name: true,
-      milestone: true,
-      issue: true,
-      label: true,
-    },
+    defaultColumns,
   },
   filters: [],
   instances: [],
@@ -55,28 +57,41 @@ export const reducer = createReducer(
       filters: state.filters.map((item) => (item.id === id ? filter : item)),
     };
   }),
-  on(InstancesActions.loadInstancesOk, (state, { instances }): State => {
-    return {
-      ...state,
-      instances,
-    };
-  }),
-  on(InstancesActions.saveInstanceTokenOk, (state, { id, username }): State => {
-    const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
+  on(
+    InstancesActions.loadInstancesOk,
+    (state, { instances }): SettingsState => {
+      return {
+        ...state,
+        instances,
+      };
+    }
+  ),
+  on(
+    InstancesActions.saveInstanceTokenOk,
+    (state, { id, username }): SettingsState => {
+      const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
 
-    instances.map((item) => {
-      if (item.id === id) {
-        item.added = true;
-        if (username) {
-          item.username = username;
+      instances.map((item) => {
+        if (item.id === id) {
+          item.added = true;
+          if (username) {
+            item.username = username;
+          }
         }
-      }
-      return item;
-    });
+        return item;
+      });
 
-    return {
-      ...state,
-      instances,
-    };
-  })
+      return {
+        ...state,
+        instances,
+      };
+    }
+  ),
+  on(saveDefaultColumns, (state, { defaultColumns }) => ({
+    ...state,
+    profile: {
+      ...state.profile,
+      defaultColumns,
+    },
+  }))
 );

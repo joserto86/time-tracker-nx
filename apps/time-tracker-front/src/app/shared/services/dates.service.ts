@@ -5,6 +5,10 @@ import { ApiFilter } from '@time-tracker/shared';
   providedIn: 'root',
 })
 export class DatesService {
+  getDayFilterString(dayDate: Date): string {
+    return `${dayDate.getFullYear()}-${String(dayDate.getMonth() + 1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2, '0')}`
+  }
+
   getDaysRange(firstDay: Date, lastDay: Date): string[] {
     let result: string[] = [];
 
@@ -14,7 +18,7 @@ export class DatesService {
         d <= lastDay;
         d.setDate(d.getDate() + 1)
       ) {
-        result.push(`${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`);
+        result.push(this.getDayFilterString(d));
       }
     }
 
@@ -25,16 +29,12 @@ export class DatesService {
     const result: ApiFilter[] = [
       {
         field: 'spentAt',
-        value: `${firstDay.getFullYear()}-${
-          firstDay.getMonth() + 1
-        }-${firstDay.getDate()}`,
+        value: this.getDayFilterString(firstDay),
         method: '>=',
       },
       {
         field: 'spentAt',
-        value: `${lastDay.getFullYear()}-${
-          lastDay.getMonth() + 1
-        }-${lastDay.getDate()}`,
+        value: this.getDayFilterString(lastDay),
         method: '<=',
       },
     ];

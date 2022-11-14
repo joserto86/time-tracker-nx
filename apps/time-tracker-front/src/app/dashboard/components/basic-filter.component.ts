@@ -2,8 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  ViewChild,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ApiFilter } from '@time-tracker/shared';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+
+import { DashboardActions } from '../state/actions';
 
 @Component({
   selector: 'time-tracker-nx-basic-filter',
@@ -46,13 +51,23 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 export class BasicFilterComponent implements OnInit {
   public stringToSearch!: string;
   stringToSearchUpdate = new Subject<string>();
-
-  constructor() {
+  
+  constructor(private store:Store) {
     this.stringToSearchUpdate.pipe(
       debounceTime(1000),
       distinctUntilChanged())
       .subscribe(value => {
-        console.log(value);
+        const filters:ApiFilter[] = [
+          {
+            field: 'namespace',
+            method: '=',
+            value: `%${value}%`
+          },
+        ];
+      
+        this.store.dispatch(DashboardActions.removeSearchFilters());
+        this.store.dispatch(DashboardActions.setSearchFilters({filters}));
+        this.store.dispatch(DashboardActions.loadTimeNotes());
       }
     );
   }

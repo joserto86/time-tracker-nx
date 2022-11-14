@@ -10,6 +10,7 @@ import { IssueTableComponent } from './components/issue-table/issue-table.compon
 import { MaterialModule } from '../material/material.module';
 import { FiltersComponent } from './components/filters.component';
 import { BasicFilterComponent } from './components/basic-filter.component';
+import { FormsModule } from '@angular/forms';
 import { ColumnsMenuComponent } from './components/columns-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
@@ -20,11 +21,12 @@ import { TrackerDetailInfoComponent } from './components/tracker-detail-info.com
     IssueTableComponent,
     FiltersComponent,
     BasicFilterComponent,
-    TrackerDetailInfoComponent,
-    ColumnsMenuComponent
+    ColumnsMenuComponent,
+    TrackerDetailInfoComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     DashboardRoutingModule,
     MaterialModule,
     ReactiveFormsModule,

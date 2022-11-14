@@ -2,16 +2,33 @@ import { createAction, props } from '@ngrx/store';
 import { ApiFilter, TimeNote } from '@time-tracker/shared';
 
 export const loadTimeNotes = createAction(
-  '[Time Tracker] Load Time Notes',
-  props<{ filters: ApiFilter[] }>()
+  '[Time Tracker Dashboard] Load Time Notes'
 );
 
+export const setDateFilters = createAction(
+  '[Time Tracker Dashboard] Set Date Filters',
+  props<{ filters: ApiFilter[] }>()
+)
+
+export const removeDateFilters = createAction(
+  '[Time Tracker Dashboard] Remove Date Filters',
+)
+
+export const setSearchFilters = createAction(
+  '[Time Tracker Dashboard] Set Search Filters',
+  props<{ filters: ApiFilter[] }>()
+)
+
+export const removeSearchFilters = createAction(
+  '[Time Tracker Dashboard] Remove Search Filters'
+)
+
 export const loadTimeNotesSuccess = createAction(
-  '[Time Tracker] Load Time Notes Success',
+  '[Time Tracker Dashboard] Load Time Notes Success',
   props<{ timeNotes: TimeNote[], daysRange: string[] }>()
 );
 
 export const loadTimeNotesFailure = createAction(
-  '[Time Tracker] Load Time Notes Failure',
+  '[Time Tracker Dashboard] Load Time Notes Failure',
   props<{ error: string }>()
 );

@@ -3,41 +3,63 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
-import { ApiFilter, LocalIssue } from '@time-tracker/shared';
+import { Columns, LocalIssue } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 import { TrackerDetailInfoComponent } from '../tracker-detail-info.component';
 
+type ColumnDef = { def: string; show: boolean };
 @Component({
   selector: 'time-tracker-nx-issue-table',
   templateUrl: './issue-table.component.html',
   styleUrls: ['./issue-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IssueTableComponent implements OnInit {
+export class IssueTableComponent implements OnInit, OnChanges {
   @Input() issues!: LocalIssue[];
   @Input() daysRange!: string[];
+  @Input() defaultColumns!: Columns;
 
   @Output() updatePage = new EventEmitter();
 
+  // https://stackblitz.com/edit/angular-material-table-hide-columns-idvayw
+  // TODO: definir columnas a mostrar cada vez que cambia defaultColumns
+  defaultColumnsDefinition: ColumnDef[] = [];
   displayedColumns: string[] = [];
 
   constructor(
     private dialog: MatDialog,
-    private store: Store,
     private datesService: DatesService
   ) {}
 
   ngOnInit(): void {
+    this.generateDisplayedColumns();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.generateDisplayedColumns();
+  }
+
+  generateDisplayedColumns(): void {
+    this.defaultColumnsDefinition = Object.keys(this.defaultColumns).map(
+      (column) => {
+        const definition: ColumnDef = {
+          def: column,
+          show: this.defaultColumns[column as keyof Columns],
+        };
+        return definition;
+      }
+    );
+
     this.displayedColumns = [
-      'namespace',
-      'project',
-      'milestone',
-      'issue',
+      ...this.defaultColumnsDefinition
+        .filter((col: ColumnDef) => col.show)
+        .map((c: ColumnDef) => c.def),
       ...this.daysRange,
       'total',
     ];

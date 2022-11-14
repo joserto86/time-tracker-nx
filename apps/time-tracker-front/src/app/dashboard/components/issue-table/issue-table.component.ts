@@ -8,9 +8,10 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { ApiFilter, LocalIssue } from '@time-tracker/shared';
+import { LocalIssue } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 import { TrackerDetailInfoComponent } from '../tracker-detail-info.component';
+import * as DashboardActions from '../../state/actions/dashboard-actions';
 
 @Component({
   selector: 'time-tracker-nx-issue-table',
@@ -57,7 +58,8 @@ export class IssueTableComponent implements OnInit {
     }
 
     let filters = this.datesService.getDaysFilters(first, last);
-    this.updatePage.emit(filters);
+    this.store.dispatch(DashboardActions.setDateFilters({filters}));
+    this.store.dispatch(DashboardActions.loadTimeNotes());
   }
 
   getDayHours(issue: LocalIssue, day: string) {

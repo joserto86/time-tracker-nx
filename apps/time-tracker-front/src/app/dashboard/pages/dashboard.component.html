@@ -11,7 +11,7 @@
     <ng-template #results>
       <ng-container *ngIf="issues$ | async as issues">
         <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
-          [defaultColumns]="(defaultColumns$ | async) || defaultColumns" (updatePage)="updatePage($event)">
+          [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
         </time-tracker-nx-issue-table>
       </ng-container>
     </ng-template>

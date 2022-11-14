@@ -85,12 +85,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(
-      DashboardActions.loadTimeNotes({ filters: this.filters })
+      DashboardActions.setDateFilters({ filters: this.filters })
     );
-  }
-
-  updatePage(event: ApiFilter[]) {
-    this.store.dispatch(DashboardActions.loadTimeNotes({ filters: event }));
+    this.store.dispatch(DashboardActions.loadTimeNotes());
   }
 
   private calculateCurrentWeekFilters() {

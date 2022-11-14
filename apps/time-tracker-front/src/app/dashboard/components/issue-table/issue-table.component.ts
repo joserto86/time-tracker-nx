@@ -9,9 +9,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Columns, LocalIssue } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 import { TrackerDetailInfoComponent } from '../tracker-detail-info.component';
+import * as DashboardActions from '../../state/actions/dashboard-actions';
 
 type ColumnDef = { def: string; show: boolean };
 @Component({
@@ -30,7 +32,11 @@ export class IssueTableComponent implements OnInit, OnChanges {
   defaultColumnsDefinition: ColumnDef[] = [];
   displayedColumns: string[] = [];
 
-  constructor(private dialog: MatDialog, private datesService: DatesService) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store,
+    private datesService: DatesService
+  ) {}
 
   ngOnInit(): void {
     this.generateDisplayedColumns();
@@ -76,7 +82,8 @@ export class IssueTableComponent implements OnInit, OnChanges {
     }
 
     let filters = this.datesService.getDaysFilters(first, last);
-    this.updatePage.emit(filters);
+    this.store.dispatch(DashboardActions.setDateFilters({ filters }));
+    this.store.dispatch(DashboardActions.loadTimeNotes());
   }
 
   getDayHours(issue: LocalIssue, day: string) {

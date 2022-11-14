@@ -1,6 +1,5 @@
-// import { JwtResponse, PublicUser } from '@time-tracker/shared';
 import { createReducer, on } from '@ngrx/store';
-import { DashboardState, TimeNote } from '@time-tracker/shared';
+import { DashboardState } from '@time-tracker/shared';
 import { DashboardActions } from '../actions';
 
 export const dashboardFeatureKey = 'dashboard';
@@ -8,7 +7,9 @@ export const dashboardFeatureKey = 'dashboard';
 export const initialState: DashboardState = {
   timeNotes: [],
   daysRange: [],
-  loading: false
+  loading: false,
+  dateFilters: [],
+  searchFilters: [],
 };
 
 export const reducer = createReducer(
@@ -21,6 +22,26 @@ export const reducer = createReducer(
     loading: false,
   })),
 
+  on(DashboardActions.setDateFilters, (state, props) => ({
+    ...state,
+    dateFilters: props.filters,
+  })),
+
+  on(DashboardActions.setSearchFilters, (state, props) => ({
+    ...state,
+    searchFilters: props.filters,
+  })),
+
+  on(DashboardActions.removeDateFilters, (state) => ({
+    ...state,
+    dateFilters: [],
+  })),
+
+  on(DashboardActions.removeSearchFilters, (state) => ({
+    ...state,
+    searchFilters: [],
+  })),
+
   on(DashboardActions.loadTimeNotes, (state) => ({
     ...state,
     loading: true,
@@ -29,4 +50,10 @@ export const reducer = createReducer(
 
 export const getTimeNotes = (state: DashboardState) => state.timeNotes;
 export const getTimeNotesLoading = (state: DashboardState) => state.loading;
-export const getDaysRange= (state: DashboardState) => state.daysRange;
+export const getDaysRange = (state: DashboardState) => state.daysRange;
+export const getSearchFilters = (state: DashboardState) => state.searchFilters;
+export const getDateFilters = (state: DashboardState) => state.dateFilters;
+export const getFilters = (state: DashboardState) => [
+  ...state.dateFilters,
+  ...state.searchFilters,
+];

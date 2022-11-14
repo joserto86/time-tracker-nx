@@ -27,15 +27,10 @@ export class IssueTableComponent implements OnInit, OnChanges {
 
   @Output() updatePage = new EventEmitter();
 
-  // https://stackblitz.com/edit/angular-material-table-hide-columns-idvayw
-  // TODO: definir columnas a mostrar cada vez que cambia defaultColumns
   defaultColumnsDefinition: ColumnDef[] = [];
   displayedColumns: string[] = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private datesService: DatesService
-  ) {}
+  constructor(private dialog: MatDialog, private datesService: DatesService) {}
 
   ngOnInit(): void {
     this.generateDisplayedColumns();
@@ -147,17 +142,24 @@ export class IssueTableComponent implements OnInit, OnChanges {
 
   openDialog(issue: LocalIssue | null, day: string | null) {
     const dialogConfig = new MatDialogConfig();
-    let dataDialog: LocalIssue[] = [];
+    let dataDialog: { issues: LocalIssue[]; defaultColumns: string[] } = {
+      issues: [],
+      defaultColumns: [
+        ...this.defaultColumnsDefinition
+          .filter((col: ColumnDef) => col.show)
+          .map((c: ColumnDef) => c.def),
+      ],
+    };
 
     if (issue && day) {
-      dataDialog.push({
+      dataDialog.issues.push({
         ...issue,
         timeNotes: issue.timeNotes.filter((y) => y.spentAt.includes(day)),
       });
     } else if (issue && !day) {
-      dataDialog.push(issue);
+      dataDialog.issues.push(issue);
     } else if (!issue && day) {
-      dataDialog = this.issues.reduce((acc: LocalIssue[], x) => {
+      dataDialog.issues = this.issues.reduce((acc: LocalIssue[], x) => {
         let timenotes = x.timeNotes.filter((y) => y.spentAt.includes(day));
         if (timenotes.length > 0) {
           return [...acc, { ...x, timeNotes: timenotes }];
@@ -165,7 +167,7 @@ export class IssueTableComponent implements OnInit, OnChanges {
         return acc;
       }, []);
     } else {
-      dataDialog = this.issues;
+      dataDialog.issues = this.issues;
     }
 
     dialogConfig.disableClose = true;

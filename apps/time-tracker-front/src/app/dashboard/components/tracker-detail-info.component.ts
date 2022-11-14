@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -25,7 +30,7 @@ import * as fromAuth from '../../auth/reducers';
           <td mat-cell *matCellDef="let issue">{{ issue.glNamespace }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="project">
           <th mat-header-cell *matHeaderCellDef>Project</th>
           <td mat-cell *matCellDef="let issue">{{ issue.glProject }}</td>
         </ng-container>
@@ -106,28 +111,20 @@ import * as fromAuth from '../../auth/reducers';
 })
 export class TrackerDetailInfoComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator | null = null;
-  
-  displayedColumns: string[] = [
-    'namespace',
-    'name',
-    'milestone',
-    'issue',
-    'date',
-    'hours',
-  ];
 
+  displayedColumns: string[] = ['date', 'hours'];
   tableData: TimeNote[] = [];
   user$: Observable<PublicUser | null | undefined>;
   dataSource: MatTableDataSource<TimeNote> = new MatTableDataSource();
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public dataDialog: LocalIssue[],
+    public dataDialog: { issues: LocalIssue[]; defaultColumns: string[] },
     private dialogRef: MatDialogRef<TrackerDetailInfoComponent>,
     private store: Store
   ) {
     this.user$ = this.store.select(fromAuth.selectLoggeduser);
-    this.tableData = this.dataDialog.reduce(
+    this.tableData = this.dataDialog.issues.reduce(
       (tData: TimeNote[], x: LocalIssue) => {
         const result = x.timeNotes.reduce(
           (acc: TimeNote[], y: LocalTimeNote) => {
@@ -161,9 +158,14 @@ export class TrackerDetailInfoComponent implements OnInit {
       },
       []
     );
+
+    this.displayedColumns = [
+      ...this.dataDialog.defaultColumns,
+      ...this.displayedColumns,
+    ];
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.dataSource = new MatTableDataSource(this.tableData);

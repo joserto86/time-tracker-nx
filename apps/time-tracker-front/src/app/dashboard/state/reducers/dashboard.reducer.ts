@@ -1,4 +1,3 @@
-// import { JwtResponse, PublicUser } from '@time-tracker/shared';
 import { createReducer, on } from '@ngrx/store';
 import { DashboardState } from '@time-tracker/shared';
 import { DashboardActions } from '../actions';
@@ -25,22 +24,22 @@ export const reducer = createReducer(
 
   on(DashboardActions.setDateFilters, (state, props) => ({
     ...state,
-    dateFilters: props.filters
+    dateFilters: props.filters,
   })),
 
   on(DashboardActions.setSearchFilters, (state, props) => ({
     ...state,
-    searchFilters: props.filters
+    searchFilters: props.filters,
   })),
 
   on(DashboardActions.removeDateFilters, (state) => ({
     ...state,
-    dateFilters: []
+    dateFilters: [],
   })),
 
   on(DashboardActions.removeSearchFilters, (state) => ({
     ...state,
-    searchFilters: []
+    searchFilters: [],
   })),
 
   on(DashboardActions.loadTimeNotes, (state) => ({
@@ -54,4 +53,7 @@ export const getTimeNotesLoading = (state: DashboardState) => state.loading;
 export const getDaysRange = (state: DashboardState) => state.daysRange;
 export const getSearchFilters = (state: DashboardState) => state.searchFilters;
 export const getDateFilters = (state: DashboardState) => state.dateFilters;
-export const getFilters = (state:DashboardState) => [...state.dateFilters, ...state.searchFilters];
+export const getFilters = (state: DashboardState) => [
+  ...state.dateFilters,
+  ...state.searchFilters,
+];

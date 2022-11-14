@@ -1,19 +1,17 @@
 <main class="main-container">
   <h2>These are last time notes issues</h2>
 
-  <time-tracker-nx-filters></time-tracker-nx-filters>
+  <time-tracker-nx-filters [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-filters>
 
   <mat-card>
     <ng-container *ngIf="loading$ | async; else results">
       loading ...
     </ng-container>
-  
+
     <ng-template #results>
       <ng-container *ngIf="issues$ | async as issues">
-        <time-tracker-nx-issue-table
-          [issues]="issues"
-          [daysRange]="(daysRange$ | async) || []"
-        >
+        <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
+          [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
         </time-tracker-nx-issue-table>
       </ng-container>
     </ng-template>

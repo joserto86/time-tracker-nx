@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
-import { ApiFilter, TimeNote, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
+import { ApiFilter, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
 import { DatesService } from '../../shared/services/dates.service';
 
 @Component({
@@ -75,15 +75,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(DashboardActions.loadTimeNotes({filters: this.filters}));
-  }
-
-  updatePage(event:ApiFilter[]) {
-    this.store.dispatch(DashboardActions.loadTimeNotes({filters: event}));
+    this.store.dispatch(DashboardActions.setDateFilters({filters: this.filters}))
+    this.store.dispatch(DashboardActions.loadTimeNotes());
   }
 
   private calculateCurrentWeekFilters() {
-    let today = new Date('2022-09-03');
+    let today = new Date();
 
     let firstDay = new Date(today.setDate(today.getDate() - today.getDay() + 1));
     let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7));

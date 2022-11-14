@@ -13,7 +13,6 @@
         <time-tracker-nx-issue-table
           [issues]="issues"
           [daysRange]="(daysRange$ | async) || []"
-          (updatePage)="updatePage($event)"
         >
         </time-tracker-nx-issue-table>
       </ng-container>

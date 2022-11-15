@@ -9,6 +9,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Profile } from '@time-tracker/shared';
 import { ProfileActions } from '../../state/actions';
 import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'time-tracker-nx-profile-form',
@@ -30,7 +31,11 @@ export class ProfileFormComponent implements OnInit {
 
   checkboxList: { name: string; label: string }[] = [];
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -60,5 +65,10 @@ export class ProfileFormComponent implements OnInit {
     this.store.dispatch(
       ProfileActions.saveProfile({ profile: this.profileForm.value })
     );
+    this._snackBar.open('Pofile saved OK', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+    });
   }
 }

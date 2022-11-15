@@ -9,7 +9,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Instance } from '@time-tracker/shared';
 import { saveInstanceToken } from '../../state/actions/instances.actions';
-import { atLeastOne } from '../../validators/inputs.validator';
 
 @Component({
   selector: 'time-tracker-nx-update-token-dialog',
@@ -33,21 +32,16 @@ export class UpdateTokenDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group(
       {
-        token: [''],
-        username: [''],
+        token: ['', Validators.required],
       },
-      {
-        validators: atLeastOne(Validators.required, ['token', 'username']),
-      }
     );
   }
 
   save() {
     const id = this.instance.id;
     const token = this.form.get('token')?.value;
-    const username = this.form.get('username')?.value;
 
-    this.store.dispatch(saveInstanceToken({ token: { id, token, username } }));
+    this.store.dispatch(saveInstanceToken({ token: { id, token } }));
 
     this.dialogRef.close();
   }

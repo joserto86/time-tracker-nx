@@ -136,11 +136,11 @@ export class TrackerDetailInfoComponent implements OnInit {
               createdAt: y.createdAt,
               glId: y.glId,
               glInstance: x.glInstance,
-              glIssue: x.title,
+              issue: x.title,
               glIssueId: x.id,
               glIssueIid: x.glIssueIid,
-              glNamespace: x.glNamespace,
-              glProject: x.glProject,
+              namespace: x.glNamespace,
+              project: x.glProject,
               glProjectId: x.glProjectId,
               secondsAdded: y.secondsAdded,
               secondsRemoved: y.secondsRemoved,
@@ -148,6 +148,8 @@ export class TrackerDetailInfoComponent implements OnInit {
               spentAt: y.spentAt,
               updatedAt: y.updatedAt,
               milestone: x.milestone,
+              labels: x.labels,
+              issueUrl: x.issueUrl
             };
 
             return [...acc, timeNote];

@@ -62,11 +62,13 @@ export class DashboardComponent implements OnInit {
                 id: note.glIssueId,
                 glInstance: note.glInstance,
                 glProjectId: note.glProjectId,
-                glProject: note.glProject,
-                glNamespace: note.glNamespace,
+                glProject: note.project,
+                glNamespace: note.namespace,
                 milestone: note.milestone,
-                title: note.glIssue,
+                title: note.issue,
                 glIssueIid: note.glIssueIid,
+                issueUrl: note.issueUrl,
+                labels: note.labels,
                 timeNotes,
               };
 

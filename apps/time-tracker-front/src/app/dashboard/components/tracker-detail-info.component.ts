@@ -27,12 +27,12 @@ import * as fromAuth from '../../auth/reducers';
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="namespace">
           <th mat-header-cell *matHeaderCellDef>Namespace</th>
-          <td mat-cell *matCellDef="let issue">{{ issue.glNamespace }}</td>
+          <td mat-cell *matCellDef="let issue">{{ issue.namespace }}</td>
         </ng-container>
 
         <ng-container matColumnDef="project">
           <th mat-header-cell *matHeaderCellDef>Project</th>
-          <td mat-cell *matCellDef="let issue">{{ issue.glProject }}</td>
+          <td mat-cell *matCellDef="let issue">{{ issue.project }}</td>
         </ng-container>
 
         <ng-container matColumnDef="milestone">
@@ -45,14 +45,14 @@ import * as fromAuth from '../../auth/reducers';
           <td
             mat-cell
             *matCellDef="let issue"
-            [matTooltip]="issue.glIssue"
+            [matTooltip]="issue.issue"
             matTooltipPosition="left"
             matTooltipClass="issue-title-tooltip"
           >
             {{
-              issue.glIssue.length > 25
-                ? (issue.glIssue | slice: 0:25) + '...'
-                : issue.glIssue
+              issue.issue.length > 25
+                ? (issue.issue | slice: 0:25) + '...'
+                : issue.issue
             }}
           </td>
         </ng-container>

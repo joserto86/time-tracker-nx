@@ -15,5 +15,5 @@ export const saveInstanceToken = createAction(
 
 export const saveInstanceTokenOk = createAction(
   '[Instances/API] Save instance token Ok',
-  props<{ id: number; username: string | undefined; }>()
+  props<{ id: number; }>()
 );

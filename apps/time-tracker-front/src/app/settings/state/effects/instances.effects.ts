@@ -5,7 +5,6 @@ import { catchError, EMPTY, exhaustMap, map } from 'rxjs';
 import { InstancesService } from '../../services/instances.service';
 import { Instance } from '@time-tracker/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class InstancesEffects {
@@ -13,7 +12,6 @@ export class InstancesEffects {
     private actions$: Actions,
     private instancesService: InstancesService,
     private _snackBar: MatSnackBar,
-    private store: Store
   ) {}
 
   loadInstances$ = createEffect(() => {
@@ -45,7 +43,7 @@ export class InstancesEffects {
       exhaustMap((props) => {
         return this.instancesService.saveInstanceToken(props.token).pipe(
           map(() =>
-            InstancesActions.saveInstanceTokenOk({ id: props.token.id, username: props.token.username })
+            InstancesActions.saveInstanceTokenOk({ id: props.token.id })
           ),
           catchError((error) => {
             console.log({ error });

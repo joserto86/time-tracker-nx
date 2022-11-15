@@ -10,6 +10,11 @@ export interface ApiFilter {
   field: string;
   value: any;
   method: string; // '=' , 'like'
+  condition?: CONDITIONS 
+}
+
+export enum CONDITIONS {
+  AND = 'AND', OR ='OR'
 }
 
 export interface TimeNote {
@@ -17,11 +22,12 @@ export interface TimeNote {
   glInstance: string;
   glId: number;
   glProjectId: number;
-  glProject: string;
-  glNamespace: string;
+  project: string;
+  namespace: string;
   glIssueId: number;
-  glIssue: string;
-  milestone?: string | null;
+  issue: string;
+  issueUrl: string;
+  milestone: string | null;
   body: string;
   author: string;
   secondsAdded: number;
@@ -32,6 +38,7 @@ export interface TimeNote {
   spentAt: string;
   glIssueIid: number;
   computed: number;
+  labels: string[]
 }
 
 export interface LocalTimeNote {
@@ -54,8 +61,10 @@ export interface LocalIssue {
   glProjectId: number;
   glProject: string;
   glNamespace: string;
-  milestone?: string | null;
+  milestone: string | null;
   title: string;
   glIssueIid: number;
   timeNotes: LocalTimeNote[];
+  issueUrl: string;
+  labels: string[];
 }

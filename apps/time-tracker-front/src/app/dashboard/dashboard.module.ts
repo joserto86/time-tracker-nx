@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ColumnsMenuComponent } from './components/columns-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TrackerDetailInfoComponent } from './components/tracker-detail-info.com
     FormsModule,
     DashboardRoutingModule,
     MaterialModule,
+    NgxSkeletonLoaderModule,
     ReactiveFormsModule,
     StoreModule.forFeature({
       name: fromDashboard.dashboardFeatureKey,

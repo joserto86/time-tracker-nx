@@ -19,6 +19,7 @@ import { InstanceTableComponent } from './components/instance-table/instance-tab
 import { EffectsModule } from '@ngrx/effects';
 import { InstancesEffects } from './state/effects/instances.effects';
 import { UpdateTokenDialogComponent } from './components/update-token-dialog/update-token-dialog.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { UpdateTokenDialogComponent } from './components/update-token-dialog/upd
     CommonModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
+    NgxSkeletonLoaderModule,
     MaterialModule,
     StoreModule.forFeature(
       fromSettings.settingsFeaturedKey,

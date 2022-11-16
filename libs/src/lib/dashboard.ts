@@ -8,13 +8,14 @@ export interface DashboardState {
 
 export interface ApiFilter {
   field: string;
-  value: any;
+  value: string;
   method: string; // '=' , 'like'
   condition?: CONDITIONS 
 }
 
 export enum CONDITIONS {
-  AND = 'AND', OR ='OR'
+  AND = 'AND',
+  OR ='OR'
 }
 
 export interface TimeNote {

@@ -5,7 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ApiFilter } from '@time-tracker/shared';
+import { ApiFilter, CONDITIONS } from '@time-tracker/shared';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 import { DashboardActions } from '../state/actions';
@@ -57,16 +57,38 @@ export class BasicFilterComponent implements OnInit {
       debounceTime(1000),
       distinctUntilChanged())
       .subscribe(value => {
-        const filters:ApiFilter[] = [
-          {
-            field: 'namespace',
-            method: '=',
-            value: `%${value}%`
-          },
-        ];
-      
+
         this.store.dispatch(DashboardActions.removeSearchFilters());
-        this.store.dispatch(DashboardActions.setSearchFilters({filters}));
+
+        if (value) {
+          const filters:ApiFilter[] = [
+            {
+              field: 'namespace',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
+            }, {
+              field: 'project',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
+            }, {
+              field: 'milestone',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
+            }, {
+              field: 'issue',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
+            },
+          ];
+
+          this.store.dispatch(DashboardActions.setSearchFilters({filters}));
+
+        } 
+         
         this.store.dispatch(DashboardActions.loadTimeNotes());
       }
     );

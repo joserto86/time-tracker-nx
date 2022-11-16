@@ -43,12 +43,9 @@ export class ApiService {
     return true;
   }
 
-  createParams(filters: ApiFilter[]) {
+  createParams(filters: unknown) {
     const params : { page?: string, limit?: string, where?: string } = {};
-
-    if(filters.length > 0) {
-      params.where = JSON.stringify(filters);
-    }
+    params.where = JSON.stringify(filters);
 
     return params;
   }

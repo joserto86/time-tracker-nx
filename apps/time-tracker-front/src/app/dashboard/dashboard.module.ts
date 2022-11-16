@@ -15,6 +15,7 @@ import { ColumnsMenuComponent } from './components/columns-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FiltersComponent,
     BasicFilterComponent,
     ColumnsMenuComponent,
-    TrackerDetailInfoComponent
+    TrackerDetailInfoComponent,
+    OpenInNewTabComponent,
   ],
   imports: [
     CommonModule,

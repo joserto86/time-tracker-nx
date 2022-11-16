@@ -25,6 +25,16 @@ export const selectDaysRange = createSelector(
   fromDashboard.getDaysRange
 );
 
+export const selectDateFilters = createSelector (
+  selectDashboardState,
+  fromDashboard.getDateFilters
+)
+
+export const selectSearchFilters = createSelector (
+  selectDashboardState,
+  fromDashboard.getSearchFilters
+)
+
 export const selectFilters = createSelector (
   selectDashboardState,
  fromDashboard.getFilters

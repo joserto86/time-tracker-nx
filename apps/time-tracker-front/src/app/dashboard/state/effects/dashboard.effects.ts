@@ -6,7 +6,7 @@ import { catchError, exhaustMap, map, of, EMPTY, mergeMap, withLatestFrom, switc
 import { DashboardActions } from '../actions';
 import * as fromDashboard from '../selectors/';
 import { DashbordService } from '../../services/dashboard.service';
-import { ApiFilter, TimeNote } from '@time-tracker/shared';
+import { TimeNote } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 
 @Injectable()
@@ -16,14 +16,15 @@ export class DashboardEffects {
     this.actions$.pipe(
       ofType(DashboardActions.loadTimeNotes),
       withLatestFrom( 
-          this.store.select(fromDashboard.selectFilters),
+          this.store.select(fromDashboard.selectDateFilters),
+          this.store.select(fromDashboard.selectSearchFilters),
       ),
-      switchMap(([,filters]) => 
-        this.dashboardService.timeNotes(filters).pipe(
+      switchMap(([,dateFilters, searchFilters]) => 
+        this.dashboardService.timeNotes(dateFilters, searchFilters).pipe(
           map((response: TimeNote[]) => {
             return DashboardActions.loadTimeNotesSuccess({ 
               timeNotes: response,
-              daysRange: this.datesService.getDaysRangeFromFilters(filters) 
+              daysRange: this.datesService.getDaysRangeFromFilters(dateFilters) 
             });
           }),
           catchError((error) => {

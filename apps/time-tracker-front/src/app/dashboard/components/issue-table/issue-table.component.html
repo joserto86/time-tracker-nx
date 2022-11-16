@@ -21,9 +21,8 @@
     <th mat-header-cell *matHeaderCellDef>Issue</th>
     <td mat-cell *matCellDef="let issue" [matTooltip]="issue.title" matTooltipPosition="left"
       matTooltipClass="issue-title-tooltip">
-      <a [href]="issue.issueUrl" target="_blank" rel="noopener noreferrer">
-        {{ ( issue.title.length>25)? ( issue.title | slice:0:25)+'...':( issue.title) }}
-      </a>
+      {{ ( issue.title.length>25)? ( issue.title | slice:0:25)+'...':( issue.title) }}
+      <time-tracker-nx-open-in-new-tab [url]="issue.issueUrl"></time-tracker-nx-open-in-new-tab>
     </td>
     <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>

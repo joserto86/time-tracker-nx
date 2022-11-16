@@ -54,6 +54,9 @@ import * as fromAuth from '../../auth/reducers';
                 ? (issue.issue | slice: 0:25) + '...'
                 : issue.issue
             }}
+            <time-tracker-nx-open-in-new-tab
+              [url]="issue.issueUrl"
+            ></time-tracker-nx-open-in-new-tab>
           </td>
         </ng-container>
 

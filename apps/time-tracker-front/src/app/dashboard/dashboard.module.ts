@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AdvancedFilterComponent } from './components/advanced-filter.component';
+import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AdvancedFilterComponent } from './components/advanced-filter.component'
     ColumnsMenuComponent,
     TrackerDetailInfoComponent,
     AdvancedFilterComponent,
+    OpenInNewTabComponent,
   ],
   imports: [
     CommonModule,

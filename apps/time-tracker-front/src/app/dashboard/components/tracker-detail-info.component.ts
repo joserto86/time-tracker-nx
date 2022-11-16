@@ -54,7 +54,18 @@ import * as fromAuth from '../../auth/reducers';
                 ? (issue.issue | slice: 0:25) + '...'
                 : issue.issue
             }}
+            <time-tracker-nx-open-in-new-tab
+              [url]="issue.issueUrl"
+            ></time-tracker-nx-open-in-new-tab>
           </td>
+        </ng-container>
+
+        <ng-container matColumnDef="labels">
+          <th mat-header-cell *matHeaderCellDef>Labels</th>
+          <td mat-cell *matCellDef="let issue">
+            {{ issue.labels.join(', ') }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef="let issue"></td>
         </ng-container>
 
         <ng-container matColumnDef="date">
@@ -149,7 +160,7 @@ export class TrackerDetailInfoComponent implements OnInit {
               updatedAt: y.updatedAt,
               milestone: x.milestone,
               labels: x.labels,
-              issueUrl: x.issueUrl
+              issueUrl: x.issueUrl,
             };
 
             return [...acc, timeNote];

@@ -17,6 +17,7 @@ export const defaultColumns: Columns = {
   project: true,
   milestone: true,
   issue: true,
+  labels: true,
 };
 
 export const initialState: SettingsState = {

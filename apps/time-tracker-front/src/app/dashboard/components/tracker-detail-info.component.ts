@@ -57,6 +57,14 @@ import * as fromAuth from '../../auth/reducers';
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="labels">
+          <th mat-header-cell *matHeaderCellDef>Labels</th>
+          <td mat-cell *matCellDef="let issue">
+            {{ issue.labels.join(', ') }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef="let issue"></td>
+        </ng-container>
+
         <ng-container matColumnDef="date">
           <th class="days" mat-header-cell *matHeaderCellDef>Date</th>
           <td class="days" mat-cell *matCellDef="let issue">
@@ -149,7 +157,7 @@ export class TrackerDetailInfoComponent implements OnInit {
               updatedAt: y.updatedAt,
               milestone: x.milestone,
               labels: x.labels,
-              issueUrl: x.issueUrl
+              issueUrl: x.issueUrl,
             };
 
             return [...acc, timeNote];

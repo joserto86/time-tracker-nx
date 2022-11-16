@@ -3,6 +3,7 @@ export interface Columns {
   project: boolean;
   milestone: boolean;
   issue: boolean;
+  labels: boolean;
 }
 
 export interface Profile {
@@ -12,10 +13,10 @@ export interface Profile {
 
 export const filterColumns = [
   'namespace',
-  'name',
+  'project',
   'milestone',
   'issue',
-  'label',
+  'labels',
 ] as const;
 export type FilterColumns = typeof filterColumns[number];
 

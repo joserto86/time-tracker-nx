@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'time-tracker-nx-open-in-new-tab',
@@ -16,24 +12,21 @@ import {
       aria-hidden="false"
       aria-label="Open in new tab"
       fontIcon="open_in_new"
+      inline="true"
     ></mat-icon>
   </a>`,
   styles: [
     `
       .open-in-new {
-        font-size: 1rem;
-        display: inline-block;
         text-decoration: none;
         color: #3f51b5;
-        justify-content: baseline;
-
         border: none;
         outline: none;
 
         mat-icon {
-          font-size: 1rem;
-          margin-bottom: -10px;
           margin-left: 5px;
+          font-size: 1rem;
+          vertical-align: bottom;
         }
       }
     `,

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Instance } from '@time-tracker/shared';
-import { catchError, Observable, throwError } from 'rxjs';;
+import { catchError, Observable, throwError } from 'rxjs';
 import { InstanceToken } from '../../../../../../libs/src/lib/settings';
 import { ApiService } from '../../shared/services/api.service';
 
@@ -19,16 +19,12 @@ export class InstancesService {
     );
   }
   saveInstanceToken(instanceToken: InstanceToken) {
-    const { token, username } = instanceToken;
+    const { token } = instanceToken;
 
     let dataTosend: Partial<InstanceToken> = {};
 
     if (token) {
       dataTosend.token = token;
-    }
-
-    if (username) {
-      dataTosend.username = username;
     }
 
     return this.http

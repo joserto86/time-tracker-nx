@@ -44,6 +44,5 @@ export interface Instance {
 
 export interface InstanceToken {
   id: number;
-  token?: string;
-  username?: string;
+  token: string;
 }

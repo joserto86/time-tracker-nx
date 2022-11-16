@@ -66,27 +66,21 @@ export const reducer = createReducer(
       };
     }
   ),
-  on(
-    InstancesActions.saveInstanceTokenOk,
-    (state, { id, username }): SettingsState => {
-      const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
+  on(InstancesActions.saveInstanceTokenOk, (state, { id }): SettingsState => {
+    const instances: Instance[] = JSON.parse(JSON.stringify(state.instances));
 
-      instances.map((item) => {
-        if (item.id === id) {
-          item.added = true;
-          if (username) {
-            item.username = username;
-          }
-        }
-        return item;
-      });
+    instances.map((item) => {
+      if (item.id === id) {
+        item.added = true;
+      }
+      return item;
+    });
 
-      return {
-        ...state,
-        instances,
-      };
-    }
-  ),
+    return {
+      ...state,
+      instances,
+    };
+  }),
   on(saveDefaultColumns, (state, { defaultColumns }) => ({
     ...state,
     profile: {

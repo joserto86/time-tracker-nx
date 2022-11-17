@@ -4,7 +4,11 @@ import {
   Inject,
   OnInit,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Filter, filterColumns, filterConditions } from '@time-tracker/shared';
@@ -34,16 +38,21 @@ export class UpdateFilterDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       name: [this.filter.name, [Validators.required]],
-      column: [this.filter.column, []],
-      condition: [this.filter.condition, []],
+      column: [this.filter.column, [Validators.required]],
+      condition: [this.filter.condition, [Validators.required]],
       searchTerm: [this.filter.searchTerm, [Validators.required]],
     });
+
+    this.checkDisable();
   }
 
   save() {
+    this.checkDisable();
+
     const filter: Filter = {
       ...this.filter,
       ...this.form.value,
+      ...(this.form.get('searchTerm')?.disabled ? { searchTerm: '' } : {}),
     };
 
     this.store.dispatch(FilterActions.updateFilter({ filter }));
@@ -53,5 +62,23 @@ export class UpdateFilterDialogComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  checkDisable() {
+    const column = this.form.get('column')?.value;
+    const condition = this.form.get('condition')?.value;
+
+    this.form.get('searchTerm')?.enable();
+
+    if (column === '' || condition === '') {
+      this.form.get('searchTerm')?.disable();
+    }
+
+    if (
+      condition === this.filterConditions[2] ||
+      condition === this.filterConditions[3]
+    ) {
+      this.form.get('searchTerm')?.disable();
+    }
   }
 }

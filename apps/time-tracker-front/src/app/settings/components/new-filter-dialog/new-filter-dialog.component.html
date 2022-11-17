@@ -9,7 +9,7 @@
 
   <mat-form-field appearance="fill" class="input">
     <mat-label>Column</mat-label>
-    <mat-select formControlName="column">
+    <mat-select formControlName="column" (selectionChange)="checkDisable()">
       <mat-option *ngFor="let item of filterColumns" [value]="item">
         {{item}}
       </mat-option>
@@ -18,7 +18,7 @@
 
   <mat-form-field appearance="fill" class="input">
     <mat-label>Condition</mat-label>
-    <mat-select formControlName="condition">
+    <mat-select formControlName="condition" (selectionChange)="checkDisable()">
       <mat-option *ngFor="let item of filterConditions" [value]="item">
         {{item}}
       </mat-option>

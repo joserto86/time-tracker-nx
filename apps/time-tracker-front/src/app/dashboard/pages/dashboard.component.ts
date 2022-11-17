@@ -37,8 +37,8 @@ export class DashboardComponent implements OnInit {
         const uniqueIssueIds =
           [...new Set(data.map((note) => note.glIssueId))] || [];
 
-        const result: LocalIssue[] = uniqueIssueIds.reduce(
-          (acc: LocalIssue[], glIssueId) => {
+        const result: LocalIssue[] = uniqueIssueIds
+          .reduce((acc: LocalIssue[], glIssueId) => {
             const note = data.find((note) => note.glIssueId === glIssueId);
 
             if (note) {
@@ -76,9 +76,18 @@ export class DashboardComponent implements OnInit {
             } else {
               return [...acc];
             }
-          },
-          []
-        );
+          }, [])
+          .sort((a, b) => {
+            const milestoneA = a.milestone ? a.milestone : '';
+            const milestoneB = b.milestone ? b.milestone : '';
+
+            return (
+              a.glNamespace.localeCompare(b.glNamespace) ||
+              a.glProject.localeCompare(b.glProject) ||
+              milestoneA.localeCompare(milestoneB) ||
+              a.title.localeCompare(b.title)
+            );
+          });
         return result;
       })
     );

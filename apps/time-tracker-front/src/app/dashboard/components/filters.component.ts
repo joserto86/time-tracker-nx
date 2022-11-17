@@ -14,7 +14,7 @@ import { Columns } from '@time-tracker/shared';
         <button color="primary" mat-raised-button (click)="onClickBasicSearch()">
           SEARCH
         </button>
-        <button color="primary" mat-raised-button>FILTERS</button>
+        <button color="primary" mat-raised-button (click)="onClickAdvancedSearch()">FILTERS</button>
         
         <span class="spacer"></span>
   
@@ -26,6 +26,7 @@ import { Columns } from '@time-tracker/shared';
      
       <div>
         <time-tracker-nx-basic-filter [hidden]="!basicSearchOn"></time-tracker-nx-basic-filter>
+        <time-tracker-nx-advanced-filter [hidden]="!advancedSearchOn"></time-tracker-nx-advanced-filter>
       </div>
       
     </mat-card>
@@ -52,11 +53,18 @@ import { Columns } from '@time-tracker/shared';
 export class FiltersComponent implements OnInit {
   @Input() defaultColumns!: Columns;
   public basicSearchOn = false;
+  advancedSearchOn:boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
 
   onClickBasicSearch(): void {
     this.basicSearchOn = !this.basicSearchOn;
+    this.advancedSearchOn = false;
+  }
+
+  onClickAdvancedSearch(): void {
+    this.advancedSearchOn = !this.advancedSearchOn;
+    this.basicSearchOn = false;
   }
 }

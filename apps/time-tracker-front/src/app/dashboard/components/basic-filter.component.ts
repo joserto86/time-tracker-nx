@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
-  ViewChild,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ApiFilter, CONDITIONS } from '@time-tracker/shared';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 import { DashboardActions } from '../state/actions';
 
@@ -48,12 +48,14 @@ import { DashboardActions } from '../state/actions';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicFilterComponent implements OnInit {
+export class BasicFilterComponent implements OnInit, OnDestroy{
   public stringToSearch!: string;
   stringToSearchUpdate = new Subject<string>();
+
+  searchSubscription:Subscription;
   
   constructor(private store:Store) {
-    this.stringToSearchUpdate.pipe(
+    this.searchSubscription = this.stringToSearchUpdate.pipe(
       debounceTime(1000),
       distinctUntilChanged())
       .subscribe(value => {
@@ -93,11 +95,10 @@ export class BasicFilterComponent implements OnInit {
       }
     );
   }
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {}
-
-  // basicSearchResult(stringToSearch:string) {
-  //   console.log('Resultssss ' + stringToSearch);
-  // }
 
 }

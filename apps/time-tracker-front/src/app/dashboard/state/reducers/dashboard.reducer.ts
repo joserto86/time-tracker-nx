@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { DashboardState } from '@time-tracker/shared';
+import { stat } from 'fs';
 import { DashboardActions } from '../actions';
 
 export const dashboardFeatureKey = 'dashboard';
@@ -8,6 +9,7 @@ export const initialState: DashboardState = {
   timeNotes: [],
   daysRange: [],
   loading: false,
+  advancedSearch: false,
   dateFilters: [],
   searchFilters: [],
 };
@@ -30,6 +32,7 @@ export const reducer = createReducer(
   on(DashboardActions.setSearchFilters, (state, props) => ({
     ...state,
     searchFilters: props.filters,
+    advancedSearch: props.advanced ? props.advanced : state.advancedSearch
   })),
 
   on(DashboardActions.removeDateFilters, (state) => ({
@@ -39,6 +42,7 @@ export const reducer = createReducer(
 
   on(DashboardActions.removeSearchFilters, (state) => ({
     ...state,
+    advancedSearch: false,
     searchFilters: [],
   })),
 
@@ -57,3 +61,5 @@ export const getFilters = (state: DashboardState) => [
   ...state.dateFilters,
   ...state.searchFilters,
 ];
+
+export const getIsAdvancedSearch = (state:DashboardState) => state.advancedSearch;

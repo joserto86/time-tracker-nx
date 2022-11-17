@@ -15,7 +15,9 @@ import { ColumnsMenuComponent } from './components/columns-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TrackerDetailInfoComponent } from './components/tracker-detail-info.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AdvancedFilterComponent } from './components/advanced-filter.component';
 import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
+import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
     BasicFilterComponent,
     ColumnsMenuComponent,
     TrackerDetailInfoComponent,
+    AdvancedFilterComponent,
     OpenInNewTabComponent,
+    AdvancedFilterBoxComponent,
   ],
   imports: [
     CommonModule,

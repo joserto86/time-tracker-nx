@@ -2,6 +2,7 @@ export interface DashboardState {
   timeNotes: TimeNote[];
   daysRange: string[];
   loading: boolean;
+  advancedSearch: boolean;
   dateFilters: ApiFilter[],
   searchFilters: ApiFilter[],
 }

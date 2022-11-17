@@ -39,3 +39,8 @@ export const selectFilters = createSelector (
   selectDashboardState,
  fromDashboard.getFilters
 )
+
+export const selectIsAdvancedSearch = createSelector (
+  selectDashboardState,
+ fromDashboard.getIsAdvancedSearch
+)

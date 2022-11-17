@@ -18,9 +18,10 @@ export class DashboardEffects {
       withLatestFrom( 
           this.store.select(fromDashboard.selectDateFilters),
           this.store.select(fromDashboard.selectSearchFilters),
+          this.store.select(fromDashboard.selectIsAdvancedSearch),
       ),
-      switchMap(([,dateFilters, searchFilters]) => 
-        this.dashboardService.timeNotes(dateFilters, searchFilters).pipe(
+      switchMap(([,dateFilters, searchFilters, isAdvancedSearch]) => 
+        this.dashboardService.timeNotes(dateFilters, searchFilters, isAdvancedSearch).pipe(
           map((response: TimeNote[]) => {
             return DashboardActions.loadTimeNotesSuccess({ 
               timeNotes: response,

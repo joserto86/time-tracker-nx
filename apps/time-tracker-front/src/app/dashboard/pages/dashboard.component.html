@@ -25,5 +25,10 @@
         </time-tracker-nx-issue-table>
       </ng-container>
     </ng-template>
+
+    <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
+      [daysRange]="(this.daysRange$ | async) || []"
+    ></time-tracker-nx-dashboard-paginator>
+
   </mat-card>
 </main>

@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   issues$: Observable<LocalIssue[]>;
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
+  showPaginator$: Observable<boolean>;
 
   defaultColumns = defaultColumns;
 
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private store: Store, private dateService: DatesService) {
     this.calculateCurrentWeekFilters();
+    this.showPaginator$ = this.store.select(fromDashboard.selectShowPaginator);
     this.daysRange$ = this.store.select(fromDashboard.selectDaysRange);
     this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
     this.issues$ = this.store.select(fromDashboard.selectTimeNotes).pipe(

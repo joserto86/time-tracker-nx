@@ -37,3 +37,9 @@ export const saveDefaultColumns = createAction(
   '[Dashboard page] Save default columns',
   props<{ defaultColumns: Columns }>()
 );
+
+export const setShowPaginator = createAction(
+  '[Time Tracker Dashboard] Set Show Paginator',
+  props<{ showPaginator: boolean }>()
+)
+

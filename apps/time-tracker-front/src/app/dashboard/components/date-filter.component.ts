@@ -14,7 +14,7 @@ import { DashboardActions } from '../state/actions';
         <input matStartDate formControlName="start" placeholder="Start date" />
         <input matEndDate formControlName="end" placeholder="End date" />
       </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"

@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DateFilterComponent } from './date-filter.component';
 
 @Component({
   selector: 'time-tracker-nx-right-icons',
   template: `
      <div class="right-icons">
-      <mat-icon [matMenuTriggerFor]="menu" #menuTrigger>date_range</mat-icon>
+      <mat-icon matTooltipPosition="left" matTooltip="Date Filter" [matMenuTriggerFor]="menu" #menuTrigger>date_range</mat-icon>
       <mat-menu #menu="matMenu">
         <time-tracker-nx-date-filter  class="date-fitler"></time-tracker-nx-date-filter>
       </mat-menu>

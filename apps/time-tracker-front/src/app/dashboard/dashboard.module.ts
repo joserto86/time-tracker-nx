@@ -20,6 +20,7 @@ import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
 import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.component';
 import { DateFilterComponent } from './components/date-filter.component';
 import { RightIconsComponent } from './components/right-icons.component';
+import { DashboardPaginatorComponent } from './components/dashboard-paginator.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { RightIconsComponent } from './components/right-icons.component';
     AdvancedFilterBoxComponent,
     DateFilterComponent,
     RightIconsComponent,
+    DashboardPaginatorComponent,
   ],
   imports: [
     CommonModule,

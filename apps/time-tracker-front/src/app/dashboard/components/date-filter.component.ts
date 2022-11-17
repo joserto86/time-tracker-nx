@@ -14,7 +14,7 @@ import { DashboardActions } from '../state/actions';
         <input matStartDate formControlName="start" placeholder="Start date" />
         <input matEndDate formControlName="end" placeholder="End date" />
       </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"
@@ -51,7 +51,9 @@ export class DateFilterComponent implements OnInit {
     this.subscription = this.range.valueChanges.subscribe(range => {
       if (range.start && range.end) {
         const filters = this.dateService.getDaysFilters(range.start, range.end);
-        this.store.dispatch(DashboardActions.removeDateFilters())
+        this.store.dispatch(DashboardActions.removeDateFilters());
+        this.store.dispatch(DashboardActions.setShowPaginator({showPaginator: false}));
+        
         this.store.dispatch(DashboardActions.setDateFilters({filters}));
         this.store.dispatch(DashboardActions.loadTimeNotes())
       }

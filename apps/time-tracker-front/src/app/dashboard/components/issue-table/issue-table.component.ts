@@ -66,26 +66,6 @@ export class IssueTableComponent implements OnInit, OnChanges {
     ];
   }
 
-  emitUpdatePage(ev: any): void {
-    let first = null;
-    let last = null;
-    if (ev.pageIndex === 0) {
-      last = new Date(this.daysRange[0]);
-      last.setDate(last.getDate() - 1);
-      first = new Date(last);
-      first.setDate(last.getDate() - 6);
-    } else {
-      first = new Date(this.daysRange[this.daysRange.length - 1]);
-      first.setDate(first.getDate() + 1);
-      last = new Date(first);
-      last.setDate(first.getDate() + 6);
-    }
-
-    let filters = this.datesService.getDaysFilters(first, last);
-    this.store.dispatch(DashboardActions.setDateFilters({ filters }));
-    this.store.dispatch(DashboardActions.loadTimeNotes());
-  }
-
   getDayHours(issue: LocalIssue, day: string) {
     let dayString = this.datesService.getDayFilterString(new Date(day));
     let dayNotes = issue.timeNotes.filter((x) => x.spentAt.includes(dayString));

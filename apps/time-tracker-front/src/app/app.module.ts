@@ -20,6 +20,7 @@ import * as fromAuth from './auth/reducers';
 import { settingsFeaturedKey } from './settings/state/reducers';
 import { AuthInterceptor } from './auth/services/auth.interceptor';
 import { SettingsModule } from './settings/settings.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 export const authFeatureKey = 'auth';
@@ -66,6 +67,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
   ],
   bootstrap: [AppComponent],
 })

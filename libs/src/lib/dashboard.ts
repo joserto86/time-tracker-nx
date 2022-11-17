@@ -5,6 +5,7 @@ export interface DashboardState {
   advancedSearch: boolean;
   dateFilters: ApiFilter[],
   searchFilters: ApiFilter[],
+  showPaginator: boolean;
 }
 
 export interface ApiFilter {

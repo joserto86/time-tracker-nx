@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import { DashboardState } from '@time-tracker/shared';
-import { stat } from 'fs';
 import { DashboardActions } from '../actions';
 
 export const dashboardFeatureKey = 'dashboard';
@@ -12,6 +11,7 @@ export const initialState: DashboardState = {
   advancedSearch: false,
   dateFilters: [],
   searchFilters: [],
+  showPaginator: true
 };
 
 export const reducer = createReducer(
@@ -49,6 +49,11 @@ export const reducer = createReducer(
   on(DashboardActions.loadTimeNotes, (state) => ({
     ...state,
     loading: true,
+  })),
+
+  on(DashboardActions.setShowPaginator, (state, props) => ({
+    ...state,
+    showPaginator: props.showPaginator
   }))
 );
 
@@ -63,3 +68,4 @@ export const getFilters = (state: DashboardState) => [
 ];
 
 export const getIsAdvancedSearch = (state:DashboardState) => state.advancedSearch;
+export const getShowPaginator = (state:DashboardState) => state.showPaginator;

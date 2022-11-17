@@ -17,6 +17,7 @@ import { TrackerDetailInfoComponent } from './components/tracker-detail-info.com
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AdvancedFilterComponent } from './components/advanced-filter.component';
 import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
+import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
     TrackerDetailInfoComponent,
     AdvancedFilterComponent,
     OpenInNewTabComponent,
+    AdvancedFilterBoxComponent,
   ],
   imports: [
     CommonModule,

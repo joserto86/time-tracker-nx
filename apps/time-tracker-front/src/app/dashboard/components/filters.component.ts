@@ -60,9 +60,11 @@ export class FiltersComponent implements OnInit {
 
   onClickBasicSearch(): void {
     this.basicSearchOn = !this.basicSearchOn;
+    this.advancedSearchOn = false;
   }
 
   onClickAdvancedSearch(): void {
     this.advancedSearchOn = !this.advancedSearchOn;
+    this.basicSearchOn = false;
   }
 }

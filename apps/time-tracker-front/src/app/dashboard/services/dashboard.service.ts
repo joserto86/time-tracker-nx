@@ -10,13 +10,20 @@ import { ApiService } from '../../shared/services/api.service';
 export class DashbordService {
   constructor(private http: HttpClient, private api: ApiService) {}
 
-  timeNotes(dateFilters:ApiFilter[], searchFilters:ApiFilter[]): Observable<TimeNote[]> {
-    
+  timeNotes(
+    dateFilters: ApiFilter[],
+    searchFilters: ApiFilter[],
+    isAdvancedSearch: boolean
+  ): Observable<TimeNote[]> {
     let filters = null;
-    
+
     if (dateFilters.length) {
       if (searchFilters.length) {
-        filters =  [{ and: [...dateFilters, { or: searchFilters}] }];//works with basic filter
+        if (isAdvancedSearch) {
+          filters = [{ and: [...dateFilters, { and: searchFilters }] }]; 
+        } else {
+          filters = [{ and: [...dateFilters, { or: searchFilters }] }]; //works with basic filter
+        }
       } else {
         filters = dateFilters;
       }
@@ -24,13 +31,14 @@ export class DashbordService {
       return throwError(() => 'dateFilters not found');
     }
 
-
-    return this.http.get<TimeNote[]>(this.api.getTimeNotesEndpoint(), {
-      params: this.api.createParams(filters)
-    }).pipe(
-      catchError(({ error }) => {
-        return throwError(() => error?.message ?? error);
+    return this.http
+      .get<TimeNote[]>(this.api.getTimeNotesEndpoint(), {
+        params: this.api.createParams(filters),
       })
-    );
+      .pipe(
+        catchError(({ error }) => {
+          return throwError(() => error?.message ?? error);
+        })
+      );
   }
 }

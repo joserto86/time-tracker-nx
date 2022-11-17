@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Filter, filterColumns, filterConditions } from '@time-tracker/shared';
 import { Store } from '@ngrx/store';
 import { FilterActions } from '../../state/actions';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'time-tracker-nx-new-filter-dialog',
   templateUrl: './new-filter-dialog.component.html',
@@ -29,10 +29,8 @@ export class NewFilterDialogComponent implements OnInit {
       name: ['', [Validators.required]],
       column: ['', [Validators.required]],
       condition: ['', [Validators.required]],
-      searchTerm: [''],
+      searchTerm: ['', [Validators.required]],
     });
-
-    this.form.get('searchTerm')?.disable();
 
     this.checkDisable();
   }

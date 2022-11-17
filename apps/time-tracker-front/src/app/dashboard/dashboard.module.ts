@@ -18,6 +18,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AdvancedFilterComponent } from './components/advanced-filter.component';
 import { OpenInNewTabComponent } from './components/open-in-new-tab.component';
 import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.component';
+import { DateFilterComponent } from './components/date-filter.component';
+import { RightIconsComponent } from './components/right-icons.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.com
     AdvancedFilterComponent,
     OpenInNewTabComponent,
     AdvancedFilterBoxComponent,
+    DateFilterComponent,
+    RightIconsComponent,
   ],
   imports: [
     CommonModule,

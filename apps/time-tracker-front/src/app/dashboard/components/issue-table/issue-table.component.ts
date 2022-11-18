@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -7,13 +8,14 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Columns, LocalIssue } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 import { TrackerDetailInfoComponent } from '../tracker-detail-info.component';
-import * as DashboardActions from '../../state/actions/dashboard-actions';
 
 type ColumnDef = { def: string; show: boolean };
 @Component({
@@ -22,24 +24,52 @@ type ColumnDef = { def: string; show: boolean };
   styleUrls: ['./issue-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IssueTableComponent implements OnInit, OnChanges {
+export class IssueTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() issues!: LocalIssue[];
   @Input() daysRange!: string[];
   @Input() defaultColumns!: Columns;
 
   @Output() updatePage = new EventEmitter();
 
+  @ViewChild('dashboardSort') dashboardSort = new MatSort();
+
   defaultColumnsDefinition: ColumnDef[] = [];
   displayedColumns: string[] = [];
+  dataSource!: MatTableDataSource<LocalIssue>;
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store,
-    private datesService: DatesService
-  ) {}
+  constructor(private dialog: MatDialog, private datesService: DatesService) {}
 
   ngOnInit(): void {
     this.generateDisplayedColumns();
+    this.dataSource = new MatTableDataSource(this.issues);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.dashboardSort;
+
+    this.dataSource.sortingDataAccessor = (
+      data: LocalIssue,
+      header: string
+    ) => {
+
+      if (header === 'namespace') {
+        return data.glNamespace;
+      }
+
+      if (header === 'project') {
+        return data.glProject;
+      }
+
+      if (header === 'milestone') {
+        return data.milestone || '' ;
+      }
+
+      if (header === 'issue') {
+        return data.title;
+      }
+
+      return data[header as keyof LocalIssue] as string;
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {

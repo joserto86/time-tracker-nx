@@ -26,7 +26,7 @@ import { FilterActions } from '../../settings/state/actions';
         >bookmark</mat-icon
       >
       <mat-icon (click)="remove()" inline="true">cancel</mat-icon>
-      <mat-menu #menu="matMenu">
+      <mat-menu #menu="matMenu" [class]="'advanced'">
         <mat-dialog-content [formGroup]="form" class="keeper">
           <mat-card-title>Keep filter</mat-card-title>
           <mat-form-field>
@@ -92,12 +92,12 @@ import { FilterActions } from '../../settings/state/actions';
         padding: 15px;
         display: flex;
         align-items: stretch;
-        flex-direction: column
+        flex-direction: column;
       }
 
-      ::ng-deep .mat-menu-panel {
-        width: 320px;
-        max-width: 320px;
+      ::ng-deep.mat-menu-panel.advanced {
+        width: 350px;
+        max-width: 350px;
         height: 200px;
       }
 

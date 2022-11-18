@@ -115,7 +115,6 @@ export class AdvancedFilterComponent implements OnInit {
 
   conditionSubscription: Subscription | undefined;
   columnSubscription: Subscription | undefined;
-  // loadStoredFiltersSubscription: Subscription | undefined;
 
   columnValue: string = '';
   conditionValue: string = '';
@@ -205,7 +204,6 @@ export class AdvancedFilterComponent implements OnInit {
 
   loadFilters() {
     this.storedFiltersLoaded = true;
-    //this.loadStoredFiltersSubscription = 
     this.storedFilters$
     .pipe(
       map((filters) => {
@@ -215,20 +213,6 @@ export class AdvancedFilterComponent implements OnInit {
       })
     ).subscribe(storedFilters => {
       this.filters = [...this.filters, ...storedFilters];
-      // console.log(this.filters);
-      // this.filters = this.filters.reduce((acc:ApiFilter[], f) => {
-      //   const elem = acc.find((item) => {
-      //     return item.field === f.field && 
-      //           item.method === f.method && 
-      //           item.value === f.value;
-      //   });
-      
-      //   if (!elem) {
-      //     return [...acc, f]
-      //   }
-      //   return [...acc];
-
-      // }, [])
     }).unsubscribe();
   }
 }

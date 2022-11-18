@@ -1,63 +1,151 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApiFilter } from '@time-tracker/shared';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { ApiFilter, Filter } from '@time-tracker/shared';
+import { FilterService } from '../../shared/services/filter.sevice';
+import { FilterActions } from '../../settings/state/actions';
 
 @Component({
   selector: 'time-tracker-nx-advanced-filter-box',
   template: `
     <mat-card>
-      <mat-card-content> {{ filter.field }} {{ filter.method }} {{ filter.value }}</mat-card-content>
-      <mat-icon (click)="store()" inline="true">bookmark</mat-icon>
+      <mat-card-content>
+        {{ filter.field }} {{ filter.method }}
+        {{ filter.value }}</mat-card-content
+      >
+      <mat-icon (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
+        >bookmark</mat-icon
+      >
       <mat-icon (click)="remove()" inline="true">cancel</mat-icon>
+      <mat-menu #menu="matMenu">
+        <mat-dialog-content [formGroup]="form" class="keeper">
+          <mat-card-title>Keep filter</mat-card-title>
+          <mat-form-field>
+            <mat-label>Filter name</mat-label>
+            <input
+              formControlName="filterName"
+              placeholder="Give your filter a name and it'll be stored in My filters"
+              #input
+              matInput
+              (click)="$event.stopPropagation()"
+            />
+          </mat-form-field>
+
+          <mat-dialog-actions>
+            <button mat-raised-button (click)="close()">Close</button>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="save()"
+              [disabled]="form.invalid"
+            >
+              Save
+            </button>
+          </mat-dialog-actions>
+        </mat-dialog-content>
+      </mat-menu>
     </mat-card>
   `,
-  styles: [`
-    
-    mat-card {
-      padding: 5px;
-      color: #3F51B5;
-      background: #E3F2FD;
-      margin-right: 5px;
-      font-size: 13px;
-      border: 1px solid #3F51B5;
-      display: flex;
-      align-items: center;
+  styles: [
+    `
+      mat-card {
+        padding: 5px;
+        color: #3f51b5;
+        background: #e3f2fd;
+        margin-right: 5px;
+        font-size: 13px;
+        border: 1px solid #3f51b5;
+        display: flex;
+        align-items: center;
 
-      mat-card-content {
-        margin: 0;
+        mat-card-field {
+          margin-top:10px;
+        }
+
+        mat-card-content {
+          margin-right: 2rem;
+          margin: 0;
+        }
+
+        mat-icon {
+          background: #e3f2fd;
+          color: #3f51b5;
+          font-size: 1rem;
+          padding: 3px;
+        }
       }
 
-      mat-card-content {
-        margin-right: 2rem;
+      mat-dialog-actions {
+        display: flex;
       }
 
-      mat-icon {
-        background: #E3F2FD;
-        color: #3F51B5;
-        font-size: 1rem;
-        padding: 3px;
+      .keeper {
+        padding: 15px;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column
       }
-    }
 
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+      ::ng-deep .mat-menu-panel {
+        width: 320px;
+        max-width: 320px;
+        height: 200px;
+      }
+
+      mat-dialog-actions {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+      }
+    `,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedFilterBoxComponent implements OnInit {
+  @Input() filter!: ApiFilter;
+  @Input() index!: number;
 
-  @Input() filter!:ApiFilter;
-  @Input() index!:number;
-
+  @ViewChild('input') input!: ElementRef;
   @Output() deleteFilter = new EventEmitter<number>();
 
-  constructor() { }
+  form!: FormGroup;
+
+  constructor(private store: Store, private fb: FormBuilder, private filterService: FilterService) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      filterName: ['', [Validators.required]],
+    });
   }
 
   remove() {
     this.deleteFilter.emit(this.index);
   }
 
-  store() {
-    
+  keeper() {
+    setTimeout(() => {
+      this.input.nativeElement.focus();
+    });
+  }
+
+  close() {
+    // this.input.nativeElement.lo
+  }
+
+  save() {
+    if (this.form.valid) {
+      let f:Filter = this.filterService.transformApiFilterToFilter(this.filter, this.form.get('filterName')?.value);
+      this.store.dispatch(FilterActions.createFilter({filter: f}));
+      this.form.reset();
+    }
   }
 }

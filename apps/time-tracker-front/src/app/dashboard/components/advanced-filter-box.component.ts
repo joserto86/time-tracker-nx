@@ -81,6 +81,7 @@ import { FilterActions } from '../../settings/state/actions';
           color: #3f51b5;
           font-size: 1rem;
           padding: 3px;
+          cursor: pointer;
         }
       }
 
@@ -95,7 +96,7 @@ import { FilterActions } from '../../settings/state/actions';
         flex-direction: column
       }
 
-      ::ng-deep .mat-menu-panel {
+      .mat-menu-panel {
         width: 320px;
         max-width: 320px;
         height: 200px;

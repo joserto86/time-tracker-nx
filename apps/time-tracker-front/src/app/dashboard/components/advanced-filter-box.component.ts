@@ -22,7 +22,7 @@ import { FilterActions } from '../../settings/state/actions';
         {{ filter.field }} {{ filter.method }}
         {{ filter.value }}</mat-card-content
       >
-      <mat-icon (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
+      <mat-icon *ngIf="!filter.id && !saved" (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
         >bookmark</mat-icon
       >
       <mat-icon (click)="remove()" inline="true">cancel</mat-icon>
@@ -72,7 +72,7 @@ import { FilterActions } from '../../settings/state/actions';
         }
 
         mat-card-content {
-          margin-right: 2rem;
+          padding-right: 2rem;
           margin: 0;
         }
 
@@ -117,6 +117,7 @@ export class AdvancedFilterBoxComponent implements OnInit {
   @ViewChild('input') input!: ElementRef;
   @Output() deleteFilter = new EventEmitter<number>();
 
+  saved:boolean = false;
   form!: FormGroup;
 
   constructor(private store: Store, private fb: FormBuilder, private filterService: FilterService) {}
@@ -146,6 +147,7 @@ export class AdvancedFilterBoxComponent implements OnInit {
       let f:Filter = this.filterService.transformApiFilterToFilter(this.filter, this.form.get('filterName')?.value);
       this.store.dispatch(FilterActions.createFilter({filter: f}));
       this.form.reset();
+      this.saved = true;
     }
   }
 }

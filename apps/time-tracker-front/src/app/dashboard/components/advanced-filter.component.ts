@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
   ApiFilter,
+  Filter,
   filterColumns,
   filterConditions,
 } from '@time-tracker/shared';
-import { Subject, Subscription } from 'rxjs';
+import { map, Observable, Subject, Subscription } from 'rxjs';
 import { FilterService } from '../../shared/services/filter.sevice';
 import { DashboardActions } from '../state/actions';
+import * as fromSettings from '../../settings/state/selectors';
 
 @Component({
   selector: 'time-tracker-nx-advanced-filter',
@@ -47,12 +49,17 @@ import { DashboardActions } from '../state/actions';
           (click)="addFilter()"
           >add_circle</mat-icon
         >
-        <mat-icon
+        <mat-icon *ngIf="filters.length > 0"
           class="search"
           matTooltip="Apply Filters"
-          [ngClass]="{ hidden: filters.length === 0 }"
           (click)="search()"
           >search</mat-icon
+        >
+        <mat-icon *ngIf="((storedFilters$ | async) || []).length > 0 && !storedFiltersLoaded"
+          class="load-filters"
+          matTooltip="Load Filters"
+          (click)="loadFilters()"
+        >turned_in</mat-icon
         >
       </mat-dialog-content>
     </div>
@@ -86,12 +93,9 @@ import { DashboardActions } from '../state/actions';
         display: flex;
       }
 
-      .add-filter {
+      .add-filter, .load-filters {
         color: #3f51b5;
         margin-right: 10px;
-      }
-      .search.hidden {
-        display: none;
       }
     `,
   ],
@@ -102,12 +106,16 @@ export class AdvancedFilterComponent implements OnInit {
   filterColumns = filterColumns;
   filterConditions = filterConditions;
   filters: ApiFilter[] = [];
+  storedFiltersLoaded = false;
+  
+  storedFilters$!:Observable<Filter[]>;
 
   selectConditionUpdate = new Subject<string>();
   selectColumUpdate = new Subject<string>();
 
   conditionSubscription: Subscription | undefined;
-  columnSubscription!: Subscription | undefined;
+  columnSubscription: Subscription | undefined;
+  // loadStoredFiltersSubscription: Subscription | undefined;
 
   columnValue: string = '';
   conditionValue: string = '';
@@ -116,7 +124,9 @@ export class AdvancedFilterComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private filterService: FilterService
-  ) {}
+  ) {
+    this.storedFilters$ = this.store.select(fromSettings.selectFiltersState);
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -168,6 +178,9 @@ export class AdvancedFilterComponent implements OnInit {
 
   deleteFilter(index: number): void {
     this.filters.splice(index, 1);
+    if (this.filters.length === 0) {
+      this.storedFiltersLoaded = false;
+    }
   }
 
   ngOnDestroy(): void {
@@ -188,5 +201,34 @@ export class AdvancedFilterComponent implements OnInit {
     } else {
       this.form.get('searchTerm')?.disable();
     }
+  }
+
+  loadFilters() {
+    this.storedFiltersLoaded = true;
+    //this.loadStoredFiltersSubscription = 
+    this.storedFilters$
+    .pipe(
+      map((filters) => {
+        return filters.reduce((acc:ApiFilter[], f) => {
+          return [...acc, this.filterService.transformFilterToApiFilter(f)];
+        }, [])
+      })
+    ).subscribe(storedFilters => {
+      this.filters = [...this.filters, ...storedFilters];
+      // console.log(this.filters);
+      // this.filters = this.filters.reduce((acc:ApiFilter[], f) => {
+      //   const elem = acc.find((item) => {
+      //     return item.field === f.field && 
+      //           item.method === f.method && 
+      //           item.value === f.value;
+      //   });
+      
+      //   if (!elem) {
+      //     return [...acc, f]
+      //   }
+      //   return [...acc];
+
+      // }, [])
+    }).unsubscribe();
   }
 }

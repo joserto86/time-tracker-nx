@@ -24,11 +24,10 @@
           [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
         </time-tracker-nx-issue-table>
       </ng-container>
+      <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
+        [daysRange]="(this.daysRange$ | async) || []"
+      ></time-tracker-nx-dashboard-paginator>
     </ng-template>
-
-    <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
-      [daysRange]="(this.daysRange$ | async) || []"
-    ></time-tracker-nx-dashboard-paginator>
 
   </mat-card>
 </main>

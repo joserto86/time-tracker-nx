@@ -7,6 +7,7 @@ import {
   filterConditions,
 } from '@time-tracker/shared';
 import { Subject, Subscription } from 'rxjs';
+import { FilterService } from '../../shared/services/filter.sevice';
 import { DashboardActions } from '../state/actions';
 
 @Component({
@@ -46,7 +47,13 @@ import { DashboardActions } from '../state/actions';
           (click)="addFilter()"
           >add_circle</mat-icon
         >
-        <mat-icon class="search" matTooltip="Apply Filters" [ngClass]="{'hidden': filters.length === 0}" (click)="search()">search</mat-icon>
+        <mat-icon
+          class="search"
+          matTooltip="Apply Filters"
+          [ngClass]="{ hidden: filters.length === 0 }"
+          (click)="search()"
+          >search</mat-icon
+        >
       </mat-dialog-content>
     </div>
 
@@ -96,24 +103,26 @@ export class AdvancedFilterComponent implements OnInit {
   filterConditions = filterConditions;
   filters: ApiFilter[] = [];
 
-  
   selectConditionUpdate = new Subject<string>();
   selectColumUpdate = new Subject<string>();
 
-  conditionSubscription:Subscription | undefined;
-  columnSubscription!:Subscription | undefined;
+  conditionSubscription: Subscription | undefined;
+  columnSubscription!: Subscription | undefined;
 
   columnValue: string = '';
-  conditionValue:string = '';
+  conditionValue: string = '';
 
-
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private filterService: FilterService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       column: ['', [Validators.required]],
       condition: ['', [Validators.required]],
-      searchTerm: [{value: '', disabled:true}],
+      searchTerm: [{ value: '', disabled: true }],
     });
 
     this.columnSubscription = this.form.get('column')?.valueChanges.subscribe(column => {
@@ -131,7 +140,10 @@ export class AdvancedFilterComponent implements OnInit {
     this.store.dispatch(DashboardActions.removeSearchFilters());
 
     this.store.dispatch(
-      DashboardActions.setSearchFilters({ filters: this.transformFilters(this.filters), advanced: true })
+      DashboardActions.setSearchFilters({
+        filters: this.filterService.transformFilters(this.filters),
+        advanced: true,
+      })
     );
     this.store.dispatch(DashboardActions.loadTimeNotes());
   }
@@ -165,49 +177,16 @@ export class AdvancedFilterComponent implements OnInit {
 
   manageSearchTerm() {
     if (this.columnValue && this.conditionValue) {
-      if (this.conditionValue === 'is null' || this.conditionValue === 'is not null') {
+      if (
+        this.conditionValue === 'is null' ||
+        this.conditionValue === 'is not null'
+      ) {
         this.form.get('searchTerm')?.disable();
-
       } else {
         this.form.get('searchTerm')?.enable();
       }
     } else {
       this.form.get('searchTerm')?.disable();
     }
-  }
-
-  private transformFilters(filters:ApiFilter[]): ApiFilter[] {
-    let result:ApiFilter[] = [];
-
-    filters.forEach(f => {
-      result.push({
-        ...f,
-        method: this.transformCondition(f.method),
-        value: this.transformSerchTerm(f.value, f.method),
-      })
-    })
-
-    return result;
-  }
-
-  private transformCondition(condition: string) {
-    switch (condition) {
-      case 'is':
-        return '=';
-      case 'is not':
-        return '!=';
-      case 'contains':
-        return 'like';
-      default:
-        return condition;
-    }
-  }
-
-  private transformSerchTerm(searchTerm: string, condition: string) {
-    if (condition === 'contains') {
-      return `%${searchTerm}%`;
-    }
-
-    return searchTerm;
   }
 }

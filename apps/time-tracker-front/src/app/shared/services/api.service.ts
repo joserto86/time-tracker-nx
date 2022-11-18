@@ -1,6 +1,5 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiFilter } from '@time-tracker/shared';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

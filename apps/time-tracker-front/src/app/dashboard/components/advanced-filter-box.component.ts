@@ -81,6 +81,7 @@ import { FilterActions } from '../../settings/state/actions';
           color: #3f51b5;
           font-size: 1rem;
           padding: 3px;
+          cursor: pointer;
         }
       }
 

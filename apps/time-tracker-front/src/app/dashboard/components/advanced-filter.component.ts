@@ -96,6 +96,11 @@ import * as fromSettings from '../../settings/state/selectors';
       .add-filter, .load-filters {
         color: #3f51b5;
         margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .search {
+        cursor: pointer;
       }
     `,
   ],
@@ -158,9 +163,9 @@ export class AdvancedFilterComponent implements OnInit {
   }
 
   addFilter(): void {
-    if (this.form.valid && 
+    if (this.form.valid &&
       (
-        (this.conditionValue === 'is null' || this.conditionValue === 'is not null' ) || 
+        (this.conditionValue === 'is null' || this.conditionValue === 'is not null' ) ||
         (this.conditionValue !== 'is null' && this.conditionValue !== 'is not null' && this.form.get('searchTerm')?.value)
       )
     ) {

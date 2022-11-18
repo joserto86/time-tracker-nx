@@ -41,3 +41,11 @@ table {
     }
   }
 }
+
+::ng-deep .mat-sort-header-sorted {
+  color: white; /*change color of header*/
+}
+
+::ng-deep .mat-sort-header-arrow {
+color: white; /*change color of arrow*/
+}

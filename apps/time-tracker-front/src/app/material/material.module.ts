@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
 
 const modules = [
   MatTableModule,
@@ -39,6 +40,7 @@ const modules = [
   MatTooltipModule,
   MatNativeDateModule,
   MatDatepickerModule,
+  MatSortModule,
 ];
 
 @NgModule({

@@ -13,6 +13,7 @@ export interface ApiFilter {
   value: string;
   method: string; // '=' , 'like'
   condition?: CONDITIONS 
+  id?:string;
 }
 
 export enum CONDITIONS {

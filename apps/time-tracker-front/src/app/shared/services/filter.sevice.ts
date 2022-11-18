@@ -24,13 +24,22 @@ export class FilterService {
     };
   }
 
+  transformFilterToApiFilter(filter: Filter): ApiFilter {
+    return {
+      id: filter.id,
+      field: filter.column,
+      method: filter.condition,
+      value: filter.searchTerm
+    }
+  }
+
   transformFilters(filters: ApiFilter[]): ApiFilter[] {
     let result: ApiFilter[] = [];
 
     filters.forEach((f) => {
       result.push({
         ...f,
-        method: this.transformCondition(f.method),
+        method: this.transformConditionToMethod(f.method),
         value: this.transformSerchTerm(f.value, f.method),
       });
     });

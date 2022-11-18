@@ -22,11 +22,11 @@ import { FilterActions } from '../../settings/state/actions';
         {{ filter.field }} {{ filter.method }}
         {{ filter.value }}</mat-card-content
       >
-      <mat-icon (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
+      <mat-icon *ngIf="!filter.id && !saved" (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
         >bookmark</mat-icon
       >
       <mat-icon (click)="remove()" inline="true">cancel</mat-icon>
-      <mat-menu #menu="matMenu">
+      <mat-menu #menu="matMenu" [class]="'advanced'">
         <mat-dialog-content [formGroup]="form" class="keeper">
           <mat-card-title>Keep filter</mat-card-title>
           <mat-form-field>
@@ -72,7 +72,7 @@ import { FilterActions } from '../../settings/state/actions';
         }
 
         mat-card-content {
-          margin-right: 2rem;
+          padding-right: 2rem;
           margin: 0;
         }
 
@@ -93,12 +93,12 @@ import { FilterActions } from '../../settings/state/actions';
         padding: 15px;
         display: flex;
         align-items: stretch;
-        flex-direction: column
+        flex-direction: column;
       }
 
-      .mat-menu-panel {
-        width: 320px;
-        max-width: 320px;
+      ::ng-deep.mat-menu-panel.advanced {
+        width: 350px;
+        max-width: 350px;
         height: 200px;
       }
 
@@ -118,6 +118,7 @@ export class AdvancedFilterBoxComponent implements OnInit {
   @ViewChild('input') input!: ElementRef;
   @Output() deleteFilter = new EventEmitter<number>();
 
+  saved:boolean = false;
   form!: FormGroup;
 
   constructor(private store: Store, private fb: FormBuilder, private filterService: FilterService) {}
@@ -147,6 +148,7 @@ export class AdvancedFilterBoxComponent implements OnInit {
       let f:Filter = this.filterService.transformApiFilterToFilter(this.filter, this.form.get('filterName')?.value);
       this.store.dispatch(FilterActions.createFilter({filter: f}));
       this.form.reset();
+      this.saved = true;
     }
   }
 }

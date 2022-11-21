@@ -8,9 +8,9 @@ import { DashboardActions } from '../state/actions';
 @Component({
   selector: 'time-tracker-nx-date-filter',
   template: `
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
       <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
         <input matStartDate formControlName="start" placeholder="Start date" />
         <input matEndDate formControlName="end" placeholder="End date" />
       </mat-date-range-input>
@@ -42,9 +42,12 @@ export class DateFilterComponent implements OnInit {
     end: new FormControl<Date | null>(null),
   });
 
+  maxDate:Date;
   subscription!:Subscription
 
-  constructor(private store: Store, private dateService: DatesService) {}
+  constructor(private store: Store, private dateService: DatesService) {
+    this.maxDate = new Date();
+  }
 
   ngOnInit(): void {
 

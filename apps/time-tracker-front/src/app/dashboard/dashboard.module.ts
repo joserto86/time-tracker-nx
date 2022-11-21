@@ -21,6 +21,8 @@ import { AdvancedFilterBoxComponent } from './components/advanced-filter-box.com
 import { DateFilterComponent } from './components/date-filter.component';
 import { RightIconsComponent } from './components/right-icons.component';
 import { DashboardPaginatorComponent } from './components/dashboard-paginator.component';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateApapter } from './services/custom-date-adapter';
 
 @NgModule({
   declarations: [
@@ -50,5 +52,8 @@ import { DashboardPaginatorComponent } from './components/dashboard-paginator.co
     }),
     EffectsModule.forFeature([DashboardEffects]),
   ],
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateApapter }
+  ]
 })
 export class DashboardModule {}

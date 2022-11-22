@@ -32,7 +32,6 @@ export const reducer = createReducer(
   on(DashboardActions.setSearchFilters, (state, props) => ({
     ...state,
     searchFilters: props.filters,
-    advancedSearch: props.advanced ? props.advanced : state.advancedSearch
   })),
 
   on(DashboardActions.removeDateFilters, (state) => ({
@@ -42,7 +41,6 @@ export const reducer = createReducer(
 
   on(DashboardActions.removeSearchFilters, (state) => ({
     ...state,
-    advancedSearch: false,
     searchFilters: [],
   })),
 
@@ -54,6 +52,11 @@ export const reducer = createReducer(
   on(DashboardActions.setShowPaginator, (state, props) => ({
     ...state,
     showPaginator: props.showPaginator
+  })),
+
+  on(DashboardActions.setAdvancedSearch, (state, props) => ({
+    ...state,
+    advancedSearch: props.advanced
   }))
 );
 

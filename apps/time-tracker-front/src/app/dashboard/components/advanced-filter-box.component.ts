@@ -22,12 +22,23 @@ import { FilterActions } from '../../settings/state/actions';
         {{ filter.field }} {{ filter.method }}
         {{ filter.value }}</mat-card-content
       >
-      <mat-icon *ngIf="!filter.id && !saved" (menuOpened)="keeper()" [matMenuTriggerFor]="menu" inline="true"
+      <mat-icon
+        *ngIf="!filter.id && !saved"
+        matTooltip="Keep in my Filters"
+        (menuOpened)="keeper()"
+        [matMenuTriggerFor]="menu"
+        inline="true"
         >bookmark</mat-icon
       >
-      <mat-icon (click)="remove()" inline="true">cancel</mat-icon>
-      <mat-menu #menu="matMenu" [class]="'advanced'">
-        <mat-dialog-content [formGroup]="form" class="keeper">
+      <mat-icon (click)="remove()" matTooltip="Delete filter" inline="true"
+        >cancel</mat-icon
+      >
+      <mat-menu #menu="matMenu" class="advanced" width="350px">
+        <mat-dialog-content
+          [formGroup]="form"
+          class="keeper"
+          (click)="$event.stopPropagation()"
+        >
           <mat-card-title>Keep filter</mat-card-title>
           <mat-form-field>
             <mat-label>Filter name</mat-label>
@@ -68,7 +79,7 @@ import { FilterActions } from '../../settings/state/actions';
         align-items: center;
 
         mat-card-field {
-          margin-top:10px;
+          margin-top: 10px;
         }
 
         mat-card-content {
@@ -85,10 +96,6 @@ import { FilterActions } from '../../settings/state/actions';
         }
       }
 
-      mat-dialog-actions {
-        display: flex;
-      }
-
       .keeper {
         padding: 15px;
         display: flex;
@@ -96,13 +103,14 @@ import { FilterActions } from '../../settings/state/actions';
         flex-direction: column;
       }
 
-      ::ng-deep.mat-menu-panel.advanced {
+      ::ng-deep .advanced {
         width: 350px;
         max-width: 350px;
         height: 200px;
       }
 
       mat-dialog-actions {
+        display: flex;
         margin-top: 30px;
         display: flex;
         justify-content: space-between;
@@ -118,10 +126,14 @@ export class AdvancedFilterBoxComponent implements OnInit {
   @ViewChild('input') input!: ElementRef;
   @Output() deleteFilter = new EventEmitter<number>();
 
-  saved:boolean = false;
+  saved: boolean = false;
   form!: FormGroup;
 
-  constructor(private store: Store, private fb: FormBuilder, private filterService: FilterService) {}
+  constructor(
+    private store: Store,
+    private fb: FormBuilder,
+    private filterService: FilterService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -145,8 +157,11 @@ export class AdvancedFilterBoxComponent implements OnInit {
 
   save() {
     if (this.form.valid) {
-      let f:Filter = this.filterService.transformApiFilterToFilter(this.filter, this.form.get('filterName')?.value);
-      this.store.dispatch(FilterActions.createFilter({filter: f}));
+      let f: Filter = this.filterService.transformApiFilterToFilter(
+        this.filter,
+        this.form.get('filterName')?.value
+      );
+      this.store.dispatch(FilterActions.createFilter({ filter: f }));
       this.form.reset();
       this.saved = true;
     }

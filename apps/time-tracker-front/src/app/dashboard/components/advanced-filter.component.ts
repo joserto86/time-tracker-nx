@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
@@ -11,6 +11,7 @@ import { map, Observable, Subject, Subscription } from 'rxjs';
 import { FilterService } from '../../shared/services/filter.sevice';
 import { DashboardActions } from '../state/actions';
 import * as fromSettings from '../../settings/state/selectors';
+import * as formDashboard from '../state/selectors'
 
 @Component({
   selector: 'time-tracker-nx-advanced-filter',
@@ -59,8 +60,13 @@ import * as fromSettings from '../../settings/state/selectors';
           class="load-filters"
           matTooltip="Load Filters"
           (click)="loadFilters()"
-        >turned_in</mat-icon
-        >
+        >turned_in</mat-icon>
+        <mat-icon *ngIf="filters.length > 0"
+          class="remove-filters"
+          matTooltip="Remove All Filters"
+          (click)="removeFilters()"
+        >delete</mat-icon>
+
       </mat-dialog-content>
     </div>
 
@@ -93,7 +99,7 @@ import * as fromSettings from '../../settings/state/selectors';
         display: flex;
       }
 
-      .add-filter, .load-filters {
+      .add-filter, .load-filters, .remove-filters {
         color: #3f51b5;
         margin-right: 10px;
         cursor: pointer;
@@ -101,6 +107,7 @@ import * as fromSettings from '../../settings/state/selectors';
 
       .search {
         cursor: pointer;
+        margin-right: 10px;
       }
     `,
   ],
@@ -114,12 +121,14 @@ export class AdvancedFilterComponent implements OnInit {
   storedFiltersLoaded = false;
   
   storedFilters$!:Observable<Filter[]>;
+  advancedSearch$!:Observable<boolean>;
 
   selectConditionUpdate = new Subject<string>();
   selectColumUpdate = new Subject<string>();
 
   conditionSubscription: Subscription | undefined;
   columnSubscription: Subscription | undefined;
+  advancedSearchSubscription: Subscription | undefined;
 
   columnValue: string = '';
   conditionValue: string = '';
@@ -127,9 +136,11 @@ export class AdvancedFilterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private cdr: ChangeDetectorRef
   ) {
     this.storedFilters$ = this.store.select(fromSettings.selectFiltersState);
+    this.advancedSearch$ = this.store.select(formDashboard.selectIsAdvancedSearch);
   }
 
   ngOnInit(): void {
@@ -148,6 +159,13 @@ export class AdvancedFilterComponent implements OnInit {
       this.conditionValue = condition;
       this.manageSearchTerm();
     });
+
+    this.advancedSearchSubscription = this.advancedSearch$.subscribe(advanced => {
+      if (!advanced) {
+        this.removeFilters();
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   search(): void {
@@ -156,9 +174,10 @@ export class AdvancedFilterComponent implements OnInit {
     this.store.dispatch(
       DashboardActions.setSearchFilters({
         filters: this.filterService.transformFilters(this.filters),
-        advanced: true,
       })
     );
+
+    this.store.dispatch(DashboardActions.setAdvancedSearch({advanced: true}));
     this.store.dispatch(DashboardActions.loadTimeNotes());
   }
 
@@ -190,6 +209,7 @@ export class AdvancedFilterComponent implements OnInit {
   ngOnDestroy(): void {
     this.conditionSubscription?.unsubscribe();
     this.columnSubscription?.unsubscribe();
+    this.advancedSearchSubscription?.unsubscribe();
   }
 
   manageSearchTerm() {
@@ -219,5 +239,10 @@ export class AdvancedFilterComponent implements OnInit {
     ).subscribe(storedFilters => {
       this.filters = [...this.filters, ...storedFilters];
     }).unsubscribe();
+  }
+
+  removeFilters() {
+    this.filters = [];
+    this.storedFiltersLoaded = false;
   }
 }

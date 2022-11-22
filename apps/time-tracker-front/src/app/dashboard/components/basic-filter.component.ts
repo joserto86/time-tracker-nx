@@ -13,11 +13,10 @@ import { DashboardActions } from '../state/actions';
 @Component({
   selector: 'time-tracker-nx-basic-filter',
   template: `
-    <div class="">
+    <div class="elements">
       <mat-form-field class="">
-        <!-- <input type="search" matInput placeholder="Write your search term" #stringToSearch /> -->
         <input
-          class=""
+          #searchInput
           matInput
           [(ngModel)]="stringToSearch"
           type="text"
@@ -29,6 +28,11 @@ import { DashboardActions } from '../state/actions';
         <!-- <mat-icon (click)="basicSearchResult(stringToSearch.value)">search</mat-icon> -->
         <mat-icon>search</mat-icon>
       </mat-form-field>
+      <mat-icon *ngIf="searchInput.value"
+        matTooltip="Clean Search"
+        class="delete"
+        (click)="delete()"
+      >delete</mat-icon>
     </div>
   `,
   styles: [
@@ -41,15 +45,24 @@ import { DashboardActions } from '../state/actions';
         display: flex;
         justify-content: space-between;
       }
+
+      .elements {
+        display: flex;
+        align-items: center;
+      }
+
       mat-icon {
         cursor: pointer;
+        &.delete {
+          margin-left: 10px;
+        }
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasicFilterComponent implements OnInit, OnDestroy{
-  public stringToSearch!: string;
+  stringToSearch!: string;
   stringToSearchUpdate = new Subject<string>();
 
   searchSubscription:Subscription;
@@ -59,7 +72,6 @@ export class BasicFilterComponent implements OnInit, OnDestroy{
       debounceTime(1000),
       distinctUntilChanged())
       .subscribe(value => {
-
         this.store.dispatch(DashboardActions.removeSearchFilters());
 
         if (value) {
@@ -88,15 +100,19 @@ export class BasicFilterComponent implements OnInit, OnDestroy{
           ];
 
           this.store.dispatch(DashboardActions.setSearchFilters({filters}));
-
         } 
          
+        this.store.dispatch(DashboardActions.setAdvancedSearch({advanced: false}));
         this.store.dispatch(DashboardActions.loadTimeNotes());
       }
     );
   }
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
+  }
+
+  delete() {
+    this.stringToSearchUpdate.next('');
   }
 
   ngOnInit(): void {}

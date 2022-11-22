@@ -1,6 +1,7 @@
 table {
   width: 100%;
   margin-bottom: 2rem;
+  table-layout: fixed;
 
   th.days {
     text-align: center;
@@ -47,5 +48,30 @@ table {
 }
 
 ::ng-deep .mat-sort-header-arrow {
-color: white; /*change color of arrow*/
+  color: white; /*change color of arrow*/
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.table-container {
+  max-width: 100%;
+  overflow: auto;
+  height: 100%;
+  max-height: 60vh;
+  margin-bottom: 2rem;
+}
+
+
+[class*="mat-column-"] {
+  width: 90px;
+}
+
+.mat-column-namespace,
+.mat-column-project,
+.mat-column-milestone,
+.mat-column-issue,
+.mat-column-labels {
+  width: 150px;
 }

@@ -16,7 +16,12 @@ export const removeDateFilters = createAction(
 
 export const setSearchFilters = createAction(
   '[Time Tracker Dashboard] Set Search Filters',
-  props<{ filters: ApiFilter[], advanced?: boolean }>()
+  props<{ filters: ApiFilter[] }>()
+)
+
+export const setAdvancedSearch = createAction(
+  '[Time Tracker Dashborad] Set Advanced Search',
+  props<{ advanced: boolean }>()
 )
 
 export const removeSearchFilters = createAction(

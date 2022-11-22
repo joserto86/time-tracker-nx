@@ -1,73 +1,75 @@
-<table color="primary" mat-table [dataSource]="dataSource" matSort #dashboardSort="matSort">
-  <ng-container matColumnDef="namespace">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Namespace</th>
-    <td mat-cell *matCellDef="let issue">{{ issue.glNamespace }}</td>
-    <td style="font-weight:bold" mat-footer-cell *matFooterCellDef>Totales</td>
-  </ng-container>
+<section class="table-container">
+  <table color="primary" mat-table [dataSource]="dataSource" matSort #dashboardSort="matSort">
+    <ng-container matColumnDef="namespace" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Namespace</th>
+      <td mat-cell *matCellDef="let issue">{{ issue.glNamespace }}</td>
+      <td class="bold" mat-footer-cell *matFooterCellDef>Totals</td>
+    </ng-container>
 
-  <ng-container matColumnDef="project">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Project</th>
-    <td mat-cell *matCellDef="let issue">{{ issue.glProject }}</td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
+    <ng-container matColumnDef="project" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Project</th>
+      <td mat-cell *matCellDef="let issue">{{ issue.glProject }}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
 
-  <ng-container matColumnDef="milestone">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Milestone</th>
-    <td mat-cell *matCellDef="let issue">{{ issue.milestone }}</td>
-    <td mat-footer-cell *matFooterCellDef="let issue"></td>
-  </ng-container>
+    <ng-container matColumnDef="milestone" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Milestone</th>
+      <td mat-cell *matCellDef="let issue">{{ issue.milestone }}</td>
+      <td mat-footer-cell *matFooterCellDef="let issue"></td>
+    </ng-container>
 
-  <ng-container matColumnDef="issue">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue</th>
-    <td mat-cell *matCellDef="let issue" [matTooltip]="issue.title" matTooltipPosition="left"
-      matTooltipClass="issue-title-tooltip">
-      {{ ( issue.title.length>25)? ( issue.title | slice:0:25)+'...':( issue.title) }}
-      <time-tracker-nx-open-in-new-tab [url]="issue.issueUrl"></time-tracker-nx-open-in-new-tab>
-    </td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
+    <ng-container matColumnDef="issue" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue</th>
+      <td mat-cell *matCellDef="let issue" [matTooltip]="issue.title" matTooltipPosition="left"
+        matTooltipClass="issue-title-tooltip">
+        {{ ( issue.title.length>25)? ( issue.title | slice:0:25)+'...':( issue.title) }}
+        <time-tracker-nx-open-in-new-tab [url]="issue.issueUrl"></time-tracker-nx-open-in-new-tab>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
 
-  <ng-container matColumnDef="labels">
-    <th mat-header-cell *matHeaderCellDef>Labels</th>
-    <td mat-cell *matCellDef="let issue">{{ issue.labels.join(', ') }}</td>
-    <td mat-footer-cell *matFooterCellDef="let issue"></td>
-  </ng-container>
+    <ng-container matColumnDef="labels" sticky>
+      <th mat-header-cell *matHeaderCellDef>Labels</th>
+      <td mat-cell *matCellDef="let issue">{{ issue.labels.join(', ') }}</td>
+      <td mat-footer-cell *matFooterCellDef="let issue"></td>
+    </ng-container>
 
-  <ng-container *ngIf="daysRange.length">
-    <ng-container *ngFor="let day of daysRange" matColumnDef="{{ day }}">
-      <th class="days" mat-header-cell *matHeaderCellDef>{{ day | date : 'd LLL YY'}}</th>
+    <ng-container *ngIf="daysRange.length">
+      <ng-container *ngFor="let day of daysRange" matColumnDef="{{ day }}">
+        <th class="days" mat-header-cell *matHeaderCellDef>{{ day | date : 'd LLL YY'}}</th>
+        <td mat-cell *matCellDef="let issue">
+          <div class="issue-info">
+            <span>{{ getDayHours(issue, day) | number : '1.2-2' }}</span>
+            <mat-icon *ngIf="getDayHours(issue, day)" (click)="openDialog(issue, day)">info</mat-icon>
+          </div>
+        </td>
+        <td mat-footer-cell *matFooterCellDef="let issue">
+          <div class="issue-info">
+            <span class="bold">{{ getTotalDayHours(day) | number : '1.2-2' }}</span>
+            <mat-icon *ngIf="getTotalDayHours(day)" (click)="openDialog(null, day)">info</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th class="days" mat-header-cell *matHeaderCellDef>Total</th>
       <td mat-cell *matCellDef="let issue">
         <div class="issue-info">
-          <span>{{ getDayHours(issue, day) | number : '1.2-2' }}</span>
-          <mat-icon *ngIf="getDayHours(issue, day)" (click)="openDialog(issue, day)">info</mat-icon>
+          <span class="bold">{{ getTotalIssue(issue) | number : '1.2-2' }}</span>
+          <mat-icon *ngIf="getTotalIssue(issue)" (click)="openDialog(issue, null)">info</mat-icon>
         </div>
       </td>
-      <td mat-footer-cell *matFooterCellDef="let issue">
+      <td mat-footer-cell *matFooterCellDef>
         <div class="issue-info">
-          <span>{{ getTotalDayHours(day) | number : '1.2-2' }}</span>
-          <mat-icon *ngIf="getTotalDayHours(day)" (click)="openDialog(null, day)">info</mat-icon>
+          <span class="bold">{{ getTotals() | number : '1.2-2' }}</span>
+          <mat-icon *ngIf="getTotals()" (click)="openDialog(null, null)">info</mat-icon>
         </div>
       </td>
     </ng-container>
-  </ng-container>
 
-  <ng-container matColumnDef="total">
-    <th class="days" mat-header-cell *matHeaderCellDef>Total</th>
-    <td mat-cell *matCellDef="let issue">
-      <div class="issue-info">
-        <span>{{ getTotalIssue(issue) | number : '1.2-2' }}</span>
-        <mat-icon *ngIf="getTotalIssue(issue)" (click)="openDialog(issue, null)">info</mat-icon>
-      </div>
-    </td>
-    <td mat-footer-cell *matFooterCellDef>
-      <div class="issue-info">
-        <span>{{ getTotals() | number : '1.2-2' }}</span>
-        <mat-icon *ngIf="getTotals()" (click)="openDialog(null, null)">info</mat-icon>
-      </div>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  <tr mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns; sticky: true"></tr>
+  </table>
+</section>

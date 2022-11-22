@@ -4,7 +4,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Columns } from '@time-tracker/shared';
+import { DashboardActions } from '../state/actions';
 
 @Component({
   selector: 'time-tracker-nx-filters',
@@ -54,17 +56,22 @@ export class FiltersComponent implements OnInit {
   @Input() defaultColumns!: Columns;
   public basicSearchOn = false;
   advancedSearchOn:boolean = false;
-  constructor() {}
+  
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
 
   onClickBasicSearch(): void {
     this.basicSearchOn = !this.basicSearchOn;
     this.advancedSearchOn = false;
+
+    this.store.dispatch(DashboardActions.setAdvancedSearch({advanced: false}));
   }
 
   onClickAdvancedSearch(): void {
     this.advancedSearchOn = !this.advancedSearchOn;
     this.basicSearchOn = false;
+
+    this.store.dispatch(DashboardActions.setAdvancedSearch({advanced: true}));
   }
 }

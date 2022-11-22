@@ -87,9 +87,10 @@ import * as fromAuth from '../../auth/reducers';
       </table>
 
       <mat-paginator
+        [ngClass]="{ hide: shouldHidePaginator() }"
         #paginator
         [length]="tableData.length"
-        [pageSize]="5"
+        [pageSize]="pageSize"
       ></mat-paginator>
     </mat-card>
 
@@ -112,6 +113,10 @@ import * as fromAuth from '../../auth/reducers';
         }
       }
 
+      .hide {
+        display: none;
+      }
+
       .mat-header-cell {
         background-color: #fff;
         color: #5a5a5a;
@@ -127,6 +132,7 @@ export class TrackerDetailInfoComponent implements OnInit {
   tableData: TimeNote[] = [];
   user$: Observable<PublicUser | null | undefined>;
   dataSource: MatTableDataSource<TimeNote> = new MatTableDataSource();
+  pageSize = 5;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -187,5 +193,13 @@ export class TrackerDetailInfoComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  shouldHidePaginator(): boolean {
+    if (this.tableData.length < this.pageSize) {
+      return true;
+    }
+
+    return false;
   }
 }

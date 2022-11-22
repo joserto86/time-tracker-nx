@@ -47,5 +47,9 @@ table {
 }
 
 ::ng-deep .mat-sort-header-arrow {
-color: white; /*change color of arrow*/
+  color: white; /*change color of arrow*/
+}
+
+.bold {
+  font-weight: bold;
 }

@@ -23,6 +23,7 @@ import { RightIconsComponent } from './components/right-icons.component';
 import { DashboardPaginatorComponent } from './components/dashboard-paginator.component';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateApapter } from './services/custom-date-adapter';
+import { CalendarGridComponent } from './components/calendar-grid.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CustomDateApapter } from './services/custom-date-adapter';
     DateFilterComponent,
     RightIconsComponent,
     DashboardPaginatorComponent,
+    CalendarGridComponent,
   ],
   imports: [
     CommonModule,

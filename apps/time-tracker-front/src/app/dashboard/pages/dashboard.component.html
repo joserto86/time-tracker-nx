@@ -5,6 +5,11 @@
   <time-tracker-nx-filters [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-filters>
 
   <mat-card>
+    <time-tracker-nx-calendar-grid></time-tracker-nx-calendar-grid>
+  </mat-card>
+
+
+  <mat-card>
     <ng-container *ngIf="loading$ | async; else results">
       <ngx-skeleton-loader count="1" appearance="line" animation="progress" [theme]="{
     'background-color': '#3f51b5',

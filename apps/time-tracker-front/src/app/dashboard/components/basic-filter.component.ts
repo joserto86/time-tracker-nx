@@ -31,7 +31,7 @@ import { DashboardActions } from '../state/actions';
       <mat-icon *ngIf="searchInput.value"
         matTooltip="Clean Search"
         class="delete"
-        (click)="delete()"
+        (click)="delete(searchInput)"
       >delete</mat-icon>
     </div>
   `,
@@ -96,6 +96,11 @@ export class BasicFilterComponent implements OnInit, OnDestroy{
               method: 'like',
               value: `%${value}%`,
               condition: CONDITIONS.OR
+            }, {
+              field: 'labels',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
             },
           ];
 
@@ -111,7 +116,8 @@ export class BasicFilterComponent implements OnInit, OnDestroy{
     this.searchSubscription.unsubscribe();
   }
 
-  delete() {
+  delete(input: HTMLInputElement) {
+    input.value = '';
     this.stringToSearchUpdate.next('');
   }
 

@@ -63,7 +63,7 @@ import * as fromAuth from '../../auth/reducers';
         <ng-container matColumnDef="labels">
           <th mat-header-cell *matHeaderCellDef>Labels</th>
           <td mat-cell *matCellDef="let issue">
-            {{ issue.labels.join(', ') }}
+            {{ issue.labels }}
           </td>
           <td mat-footer-cell *matFooterCellDef="let issue"></td>
         </ng-container>

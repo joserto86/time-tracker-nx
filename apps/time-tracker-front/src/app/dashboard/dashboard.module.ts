@@ -23,6 +23,7 @@ import { RightIconsComponent } from './components/right-icons.component';
 import { DashboardPaginatorComponent } from './components/dashboard-paginator.component';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateApapter } from './services/custom-date-adapter';
+import { FiltersEffects } from '../settings/state/effects/filters.effects';
 
 @NgModule({
   declarations: [

@@ -42,7 +42,7 @@ export interface TimeNote {
   spentAt: string;
   glIssueIid: number;
   computed: number;
-  labels: string[]
+  labels: string
 }
 
 export interface LocalTimeNote {
@@ -70,5 +70,5 @@ export interface LocalIssue {
   glIssueIid: number;
   timeNotes: LocalTimeNote[];
   issueUrl: string;
-  labels: string[];
+  labels: string;
 }

@@ -38,7 +38,7 @@ export class FilterService {
 
     filters.forEach((f) => {
       result.push({
-        ...f,
+        field: f.field,
         method: this.transformConditionToMethod(f.method),
         value: this.transformSerchTerm(f.value, f.method),
       });

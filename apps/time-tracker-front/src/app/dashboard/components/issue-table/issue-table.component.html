@@ -30,7 +30,7 @@
 
     <ng-container matColumnDef="labels" sticky>
       <th mat-header-cell *matHeaderCellDef>Labels</th>
-      <td mat-cell *matCellDef="let issue">{{ issue.labels.join(', ') }}</td>
+      <td mat-cell *matCellDef="let issue">{{ issue.labels }}</td>
       <td mat-footer-cell *matFooterCellDef="let issue"></td>
     </ng-container>
 

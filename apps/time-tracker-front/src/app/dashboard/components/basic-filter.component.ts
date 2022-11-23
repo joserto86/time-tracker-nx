@@ -96,6 +96,11 @@ export class BasicFilterComponent implements OnInit, OnDestroy{
               method: 'like',
               value: `%${value}%`,
               condition: CONDITIONS.OR
+            }, {
+              field: 'labels',
+              method: 'like',
+              value: `%${value}%`,
+              condition: CONDITIONS.OR
             },
           ];
 

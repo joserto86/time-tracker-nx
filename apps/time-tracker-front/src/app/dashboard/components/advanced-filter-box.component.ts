@@ -104,9 +104,10 @@ import { FilterActions } from '../../settings/state/actions';
       }
 
       ::ng-deep .advanced {
-        width: 350px;
-        max-width: 350px;
-        height: 200px;
+        width: 350px!important;
+        max-width: 350px!important;
+        min-width: 350px!important;
+        height: 200px!important;
       }
 
       mat-dialog-actions {

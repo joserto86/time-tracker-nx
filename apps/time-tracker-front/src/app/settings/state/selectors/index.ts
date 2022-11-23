@@ -32,3 +32,8 @@ export const selectInstances = createSelector(
   selectSettingsState,
   (state: SettingsState) => state.instances
 );
+
+export const selectLoadingSettings = createSelector(
+  selectSettingsState,
+  (state: SettingsState) => state.loading
+)

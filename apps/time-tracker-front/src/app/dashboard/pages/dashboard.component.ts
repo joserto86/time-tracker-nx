@@ -8,6 +8,7 @@ import { DatesService } from '../../shared/services/dates.service';
 import { Columns } from '../../../../../../libs/src/lib/settings';
 import { selectDefaultColumnsState } from '../../settings/state/selectors/index';
 import { defaultColumns } from '../../settings/state/reducers/index';
+import { FilterActions } from '../../settings/state/actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -101,6 +102,7 @@ export class DashboardComponent implements OnInit {
       DashboardActions.setDateFilters({ filters: this.filters })
     );
     this.store.dispatch(DashboardActions.loadTimeNotes());
+    this.store.dispatch(FilterActions.loadFilters());
   }
 
   private calculateCurrentWeekFilters() {

@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { Filter } from '@time-tracker/shared';
 import { Observable } from 'rxjs';
 import { NewFilterDialogComponent } from '../../components/new-filter-dialog/new-filter-dialog.component';
-import { selectFiltersState } from '../../state/selectors';
+import { FilterActions } from '../../state/actions';
+import * as fromSettings from '../../state/selectors';
 
 @Component({
   selector: 'time-tracker-nx-my-filters-page',
@@ -14,12 +15,18 @@ import { selectFiltersState } from '../../state/selectors';
 })
 export class MyFiltersPageComponent implements OnInit {
   filters$: Observable<Filter[]>;
+  filtersLoading$: Observable<boolean>;
 
   constructor(private dialog: MatDialog, private store: Store) {
-    this.filters$ = this.store.select(selectFiltersState);
+    this.filters$ = this.store.select(fromSettings.selectFiltersState);
+    this.filtersLoading$ = this.store.select(fromSettings.selectLoadingSettings);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(FilterActions.loadFilters());
+    this.filters$ = this.store.select(fromSettings.selectFiltersState);
+    this.filtersLoading$ = this.store.select(fromSettings.selectLoadingSettings);
+  }
 
   openDialog() {
     const dialogConfig = new MatDialogConfig();

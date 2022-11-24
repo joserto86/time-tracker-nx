@@ -15,3 +15,16 @@ export const updateFilter = createAction(
   '[Filters Page] Update filter',
   props<{ filter: Filter }>()
 );
+
+export const loadFilters = createAction(
+  '[Filters] Load Filters'
+);
+
+export const loadFiltersSuccess = createAction(
+  '[Filters] Load Filters Success',
+  props<{ filters: Filter[] }>()
+);
+
+export const saveFiltersSuccess = createAction(
+  '[Filters] Save Filters Success'
+)

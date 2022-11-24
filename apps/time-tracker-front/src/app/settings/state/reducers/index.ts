@@ -10,6 +10,7 @@ export interface SettingsState {
   profile: Profile;
   filters: Filter[];
   instances: Instance[];
+  loading: boolean
 }
 
 export const defaultColumns: Columns = {
@@ -27,6 +28,7 @@ export const initialState: SettingsState = {
   },
   filters: [],
   instances: [],
+  loading: false
 };
 
 export const reducer = createReducer(
@@ -42,12 +44,14 @@ export const reducer = createReducer(
     return {
       ...state,
       filters: [...state.filters, filter],
+      loading:true
     };
   }),
   on(FilterActions.deleteFilter, (state, { id }) => {
     return {
       ...state,
       filters: state.filters.filter((item) => item.id !== id),
+      loading:true
     };
   }),
   on(FilterActions.updateFilter, (state, { filter }) => {
@@ -56,8 +60,17 @@ export const reducer = createReducer(
     return {
       ...state,
       filters: state.filters.map((item) => (item.id === id ? filter : item)),
+      loading:true
     };
   }),
+  on(FilterActions.saveFiltersSuccess, (state) => {
+    return {
+      ...state,
+      loading: false
+    };
+  }),
+
+
   on(
     InstancesActions.loadInstancesOk,
     (state, { instances }): SettingsState => {
@@ -88,5 +101,17 @@ export const reducer = createReducer(
       ...state.profile,
       defaultColumns,
     },
+  })),
+
+  on(FilterActions.loadFilters, (state) => ({
+    ...state,
+    loading: true
+  })),
+
+  on(FilterActions.loadFiltersSuccess, (state, props) => ({
+    ...state,
+    loading: false,
+    filters: props.filters
   }))
-);
+
+)

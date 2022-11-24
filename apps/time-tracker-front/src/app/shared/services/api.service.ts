@@ -27,6 +27,10 @@ export class ApiService {
   getTimeNotesEndpoint(): string {
     return `${this.base}/user/time-note`
   }
+
+  getFiltersEndpoint(): string {
+    return `${this.base}/user/filters`
+  }
   
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (

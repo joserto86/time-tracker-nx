@@ -32,7 +32,7 @@ export function localStorageSyncReducer(
   return localStorageSync({
     keys: [
       { [`${authFeatureKey}`]: [statusFeatureKey] },
-      { [`${settingsFeaturedKey}`]: ['profile', 'filters'] },
+      { [`${settingsFeaturedKey}`]: ['profile'] },
     ],
     rehydrate: true,
   })(reducer);

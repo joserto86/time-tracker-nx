@@ -5,11 +5,6 @@
   <time-tracker-nx-filters [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-filters>
 
   <mat-card>
-    <time-tracker-nx-calendar-grid></time-tracker-nx-calendar-grid>
-  </mat-card>
-
-
-  <mat-card>
     <ng-container *ngIf="loading$ | async; else results">
       <ngx-skeleton-loader count="1" appearance="line" animation="progress" [theme]="{
     'background-color': '#3f51b5',
@@ -25,6 +20,8 @@
 
     <ng-template #results>
       <ng-container *ngIf="issues$ | async as issues">
+        <time-tracker-nx-calendar-grid [year]="2022" [month]="10"></time-tracker-nx-calendar-grid>
+
         <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
           [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
         </time-tracker-nx-issue-table>

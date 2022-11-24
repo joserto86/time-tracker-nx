@@ -15,19 +15,43 @@ export interface Dates {
 @Component({
   selector: 'time-tracker-nx-calendar-grid',
   template: `
-    <h2 class="year">{{ year }}</h2>
+    <h2>{{ month | json }}  {{ month | date: 'MMMM' }} {{ year }}</h2>
+    <!-- <pre>{{ dates | json }}</pre> -->
     <div class="calendar">
-      <article *ngFor="let day of daysOfWeek" class="cell">{{ day }}</article>
-
-      <article *ngFor="let date of dates" class="cell">{{ date.date }}</article>
+      <article class="calendar-head" *ngFor="let day of daysOfWeek">
+        {{ day }}
+      </article>
+      <article *ngFor="let date of dates" class="cell">
+        <span class="day-number">{{ date.date }}</span>
+      </article>
     </div>
   `,
-  styles: [],
+  styles: [
+    `
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-bottom: 2rem;
+      }
+
+      .cell {
+        padding: 1rem;
+        border: 1px solid lightgrey;
+      }
+
+      .calendar-head {
+        background-color: #3f51b5;
+        color: white;
+        padding: 1rem;
+        font-weight: 500;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarGridComponent implements OnInit {
-  month: number = 0; // 0 indexed
-  year: number = 2022;
+  @Input() month: number = 0; // 0 indexed
+  @Input() year: number = 2022;
 
   dates: Dates[] = [];
 
@@ -56,11 +80,13 @@ export class CalendarGridComponent implements OnInit {
     'Saturday',
   ];
 
-  constructor() {
-    this.datesForGrid(2022, 0);
-  }
+  constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.datesForGrid(this.year, this.month);
+
+    console.log(this.dates);
+  }
 
   datesForGrid(year: number, month: number) {
     const dates = [];
@@ -91,14 +117,14 @@ export class CalendarGridComponent implements OnInit {
           todayClass: 'today',
         });
       } else {
-        dates.push({ key: key, date: i, monthClass: 'current' });
+        this.dates.push({ key: key, date: i, monthClass: 'current' });
       }
     }
 
     const gridsize = 42;
     // If there is space left over in the grid, then show the dates for the next month
-    if (dates.length < gridsize) {
-      let count = gridsize - dates.length;
+    if (this.dates.length < gridsize) {
+      let count = gridsize - this.dates.length;
       for (let i = 1; i <= count; i++) {
         let key = new Date(year, month + 1, i).toLocaleString();
         this.dates.push({ key: key, date: i, monthClass: 'next' });

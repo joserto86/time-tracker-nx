@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { FilterActions } from '../actions';
+import { ProfileActions } from '../actions';
 import { catchError, EMPTY, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs';
-import { Filter } from '@time-tracker/shared';
+import { Profile } from '@time-tracker/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SettingsSevice } from '../../services/settings.service';
 import { Store } from '@ngrx/store';
-import { selectFiltersState } from '../../state/selectors';
+import { selectProfileState } from '../../state/selectors';
 
 @Injectable()
-export class FiltersEffects {
+export class ProfileEffects {
   constructor(
     private actions$: Actions,
     private store: Store,
@@ -17,14 +17,14 @@ export class FiltersEffects {
     private _snackBar: MatSnackBar,
   ) {}
 
-  loadFilters$ = createEffect(() => {
+  loadProfile$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(FilterActions.loadFilters),
+      ofType(ProfileActions.loadProfile),
       exhaustMap(() => {
-        return this.settingsService.getFilters().pipe(
-          map((filters: Filter[]) => {
-            return FilterActions.loadFiltersSuccess({
-              filters,
+        return this.settingsService.getProfile().pipe(
+          map((profile: Profile) => {
+            return ProfileActions.loadProfileSuccess({
+              profile,
             });
           }),
           catchError((error) => {
@@ -33,7 +33,7 @@ export class FiltersEffects {
               verticalPosition: 'top',
               horizontalPosition: 'end',
             });
-            FilterActions.loadFiltersFailure();
+            ProfileActions.loadProfileFailure();
             return EMPTY;
           })
         );
@@ -41,26 +41,22 @@ export class FiltersEffects {
     );
   });
 
-  saveFilters$ = createEffect(() => {
+  saveProfile$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(...[
-        FilterActions.createFilter, 
-        FilterActions.updateFilter, 
-        FilterActions.deleteFilter
-      ]),
+      ofType(ProfileActions.saveProfile),
       withLatestFrom(
-        this.store.select(selectFiltersState)
+        this.store.select(selectProfileState)
       ),
-      exhaustMap(([,filters]) => {
-        return this.settingsService.saveFilters(filters).pipe(
-          map(() => FilterActions.saveFiltersSuccess()),
+      exhaustMap(([,profile]) => {
+        return this.settingsService.saveProfile(profile).pipe(
+          map(() => ProfileActions.saveProfileSuccess()),
           catchError((error) => {
-            this._snackBar.open('Error Saving Filters', 'Close', {
+            this._snackBar.open('Error Saving Profile', 'Close', {
               duration: 3000,
               verticalPosition: 'top',
               horizontalPosition: 'end',
             });
-            FilterActions.saveFiltersFailure();
+            ProfileActions.saveProfileFailure();
             return EMPTY;
           })
         )

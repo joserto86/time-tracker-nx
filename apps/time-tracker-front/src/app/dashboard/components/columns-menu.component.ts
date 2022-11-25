@@ -108,6 +108,7 @@ export class ColumnsMenuComponent implements OnInit, OnDestroy {
   }
 
   getDefaultColumns() {
+    console.log(this.defaultColumns);
     const columns = this.defaultColumns;
     return this.fb.group(columns);
   }

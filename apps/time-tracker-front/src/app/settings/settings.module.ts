@@ -21,6 +21,7 @@ import { InstancesEffects } from './state/effects/instances.effects';
 import { UpdateTokenDialogComponent } from './components/update-token-dialog/update-token-dialog.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { FiltersEffects } from './state/effects/filters.effects';
+import { ProfileEffects } from './state/effects/profile.effects';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FiltersEffects } from './state/effects/filters.effects';
     ),
     EffectsModule.forFeature([InstancesEffects]),
     EffectsModule.forFeature([FiltersEffects]),
+    EffectsModule.forFeature([ProfileEffects]),
   ],
 })
 export class SettingsModule {}

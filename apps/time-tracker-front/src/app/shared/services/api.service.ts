@@ -31,6 +31,10 @@ export class ApiService {
   getFiltersEndpoint(): string {
     return `${this.base}/user/filters`
   }
+
+  getProfileEndpoint(): string {
+    return `${this.base}/user/profile`
+  }
   
   needsAuthToken(request: HttpRequest<unknown>): boolean {
     if (

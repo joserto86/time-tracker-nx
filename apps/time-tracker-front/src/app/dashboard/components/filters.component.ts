@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -50,7 +51,7 @@ import { DashboardActions } from '../state/actions';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FiltersComponent implements OnInit {
   @Input() defaultColumns!: Columns;

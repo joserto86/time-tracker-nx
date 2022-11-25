@@ -19,16 +19,22 @@
     </ng-container>
 
     <ng-template #results>
-      <ng-container *ngIf="issues$ | async as issues">
-        <time-tracker-nx-calendar-grid [year]="2022" [month]="10"></time-tracker-nx-calendar-grid>
 
-        <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
-          [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
-        </time-tracker-nx-issue-table>
+      <ng-container *ngIf="(view$ | async) === 'monthly' && (timeNotes$ | async) as timeNotes; else table">
+        <time-tracker-nx-calendar-grid [year]="2022" [month]="10" [timeNotes]="timeNotes"
+          [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-calendar-grid>
       </ng-container>
-      <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
-        [daysRange]="(this.daysRange$ | async) || []"
-      ></time-tracker-nx-dashboard-paginator>
+
+      <ng-template #table>
+        <ng-container *ngIf="issues$ | async as issues">
+          <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
+            [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
+          </time-tracker-nx-issue-table>
+        </ng-container>
+        <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
+          [daysRange]="(this.daysRange$ | async) || []"></time-tracker-nx-dashboard-paginator>
+      </ng-template>
+
     </ng-template>
 
   </mat-card>

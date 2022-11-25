@@ -17,7 +17,7 @@ import { Columns, LocalIssue } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
 import { TrackerDetailInfoComponent } from '../tracker-detail-info.component';
 
-type ColumnDef = { def: string; show: boolean };
+export type ColumnDef = { def: string; show: boolean };
 @Component({
   selector: 'time-tracker-nx-issue-table',
   templateUrl: './issue-table.component.html',

@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
+import * as fromSettings from '../../../app/settings/state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
-import { ApiFilter, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
+import {
+  ApiFilter,
+  LocalIssue,
+  LocalTimeNote,
+  TimeNote,
+} from '@time-tracker/shared';
 import { DatesService } from '../../shared/services/dates.service';
 import { Columns } from '../../../../../../libs/src/lib/settings';
 import { selectDefaultColumnsState } from '../../settings/state/selectors/index';
@@ -16,19 +27,35 @@ import { FilterActions } from '../../settings/state/actions';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean | null>;
+  view$: Observable<string>;
+  timeNotes$: Observable<TimeNote[]>;
   issues$: Observable<LocalIssue[]>;
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
   showPaginator$: Observable<boolean>;
+
+  private viewSub: Subscription;
 
   defaultColumns = defaultColumns;
 
   filters: ApiFilter[] = [];
 
   constructor(private store: Store, private dateService: DatesService) {
-    this.calculateCurrentWeekFilters();
+    this.view$ = this.store
+      .select(fromSettings.selectProfileState)
+      .pipe(map((profile) => profile.defaultView));
+
+    this.viewSub = this.view$.subscribe((view) => {
+      if (view === 'monthly') {
+        this.calculateCurrentMonthFilters();
+      } else {
+        this.calculateCurrentWeekFilters();
+      }
+    });
+
+    this.timeNotes$ = this.store.select(fromDashboard.selectTimeNotes);
     this.showPaginator$ = this.store.select(fromDashboard.selectShowPaginator);
     this.daysRange$ = this.store.select(fromDashboard.selectDaysRange);
     this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
@@ -96,6 +123,9 @@ export class DashboardComponent implements OnInit {
     );
     this.defaultColumns$ = this.store.select(selectDefaultColumnsState);
   }
+  ngOnDestroy(): void {
+    this.viewSub.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -112,6 +142,20 @@ export class DashboardComponent implements OnInit {
       today.setDate(today.getDate() - today.getDay() + 1)
     );
     let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7));
+
+    this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
+  }
+
+  private calculateCurrentMonthFilters() {
+    let today = new Date();
+
+    const dates = this.dateService.getDatesInMonth(
+      today.getFullYear(),
+      today.getMonth()
+    );
+
+    const firstDay = dates[0].key;
+    const lastDay = dates[dates.length - 1].key;
 
     this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
   }

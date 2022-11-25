@@ -45,7 +45,7 @@ export const reducer = createReducer(
   on(ProfileActions.loadProfileSuccess, (state, props) => {
     return {
       ...state,
-      profile: props.profile,
+      profile: props.profile ?? initialState.profile,
       loading: false,
     };
   }),

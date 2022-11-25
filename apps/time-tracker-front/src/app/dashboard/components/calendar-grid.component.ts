@@ -25,8 +25,8 @@ export interface Dates {
 @Component({
   selector: 'time-tracker-nx-calendar-grid',
   template: `
-    <ng-container *ngIf="timeNotes.length; else loading">
-      <h2>{{ date | date: 'MMMM' }} {{ year }}</h2>
+    <ng-container *ngIf="timeNotes.length">
+      <time-tracker-nx-calendar-paginator></time-tracker-nx-calendar-paginator>
       <div class="calendar">
         <article class="calendar-head" *ngFor="let day of daysOfWeek">
           {{ day }}
@@ -50,7 +50,6 @@ export interface Dates {
         </article>
       </div>
     </ng-container>
-    <ng-template #loading> Loading ... </ng-template>
   `,
   styles: [
     `
@@ -108,8 +107,8 @@ export interface Dates {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarGridComponent implements OnInit, OnChanges {
-  @Input() month: number = 0; // 0 indexed
-  @Input() year: number = 2022;
+  @Input() month!: number // 0 indexed
+  @Input() year!: number;
   @Input() timeNotes: TimeNote[] = [];
   @Input() defaultColumns!: Columns;
 

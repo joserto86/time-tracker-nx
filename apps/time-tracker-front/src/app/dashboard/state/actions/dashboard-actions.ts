@@ -46,5 +46,15 @@ export const saveDefaultColumns = createAction(
 export const setShowPaginator = createAction(
   '[Time Tracker Dashboard] Set Show Paginator',
   props<{ showPaginator: boolean }>()
+);
+
+export const setCalendarYear = createAction(
+  '[Time Tracker Dashboard] Set Calendar Year',
+  props<{ year: number }>()
+)
+
+export const setCalendarMonth = createAction(
+  '[Time Tracker Dashboard] Set Calendar Month',
+  props<{ month: number }>()
 )
 

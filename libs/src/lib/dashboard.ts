@@ -1,4 +1,6 @@
 export interface DashboardState {
+  calendarYear: number;
+  calendarMonth: number;
   timeNotes: TimeNote[];
   daysRange: string[];
   loading: boolean;
@@ -12,7 +14,7 @@ export interface ApiFilter {
   field: string;
   value: string;
   method: string; // '=' , 'like'
-  condition?: CONDITIONS 
+  condition?: CONDITIONS
   id?:string;
 }
 

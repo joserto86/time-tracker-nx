@@ -5,6 +5,8 @@ import { DashboardActions } from '../actions';
 export const dashboardFeatureKey = 'dashboard';
 
 export const initialState: DashboardState = {
+  calendarYear: new Date().getFullYear(),
+  calendarMonth: new Date().getMonth(),
   timeNotes: [],
   daysRange: [],
   loading: false,
@@ -72,3 +74,5 @@ export const getFilters = (state: DashboardState) => [
 
 export const getIsAdvancedSearch = (state:DashboardState) => state.advancedSearch;
 export const getShowPaginator = (state:DashboardState) => state.showPaginator;
+export const getCalendarYear = (state:DashboardState) => state.calendarYear;
+export const getCalendarMonth = (state:DashboardState) => state.calendarMonth;

@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription } from 'rxjs';
+import { map, Observable, of, Subscription, take } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as fromSettings from '../../../app/settings/state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
@@ -27,7 +22,7 @@ import { FilterActions } from '../../settings/state/actions';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   loading$: Observable<boolean | null>;
   view$: Observable<string>;
   timeNotes$: Observable<TimeNote[]>;
@@ -35,10 +30,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
   showPaginator$: Observable<boolean>;
-
-  private viewSub: Subscription;
+  calendarYear$: Observable<number>;
+  calendarMonth$: Observable<number>;
 
   defaultColumns = defaultColumns;
+  defaultYear = new Date().getFullYear();
+  defaultMonth = new Date().getMonth();
 
   filters: ApiFilter[] = [];
 
@@ -47,9 +44,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .select(fromSettings.selectProfileState)
       .pipe(map((profile) => profile.defaultView));
 
-    this.viewSub = this.view$.subscribe((view) => {
+    this.view$.pipe(take(1)).subscribe((view) => {
       if (view === 'monthly') {
-        this.calculateCurrentMonthFilters();
+        this.calculateMonthFilters();
       } else {
         this.calculateCurrentWeekFilters();
       }
@@ -122,9 +119,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     );
     this.defaultColumns$ = this.store.select(selectDefaultColumnsState);
-  }
-  ngOnDestroy(): void {
-    this.viewSub.unsubscribe();
+    this.calendarYear$ = this.store.select(fromDashboard.selectCalendarYear);
+    this.calendarMonth$ = this.store.select(fromDashboard.selectCalendarMonth);
   }
 
   ngOnInit(): void {
@@ -146,7 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
   }
 
-  private calculateCurrentMonthFilters() {
+  private calculateMonthFilters() {
     let today = new Date();
 
     const dates = this.dateService.getDatesInMonth(

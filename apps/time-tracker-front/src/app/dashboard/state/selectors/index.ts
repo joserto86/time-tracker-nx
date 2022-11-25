@@ -44,4 +44,14 @@ export const selectIsAdvancedSearch = createSelector(
 export const selectShowPaginator = createSelector(
   selectDashboardState,
   fromDashboard.getShowPaginator
-)
+);
+
+export const selectCalendarYear = createSelector(
+  selectDashboardState,
+  fromDashboard.getCalendarYear
+);
+
+export const selectCalendarMonth = createSelector(
+  selectDashboardState,
+  fromDashboard.getCalendarMonth
+);

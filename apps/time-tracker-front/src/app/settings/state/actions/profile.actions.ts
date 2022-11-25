@@ -20,7 +20,7 @@ export const loadProfile = createAction(
 );
 
 export const loadProfileSuccess = createAction(
-  '[Profile Page] Load Profile',
+  '[Profile Page] Load Profile Success',
   props<{ profile: Profile }>()
 );
 

@@ -178,7 +178,18 @@ export class TrackerDetailInfoComponent implements OnInit {
           return [...tData, ...result];
         },
         []
-      );
+      )
+      .sort((a, b) => {
+        const milestoneA = a.milestone ? a.milestone : '';
+        const milestoneB = b.milestone ? b.milestone : '';
+
+        return (
+          a.namespace.localeCompare(b.namespace) ||
+          a.project.localeCompare(b.project) ||
+          milestoneA.localeCompare(milestoneB) ||
+          a.issue.localeCompare(b.issue)
+        );
+      });
     } else {
       this.tableData = this.dataDialog.timeNotes || [];
     }

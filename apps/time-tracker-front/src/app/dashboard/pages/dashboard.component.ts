@@ -6,7 +6,7 @@ import * as DashboardActions from '../state/actions/dashboard-actions';
 import { ApiFilter, LocalIssue, LocalTimeNote } from '@time-tracker/shared';
 import { DatesService } from '../../shared/services/dates.service';
 import { Columns } from '../../../../../../libs/src/lib/settings';
-import { selectDefaultColumnsState } from '../../settings/state/selectors/index';
+import { selectDefaultColumnsState, selectLoadingSettings } from '../../settings/state/selectors/index';
 import { defaultColumns } from '../../settings/state/reducers/index';
 import { FilterActions, ProfileActions } from '../../settings/state/actions';
 
@@ -18,6 +18,7 @@ import { FilterActions, ProfileActions } from '../../settings/state/actions';
 })
 export class DashboardComponent implements OnInit {
   loading$: Observable<boolean | null>;
+  loadingSettings$: Observable<boolean | null>;
   issues$: Observable<LocalIssue[]>;
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
@@ -32,6 +33,8 @@ export class DashboardComponent implements OnInit {
     this.showPaginator$ = this.store.select(fromDashboard.selectShowPaginator);
     this.daysRange$ = this.store.select(fromDashboard.selectDaysRange);
     this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
+    this.loadingSettings$ = this.store.select(selectLoadingSettings);
+
     this.issues$ = this.store.select(fromDashboard.selectTimeNotes).pipe(
       map((data) => {
         if (!data) {

@@ -28,30 +28,58 @@ export const initialState: SettingsState = {
   },
   filters: [],
   instances: [],
-  loading: false
+  loading: false,
 };
 
 export const reducer = createReducer(
   initialState,
-
+  
+  on(ProfileActions.loadProfile, 
+    FilterActions.loadFilters, 
+    (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(ProfileActions.loadProfileSuccess, (state, props) => {
+    return {
+      ...state,
+      profile: props.profile,
+      loading: false,
+    };
+  }),
   on(ProfileActions.saveProfile, (state, { profile }) => {
     return {
       ...state,
       profile,
+      loading: true
+    };
+  }),
+  on(ProfileActions.saveProfileSuccess, 
+    ProfileActions.saveProfileFailure,
+    ProfileActions.loadProfileFailure, 
+    FilterActions.saveFiltersSuccess, 
+    FilterActions.saveFiltersFailure, 
+    FilterActions.loadFiltersFailure,
+    (state) => {
+    return {
+      ...state,
+      loading: false
     };
   }),
   on(FilterActions.createFilter, (state, { filter }) => {
     return {
       ...state,
       filters: [...state.filters, filter],
-      loading:true
+      loading: true
     };
   }),
   on(FilterActions.deleteFilter, (state, { id }) => {
     return {
       ...state,
       filters: state.filters.filter((item) => item.id !== id),
-      loading:true
+      loading: true
     };
   }),
   on(FilterActions.updateFilter, (state, { filter }) => {
@@ -60,16 +88,15 @@ export const reducer = createReducer(
     return {
       ...state,
       filters: state.filters.map((item) => (item.id === id ? filter : item)),
-      loading:true
-    };
-  }),
-  on(FilterActions.saveFiltersSuccess, (state) => {
-    return {
-      ...state,
-      loading: false
+      loading: true
     };
   }),
 
+  on(FilterActions.loadFiltersSuccess, (state, props) => ({
+    ...state,
+    loading: false,
+    filters: props.filters
+  })),
 
   on(
     InstancesActions.loadInstancesOk,
@@ -102,16 +129,5 @@ export const reducer = createReducer(
       defaultColumns,
     },
   })),
-
-  on(FilterActions.loadFilters, (state) => ({
-    ...state,
-    loading: true
-  })),
-
-  on(FilterActions.loadFiltersSuccess, (state, props) => ({
-    ...state,
-    loading: false,
-    filters: props.filters
-  }))
 
 )

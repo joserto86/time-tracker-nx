@@ -1,7 +1,26 @@
 <main class="main-container">
-  <mat-card>
-    <h1 mat-title *ngIf="(user$ | async) as user">{{ user?.username }}</h1>
-    <time-tracker-nx-profile-form *ngIf="(profile$ | async) as profile" [profile]="profile">
-    </time-tracker-nx-profile-form>
+  <mat-card style="min-height: 330px">
+    <h1 mat-title *ngIf="user$ | async as user">{{ user?.username }}</h1>
+
+    <ng-container *ngIf="loading$ | async; else data">
+      <ngx-skeleton-loader
+        count="1"
+        appearance="line"
+        animation="progress"
+        [theme]="{
+          'background-color': 'rgba(white, 0.7)',
+          height: '260px',
+          'border-radius': 0
+        }"
+      ></ngx-skeleton-loader>
+    </ng-container>
+
+    <ng-template #data>
+      <time-tracker-nx-profile-form
+        *ngIf="profile$ | async as profile"
+        [profile]="profile"
+      >
+      </time-tracker-nx-profile-form>
+    </ng-template>
   </mat-card>
 </main>

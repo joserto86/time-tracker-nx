@@ -8,6 +8,7 @@ import * as fromDashboard from '../selectors/';
 import { DashbordService } from '../../services/dashboard.service';
 import { TimeNote } from '@time-tracker/shared';
 import { DatesService } from '../../../shared/services/dates.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class DashboardEffects {
@@ -29,6 +30,13 @@ export class DashboardEffects {
             });
           }),
           catchError((error) => {
+            console.log('failure dashboard');
+            this._snackBar.open('Error Loading Data', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'end',
+            });
+            DashboardActions.loadTimeNotesFailure();
             return EMPTY;
           })
         )
@@ -41,6 +49,6 @@ export class DashboardEffects {
     private store: Store,
     private dashboardService: DashbordService,
     private datesService: DatesService,
-    private router: Router // private dialog: MatDialog
+    private _snackBar: MatSnackBar,
   ) {}
 }

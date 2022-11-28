@@ -57,6 +57,10 @@ export const reducer = createReducer(
   on(DashboardActions.setAdvancedSearch, (state, props) => ({
     ...state,
     advancedSearch: props.advanced
+  })),
+  on(DashboardActions.loadTimeNotesFailure, (state) => ({
+    ...state,
+    loading: false
   }))
 );
 

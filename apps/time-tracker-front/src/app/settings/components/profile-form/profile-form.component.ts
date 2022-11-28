@@ -65,10 +65,5 @@ export class ProfileFormComponent implements OnInit {
     this.store.dispatch(
       ProfileActions.saveProfile({ profile: this.profileForm.value })
     );
-    this._snackBar.open('Pofile saved OK', 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'end',
-    });
   }
 }

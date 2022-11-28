@@ -53,7 +53,14 @@ export class FiltersEffects {
       ),
       exhaustMap(([,filters]) => {
         return this.settingsService.saveFilters(filters).pipe(
-          map(() => FilterActions.saveFiltersSuccess()),
+          map(() => {
+            this._snackBar.open('Filters saved Ok', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'end',
+            });
+            return FilterActions.saveFiltersSuccess()
+          }),
           catchError((error) => {
             this._snackBar.open('Error Saving Filters', 'Close', {
               duration: 3000,

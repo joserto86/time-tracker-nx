@@ -28,6 +28,7 @@ export interface TimeNote {
   glProjectId: number;
   project: string;
   namespace: string;
+  issueId: number;
   glIssueId: number;
   issue: string;
   issueUrl: string;
@@ -61,6 +62,7 @@ export interface LocalTimeNote {
 
 export interface LocalIssue {
   id: number;
+  glIssueId: number;
   glInstance: string;
   glProjectId: number;
   glProject: string;

@@ -6,8 +6,6 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { DashboardActions } from '../state/actions';
-import { Store } from '@ngrx/store';
 import { DatesService } from '../../shared/services/dates.service';
 import { TimeNote } from '../../../../../../libs/src/lib/dashboard';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -26,7 +24,11 @@ export interface Dates {
   selector: 'time-tracker-nx-calendar-grid',
   template: `
     <ng-container *ngIf="timeNotes.length">
-      <time-tracker-nx-calendar-paginator></time-tracker-nx-calendar-paginator>
+      <time-tracker-nx-calendar-picker
+        [year]="year"
+        [month]="month"
+      ></time-tracker-nx-calendar-picker>
+      <h2>{{ date | date:'MMMM/YYYY' }}</h2>
       <div class="calendar">
         <article class="calendar-head" *ngFor="let day of daysOfWeek">
           {{ day }}
@@ -37,16 +39,17 @@ export interface Dates {
             >{{ date.date }}</span
           >
 
-          <ng-container *ngIf="getTotalDayHours(date.key) as hours; else spacer">
+          <ng-container
+            *ngIf="getTotalDayHours(date.key) as hours; else spacer"
+          >
             <div class="issue-info" (click)="openDialog(date.key)">
-              <span class="bold"> {{ hours | number : '1.2-2' }} h </span>
+              <span class="bold"> {{ hours | number: '1.2-2' }} h </span>
               <mat-icon inline="true">info</mat-icon>
             </div>
           </ng-container>
           <ng-template #spacer>
             <span class="spacer"></span>
           </ng-template>
-
         </article>
       </div>
     </ng-container>
@@ -83,7 +86,6 @@ export interface Dates {
         font-weight: 500;
       }
 
-
       .issue-info {
         display: flex;
         flex-wrap: nowrap;
@@ -107,7 +109,7 @@ export interface Dates {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarGridComponent implements OnInit, OnChanges {
-  @Input() month!: number // 0 indexed
+  @Input() month!: number; // 0 indexed
   @Input() year!: number;
   @Input() timeNotes: TimeNote[] = [];
   @Input() defaultColumns!: Columns;
@@ -144,10 +146,7 @@ export class CalendarGridComponent implements OnInit, OnChanges {
     'Saturday',
   ];
 
-  constructor(
-    private dialog: MatDialog,
-    private datesService: DatesService
-  ) {}
+  constructor(private dialog: MatDialog, private datesService: DatesService) {}
 
   ngOnInit(): void {
     this.generateDisplayedColumns();

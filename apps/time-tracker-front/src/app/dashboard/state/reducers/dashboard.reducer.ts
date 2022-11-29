@@ -1,19 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
 import { DashboardState } from '@time-tracker/shared';
 import { DashboardActions } from '../actions';
+import { setCalendar } from '../actions/dashboard-actions';
 
 export const dashboardFeatureKey = 'dashboard';
 
 export const initialState: DashboardState = {
-  calendarYear: new Date().getFullYear(),
-  calendarMonth: new Date().getMonth(),
+  calendar: {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+  },
   timeNotes: [],
   daysRange: [],
   loading: false,
   advancedSearch: false,
   dateFilters: [],
   searchFilters: [],
-  showPaginator: true
+  showPaginator: true,
 };
 
 export const reducer = createReducer(
@@ -53,12 +56,17 @@ export const reducer = createReducer(
 
   on(DashboardActions.setShowPaginator, (state, props) => ({
     ...state,
-    showPaginator: props.showPaginator
+    showPaginator: props.showPaginator,
   })),
 
   on(DashboardActions.setAdvancedSearch, (state, props) => ({
     ...state,
-    advancedSearch: props.advanced
+    advancedSearch: props.advanced,
+  })),
+
+  on(DashboardActions.setCalendar, (state, props) => ({
+    ...state,
+    calendar: props,
   }))
 );
 
@@ -72,7 +80,7 @@ export const getFilters = (state: DashboardState) => [
   ...state.searchFilters,
 ];
 
-export const getIsAdvancedSearch = (state:DashboardState) => state.advancedSearch;
-export const getShowPaginator = (state:DashboardState) => state.showPaginator;
-export const getCalendarYear = (state:DashboardState) => state.calendarYear;
-export const getCalendarMonth = (state:DashboardState) => state.calendarMonth;
+export const getIsAdvancedSearch = (state: DashboardState) =>
+  state.advancedSearch;
+export const getShowPaginator = (state: DashboardState) => state.showPaginator;
+export const getCalendar = (state: DashboardState) => state.calendar;

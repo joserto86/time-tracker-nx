@@ -24,7 +24,7 @@ import { DashboardPaginatorComponent } from './components/dashboard-paginator.co
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateApapter } from './services/custom-date-adapter';
 import { CalendarGridComponent } from './components/calendar-grid.component';
-import { CalendarPaginatorComponent } from './components/calendar-paginator.component';
+import { CalendarPickerComponent } from './components/calendar-picker.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { CalendarPaginatorComponent } from './components/calendar-paginator.comp
     RightIconsComponent,
     DashboardPaginatorComponent,
     CalendarGridComponent,
-    CalendarPaginatorComponent,
+    CalendarPickerComponent,
   ],
   imports: [
     CommonModule,

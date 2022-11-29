@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, of, Subscription, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as fromSettings from '../../../app/settings/state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
@@ -12,7 +12,10 @@ import {
 } from '@time-tracker/shared';
 import { DatesService } from '../../shared/services/dates.service';
 import { Columns } from '../../../../../../libs/src/lib/settings';
-import { selectDefaultColumnsState, selectLoadingSettings } from '../../settings/state/selectors/index';
+import {
+  selectDefaultColumnsState,
+  selectLoadingSettings,
+} from '../../settings/state/selectors/index';
 import { defaultColumns } from '../../settings/state/reducers/index';
 import { FilterActions, ProfileActions } from '../../settings/state/actions';
 
@@ -31,8 +34,7 @@ export class DashboardComponent implements OnInit {
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
   showPaginator$: Observable<boolean>;
-  calendarYear$: Observable<number>;
-  calendarMonth$: Observable<number>;
+  calendar$: Observable<{ year: number; month: number }>;
 
   defaultColumns = defaultColumns;
   defaultYear = new Date().getFullYear();
@@ -41,16 +43,24 @@ export class DashboardComponent implements OnInit {
   filters: ApiFilter[] = [];
 
   constructor(private store: Store, private dateService: DatesService) {
+    this.store.dispatch(FilterActions.loadFilters());
+    this.store.dispatch(ProfileActions.loadProfile());
+
     this.view$ = this.store
       .select(fromSettings.selectProfileState)
       .pipe(map((profile) => profile.defaultView));
 
-    this.view$.pipe(take(1)).subscribe((view) => {
+    this.view$.pipe(take(2)).subscribe((view) => {
       if (view === 'monthly') {
         this.calculateMonthFilters();
       } else {
         this.calculateCurrentWeekFilters();
       }
+
+      this.store.dispatch(
+        DashboardActions.setDateFilters({ filters: this.filters })
+      );
+      this.store.dispatch(DashboardActions.loadTimeNotes());
     });
 
     this.timeNotes$ = this.store.select(fromDashboard.selectTimeNotes);
@@ -122,17 +132,11 @@ export class DashboardComponent implements OnInit {
       })
     );
     this.defaultColumns$ = this.store.select(selectDefaultColumnsState);
-    this.calendarYear$ = this.store.select(fromDashboard.selectCalendarYear);
-    this.calendarMonth$ = this.store.select(fromDashboard.selectCalendarMonth);
+    this.calendar$ = this.store.select(fromDashboard.selectCalendar);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(
-      DashboardActions.setDateFilters({ filters: this.filters })
-    );
-    this.store.dispatch(DashboardActions.loadTimeNotes());
-    this.store.dispatch(FilterActions.loadFilters());
-    this.store.dispatch(ProfileActions.loadProfile());
+
   }
 
   private calculateCurrentWeekFilters() {
@@ -147,16 +151,14 @@ export class DashboardComponent implements OnInit {
   }
 
   private calculateMonthFilters() {
-    let today = new Date();
+    this.calendar$.pipe(take(2)).subscribe((data) => {
+      const dates = this.dateService.getDatesInMonth(data.year, data.month);
 
-    const dates = this.dateService.getDatesInMonth(
-      today.getFullYear(),
-      today.getMonth()
-    );
+      const firstDay = dates[0].key;
+      const lastDay = dates[dates.length - 1].key;
 
-    const firstDay = dates[0].key;
-    const lastDay = dates[dates.length - 1].key;
+      this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
+    });
 
-    this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
   }
 }

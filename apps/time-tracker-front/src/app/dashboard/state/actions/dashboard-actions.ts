@@ -8,29 +8,29 @@ export const loadTimeNotes = createAction(
 export const setDateFilters = createAction(
   '[Time Tracker Dashboard] Set Date Filters',
   props<{ filters: ApiFilter[] }>()
-)
+);
 
 export const removeDateFilters = createAction(
-  '[Time Tracker Dashboard] Remove Date Filters',
-)
+  '[Time Tracker Dashboard] Remove Date Filters'
+);
 
 export const setSearchFilters = createAction(
   '[Time Tracker Dashboard] Set Search Filters',
   props<{ filters: ApiFilter[] }>()
-)
+);
 
 export const setAdvancedSearch = createAction(
   '[Time Tracker Dashborad] Set Advanced Search',
   props<{ advanced: boolean }>()
-)
+);
 
 export const removeSearchFilters = createAction(
   '[Time Tracker Dashboard] Remove Search Filters'
-)
+);
 
 export const loadTimeNotesSuccess = createAction(
   '[Time Tracker Dashboard] Load Time Notes Success',
-  props<{ timeNotes: TimeNote[], daysRange: string[] }>()
+  props<{ timeNotes: TimeNote[]; daysRange: string[] }>()
 );
 
 export const loadTimeNotesFailure = createAction(
@@ -48,13 +48,7 @@ export const setShowPaginator = createAction(
   props<{ showPaginator: boolean }>()
 );
 
-export const setCalendarYear = createAction(
-  '[Time Tracker Dashboard] Set Calendar Year',
-  props<{ year: number }>()
-)
-
-export const setCalendarMonth = createAction(
-  '[Time Tracker Dashboard] Set Calendar Month',
-  props<{ month: number }>()
-)
-
+export const setCalendar = createAction(
+  '[Time Tracker Dashboard] Set Calendar',
+  props<{ year: number; month: number }>()
+);

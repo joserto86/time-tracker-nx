@@ -46,12 +46,7 @@ export const selectShowPaginator = createSelector(
   fromDashboard.getShowPaginator
 );
 
-export const selectCalendarYear = createSelector(
+export const selectCalendar = createSelector(
   selectDashboardState,
-  fromDashboard.getCalendarYear
-);
-
-export const selectCalendarMonth = createSelector(
-  selectDashboardState,
-  fromDashboard.getCalendarMonth
+  fromDashboard.getCalendar
 );

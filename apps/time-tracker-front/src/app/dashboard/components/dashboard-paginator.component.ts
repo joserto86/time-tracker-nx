@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { DatesService } from '../../shared/services/dates.service';
@@ -8,7 +14,9 @@ import { DashboardActions } from '../state/actions';
   selector: 'time-tracker-nx-dashboard-paginator',
   template: `
     <div class="paginator">
-      <mat-paginator #paginator style="display: none;"
+      <mat-paginator
+        #paginator
+        style="display: none;"
         [hidePageSize]="true"
         [pageIndex]="1"
         [length]="3"
@@ -17,46 +25,56 @@ import { DashboardActions } from '../state/actions';
         (page)="emitUpdatePage($event)"
       ></mat-paginator>
       <div class="buttons">
-        <button color="primary" mat-mini-fab matTooltip="Previous Week" (click)="paginator.previousPage()">
+        <button
+          color="primary"
+          mat-mini-fab
+          matTooltip="Previous Week"
+          (click)="paginator.previousPage()"
+        >
           <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
-        <span>{{ daysRange[0] | date : 'd LLL YY'}} - {{ daysRange[this.daysRange.length - 1] | date : 'd LLL YY' }}</span>
-        <button color="primary" mat-mini-fab matTooltip="Next Week" [disabled]="disableNext()" (click)="paginator.nextPage()">
+        <span
+          >{{ daysRange[0] | date: 'd LLL YY' }} -
+          {{ daysRange[this.daysRange.length - 1] | date: 'd LLL YY' }}</span
+        >
+        <button
+          color="primary"
+          mat-mini-fab
+          matTooltip="Next Week"
+          [disabled]="disableNext()"
+          (click)="paginator.nextPage()"
+        >
           <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
       </div>
     </div>
-   
   `,
-  styles: [`
-    .paginator {
-      display: flex;
-      flex-direction: row-reverse;
-    }
-
-    .buttons {
-      display: flex;
-      align-items: center;
-
-      button {
-        margin: 0 10px;
+  styles: [
+    `
+      .paginator {
+        display: flex;
+        flex-direction: row-reverse;
       }
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+
+      .buttons {
+        display: flex;
+        align-items: center;
+
+        button {
+          margin: 0 10px;
+        }
+      }
+    `,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPaginatorComponent implements OnInit {
+  @Input() daysRange!: string[];
+  @ViewChild('paginator') paginator!: MatPaginator;
 
-  @Input() daysRange!:string[]
-  @ViewChild('paginator') paginator!:MatPaginator
+  constructor(private store: Store, private dateService: DatesService) {}
 
-  constructor(private store: Store, private dateService: DatesService) { 
-    
-  }
-
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   emitUpdatePage(ev: any): void {
     let first = null;
@@ -91,5 +109,4 @@ export class DashboardPaginatorComponent implements OnInit {
 
     return false;
   }
-
 }

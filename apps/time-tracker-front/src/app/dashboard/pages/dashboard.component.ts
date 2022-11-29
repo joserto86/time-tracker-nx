@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, take, switchMap, Subscription, of } from 'rxjs';
 import * as fromDashboard from '../state/selectors';
 import * as fromSettings from '../../../app/settings/state/selectors';
 import * as DashboardActions from '../state/actions/dashboard-actions';
@@ -18,6 +23,7 @@ import {
 } from '../../settings/state/selectors/index';
 import { defaultColumns } from '../../settings/state/reducers/index';
 import { FilterActions, ProfileActions } from '../../settings/state/actions';
+import { selectLoadingProfile } from '../../settings/state/selectors/index';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,16 +31,19 @@ import { FilterActions, ProfileActions } from '../../settings/state/actions';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
-  loading$: Observable<boolean | null>;
+export class DashboardComponent implements OnInit, OnDestroy {
+  loadingDashboard$: Observable<boolean | null>;
   view$: Observable<string>;
   timeNotes$: Observable<TimeNote[]>;
   loadingSettings$: Observable<boolean | null>;
+  loadingProfile$: Observable<boolean | null>;
   issues$: Observable<LocalIssue[]>;
   daysRange$: Observable<string[]>;
   defaultColumns$: Observable<Columns>;
   showPaginator$: Observable<boolean>;
   calendar$: Observable<{ year: number; month: number }>;
+
+  loadingProfileSub!: Subscription;
 
   defaultColumns = defaultColumns;
   defaultYear = new Date().getFullYear();
@@ -43,31 +52,21 @@ export class DashboardComponent implements OnInit {
   filters: ApiFilter[] = [];
 
   constructor(private store: Store, private dateService: DatesService) {
-    this.store.dispatch(FilterActions.loadFilters());
     this.store.dispatch(ProfileActions.loadProfile());
+    this.store.dispatch(FilterActions.loadFilters());
 
     this.view$ = this.store
       .select(fromSettings.selectProfileState)
       .pipe(map((profile) => profile.defaultView));
 
-    this.view$.pipe(take(2)).subscribe((view) => {
-      if (view === 'monthly') {
-        this.calculateMonthFilters();
-      } else {
-        this.calculateCurrentWeekFilters();
-      }
-
-      this.store.dispatch(
-        DashboardActions.setDateFilters({ filters: this.filters })
-      );
-      this.store.dispatch(DashboardActions.loadTimeNotes());
-    });
-
     this.timeNotes$ = this.store.select(fromDashboard.selectTimeNotes);
     this.showPaginator$ = this.store.select(fromDashboard.selectShowPaginator);
     this.daysRange$ = this.store.select(fromDashboard.selectDaysRange);
-    this.loading$ = this.store.select(fromDashboard.selectTimeNotesLoading);
+    this.loadingDashboard$ = this.store.select(
+      fromDashboard.selectTimeNotesLoading
+    );
     this.loadingSettings$ = this.store.select(selectLoadingSettings);
+    this.loadingProfile$ = this.store.select(selectLoadingProfile);
 
     this.issues$ = this.store.select(fromDashboard.selectTimeNotes).pipe(
       map((data) => {
@@ -136,8 +135,48 @@ export class DashboardComponent implements OnInit {
     this.calendar$ = this.store.select(fromDashboard.selectCalendar);
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.loadingProfileSub.unsubscribe();
+  }
 
+  ngOnInit(): void {
+    this.loadingProfileSub = this.loadingProfile$
+      .pipe(
+        switchMap((loading) => {
+          if (!loading) {
+            return this.view$;
+          }
+          return of(null);
+        })
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if (data) {
+          if (data === 'monthly') {
+            this.calculateMonthFilters();
+          } else if (data === 'weekly') {
+            this.calculateCurrentWeekFilters();
+          }
+
+          this.store.dispatch(
+            DashboardActions.setDateFilters({ filters: this.filters })
+          );
+          this.store.dispatch(DashboardActions.loadTimeNotes());
+        }
+      });
+
+    // this.view$.pipe(take(1)).subscribe((view) => {
+    //   if (view === 'monthly') {
+    //     this.calculateMonthFilters();
+    //   } else {
+    //     this.calculateCurrentWeekFilters();
+    //   }
+
+    //   this.store.dispatch(
+    //     DashboardActions.setDateFilters({ filters: this.filters })
+    //   );
+    //   this.store.dispatch(DashboardActions.loadTimeNotes());
+    // });
   }
 
   private calculateCurrentWeekFilters() {
@@ -152,7 +191,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private calculateMonthFilters() {
-    this.calendar$.pipe(take(2)).subscribe((data) => {
+    this.calendar$?.pipe(take(1)).subscribe((data) => {
       const dates = this.dateService.getDatesInMonth(data.year, data.month);
 
       const firstDay = dates[0].key;
@@ -160,6 +199,5 @@ export class DashboardComponent implements OnInit {
 
       this.filters = this.dateService.getDaysFilters(firstDay, lastDay);
     });
-
   }
 }

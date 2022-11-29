@@ -13,24 +13,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable()
 export class DashboardEffects {
 
-  loadTimeNotes$ = createEffect(() => 
+  loadTimeNotes$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardActions.loadTimeNotes),
-      withLatestFrom( 
+      withLatestFrom(
           this.store.select(fromDashboard.selectDateFilters),
           this.store.select(fromDashboard.selectSearchFilters),
           this.store.select(fromDashboard.selectIsAdvancedSearch),
       ),
-      switchMap(([,dateFilters, searchFilters, isAdvancedSearch]) => 
+      switchMap(([,dateFilters, searchFilters, isAdvancedSearch]) =>
         this.dashboardService.timeNotes(dateFilters, searchFilters, isAdvancedSearch).pipe(
           map((response: TimeNote[]) => {
-            return DashboardActions.loadTimeNotesSuccess({ 
+            return DashboardActions.loadTimeNotesSuccess({
               timeNotes: response,
-              daysRange: this.datesService.getDaysRangeFromFilters(dateFilters) 
+              daysRange: this.datesService.getDaysRangeFromFilters(dateFilters)
             });
           }),
           catchError((error) => {
             console.log('failure dashboard');
+            console.log(error);
+
             this._snackBar.open('Error Loading Data', 'Close', {
               duration: 3000,
               verticalPosition: 'top',

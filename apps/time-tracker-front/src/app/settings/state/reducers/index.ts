@@ -10,7 +10,8 @@ export interface SettingsState {
   profile: Profile;
   filters: Filter[];
   instances: Instance[];
-  loading: boolean
+  loadingProfile: boolean;
+  loadingFilters: boolean;
 }
 
 export const defaultColumns: Columns = {
@@ -28,58 +29,67 @@ export const initialState: SettingsState = {
   },
   filters: [],
   instances: [],
-  loading: false,
+  loadingProfile: false,
+  loadingFilters: false,
 };
 
 export const reducer = createReducer(
   initialState,
-  
-  on(ProfileActions.loadProfile, 
-    FilterActions.loadFilters, 
-    (state) => {
+
+  on(ProfileActions.loadProfile, FilterActions.loadFilters, (state) => {
     return {
       ...state,
-      loading: true,
+      loadingProfile: true,
     };
   }),
   on(ProfileActions.loadProfileSuccess, (state, props) => {
     return {
       ...state,
       profile: props.profile ?? initialState.profile,
-      loading: false,
+      loadingProfile: false,
     };
   }),
   on(ProfileActions.saveProfile, (state, { profile }) => {
     return {
       ...state,
       profile,
-      loading: true
+      loadingProfile: true,
     };
   }),
-  on(ProfileActions.saveProfileSuccess, 
+  on(
+    ProfileActions.saveProfileSuccess,
     ProfileActions.saveProfileFailure,
-    ProfileActions.loadProfileFailure, 
-    FilterActions.saveFiltersSuccess, 
-    FilterActions.saveFiltersFailure, 
+    ProfileActions.loadProfileFailure,
+    (state) => {
+      return {
+        ...state,
+        loadingProfile: false,
+      };
+    }
+  ),
+  on(
+    FilterActions.saveFiltersSuccess,
+    FilterActions.saveFiltersFailure,
     FilterActions.loadFiltersFailure,
     (state) => {
-    return {
-      ...state,
-      loading: false
-    };
-  }),
+      return {
+        ...state,
+        loadingFilters: false,
+      };
+    }
+  ),
   on(FilterActions.createFilter, (state, { filter }) => {
     return {
       ...state,
       filters: [...state.filters, filter],
-      loading: true
+      loadingFilters: true,
     };
   }),
   on(FilterActions.deleteFilter, (state, { id }) => {
     return {
       ...state,
       filters: state.filters.filter((item) => item.id !== id),
-      loading: true
+      loadingFilters: true,
     };
   }),
   on(FilterActions.updateFilter, (state, { filter }) => {
@@ -88,14 +98,14 @@ export const reducer = createReducer(
     return {
       ...state,
       filters: state.filters.map((item) => (item.id === id ? filter : item)),
-      loading: true
+      loadingFilters: true,
     };
   }),
 
   on(FilterActions.loadFiltersSuccess, (state, props) => ({
     ...state,
-    loading: false,
-    filters: props.filters
+    loadingFilters: false,
+    filters: props.filters,
   })),
 
   on(
@@ -128,6 +138,5 @@ export const reducer = createReducer(
       ...state.profile,
       defaultColumns,
     },
-  })),
-
-)
+  }))
+);

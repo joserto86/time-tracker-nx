@@ -33,7 +33,17 @@ export const selectInstances = createSelector(
   (state: SettingsState) => state.instances
 );
 
+export const selectLoadingFilters = createSelector(
+  selectSettingsState,
+  (state: SettingsState) => state.loadingFilters
+);
+
+export const selectLoadingProfile = createSelector(
+  selectSettingsState,
+  (state: SettingsState) => state.loadingProfile
+);
+
 export const selectLoadingSettings = createSelector(
   selectSettingsState,
-  (state: SettingsState) => state.loading
-)
+  (state: SettingsState) => state.loadingProfile && state.loadingFilters
+);

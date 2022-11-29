@@ -24,6 +24,7 @@ import {
 import { defaultColumns } from '../../settings/state/reducers/index';
 import { FilterActions, ProfileActions } from '../../settings/state/actions';
 import { selectLoadingProfile } from '../../settings/state/selectors/index';
+import { DefaultView } from '@time-tracker/shared';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +34,7 @@ import { selectLoadingProfile } from '../../settings/state/selectors/index';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   loadingDashboard$: Observable<boolean | null>;
-  view$: Observable<string>;
+  view$: Observable<DefaultView>;
   timeNotes$: Observable<TimeNote[]>;
   loadingSettings$: Observable<boolean | null>;
   loadingProfile$: Observable<boolean | null>;
@@ -151,7 +152,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((data) => {
-        console.log(data);
         if (data) {
           if (data === 'monthly') {
             this.calculateMonthFilters();
@@ -165,19 +165,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.store.dispatch(DashboardActions.loadTimeNotes());
         }
       });
-
-    // this.view$.pipe(take(1)).subscribe((view) => {
-    //   if (view === 'monthly') {
-    //     this.calculateMonthFilters();
-    //   } else {
-    //     this.calculateCurrentWeekFilters();
-    //   }
-
-    //   this.store.dispatch(
-    //     DashboardActions.setDateFilters({ filters: this.filters })
-    //   );
-    //   this.store.dispatch(DashboardActions.loadTimeNotes());
-    // });
   }
 
   private calculateCurrentWeekFilters() {

@@ -1,8 +1,8 @@
 <main class="main-container">
   <h2>These are last time notes issues</h2>
 
-  <ng-container *ngIf="(view$ | async) !== 'monthly'">
-    <time-tracker-nx-right-icons></time-tracker-nx-right-icons>
+  <ng-container *ngIf="(view$ | async) as view">
+    <time-tracker-nx-right-icons [view]="view"></time-tracker-nx-right-icons>
   </ng-container>
 
   <ng-container *ngIf="loadingSettings$ | async; else filters">

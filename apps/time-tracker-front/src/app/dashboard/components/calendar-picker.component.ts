@@ -80,8 +80,6 @@ export class CalendarPickerComponent implements OnInit{
   ngOnInit(): void {
     this.initialDate = new Date(this.year, this.month);
     this.date = new FormControl(this.initialDate);
-
-    console.log(this.initialDate, this.year, this.month);
   }
 
   setMonthAndYear(date: Date, datepicker: MatDatepicker<Date>) {

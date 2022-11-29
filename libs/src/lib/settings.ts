@@ -6,8 +6,9 @@ export interface Columns {
   labels: boolean;
 }
 
+export type DefaultView = 'monthly' | 'weekly';
 export interface Profile {
-  defaultView: string;
+  defaultView: DefaultView;
   defaultColumns: Columns;
 }
 

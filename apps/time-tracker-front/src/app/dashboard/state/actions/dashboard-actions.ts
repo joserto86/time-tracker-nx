@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ApiFilter, Columns, TimeNote } from '@time-tracker/shared';
+import { ApiFilter, Columns, TimeNote, DefaultView } from '@time-tracker/shared';
 
 export const loadTimeNotes = createAction(
   '[Time Tracker Dashboard] Load Time Notes'
@@ -48,6 +48,11 @@ export const setShowPaginator = createAction(
 );
 
 export const setCalendar = createAction(
-  '[Time Tracker Dashboard] Set Calendar',
+  '[Dashboard Page] Set Calendar',
   props<{ year: number; month: number }>()
+);
+
+export const setView = createAction(
+  '[Dashboard Page] Set View',
+  props<{ view: DefaultView }>()
 );

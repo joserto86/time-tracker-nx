@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { Columns, Filter, Instance, Profile } from '@time-tracker/shared';
-import { saveDefaultColumns } from '../../../dashboard/state/actions/dashboard-actions';
+import {
+  saveDefaultColumns,
+  setView,
+} from '../../../dashboard/state/actions/dashboard-actions';
 
 import { FilterActions, InstancesActions, ProfileActions } from '../actions';
 
@@ -137,6 +140,13 @@ export const reducer = createReducer(
     profile: {
       ...state.profile,
       defaultColumns,
+    },
+  })),
+  on(setView, (state, { view }) => ({
+    ...state,
+    profile: {
+      ...state.profile,
+      defaultView: view,
     },
   }))
 );

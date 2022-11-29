@@ -54,6 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private dateService: DatesService) {
     this.store.dispatch(ProfileActions.loadProfile());
     this.store.dispatch(FilterActions.loadFilters());
+    this.store.dispatch(DashboardActions.removeSearchFilters());
 
     this.view$ = this.store
       .select(fromSettings.selectProfileState)

@@ -49,7 +49,14 @@ export class ProfileEffects {
       ),
       exhaustMap(([,profile]) => {
         return this.settingsService.saveProfile(profile).pipe(
-          map(() => ProfileActions.saveProfileSuccess()),
+          map(() => {
+            this._snackBar.open('Pofile saved OK', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'end',
+            });
+            return ProfileActions.saveProfileSuccess()
+          }),
           catchError((error) => {
             this._snackBar.open('Error Saving Profile', 'Close', {
               duration: 3000,

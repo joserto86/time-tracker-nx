@@ -99,7 +99,8 @@ export class DashboardComponent implements OnInit {
                 }));
 
               const newNote: LocalIssue = {
-                id: note.glIssueId,
+                id: note.issueId,
+                glIssueId: note.glIssueId,
                 glInstance: note.glInstance,
                 glProjectId: note.glProjectId,
                 glProject: note.project,

@@ -67,6 +67,11 @@ export const reducer = createReducer(
   on(DashboardActions.setCalendar, (state, props) => ({
     ...state,
     calendar: props,
+  })),
+
+  on(DashboardActions.loadTimeNotesFailure, (state) => ({
+    ...state,
+    loading: false
   }))
 );
 

@@ -214,7 +214,7 @@ export class TrackerDetailInfoComponent implements OnInit {
   }
 
   shouldHidePaginator(): boolean {
-    if (this.tableData.length < this.pageSize) {
+    if (this.tableData.length <= this.pageSize) {
       return true;
     }
 

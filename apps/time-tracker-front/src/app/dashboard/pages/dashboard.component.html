@@ -1,8 +1,10 @@
 <main class="main-container">
   <h2>These are last time notes issues</h2>
 
-  <time-tracker-nx-right-icons></time-tracker-nx-right-icons>
-  
+  <ng-container *ngIf="(view$ | async) !== 'monthly'">
+    <time-tracker-nx-right-icons></time-tracker-nx-right-icons>
+  </ng-container>
+
   <ng-container *ngIf="loadingSettings$ | async; else filters">
     <ngx-skeleton-loader count="1" appearance="line" animation="progress" [theme]="{
       'background-color': 'rgba(grey, 0.7)',
@@ -13,9 +15,9 @@
   <ng-template #filters>
     <time-tracker-nx-filters [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-filters>
   </ng-template>
-  
+
   <mat-card>
-    <ng-container *ngIf="loading$ | async; else results">
+    <ng-container *ngIf="loadingDashboard$ | async; else results">
       <ngx-skeleton-loader count="1" appearance="line" animation="progress" [theme]="{
     'background-color': '#3f51b5',
     height: '56px',
@@ -29,14 +31,23 @@
     </ng-container>
 
     <ng-template #results>
-      <ng-container *ngIf="issues$ | async as issues">
-        <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
-          [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
-        </time-tracker-nx-issue-table>
+
+      <ng-container *ngIf="(view$ | async) === 'monthly' && (timeNotes$ | async) as timeNotes; else table">
+        <time-tracker-nx-calendar-grid *ngIf="(calendar$ | async) as calendar" [year]="calendar.year"
+          [month]="calendar.month" [timeNotes]="timeNotes"
+          [defaultColumns]="(defaultColumns$ | async) || defaultColumns"></time-tracker-nx-calendar-grid>
       </ng-container>
-      <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
-        [daysRange]="(this.daysRange$ | async) || []"
-      ></time-tracker-nx-dashboard-paginator>
+
+      <ng-template #table>
+        <ng-container *ngIf="(issues$ | async) as issues">
+          <time-tracker-nx-issue-table [issues]="issues" [daysRange]="(daysRange$ | async) || []"
+            [defaultColumns]="(defaultColumns$ | async) || defaultColumns">
+          </time-tracker-nx-issue-table>
+        </ng-container>
+        <time-tracker-nx-dashboard-paginator *ngIf="showPaginator$ | async"
+          [daysRange]="(this.daysRange$ | async) || []"></time-tracker-nx-dashboard-paginator>
+      </ng-template>
+
     </ng-template>
 
   </mat-card>

@@ -1,10 +1,14 @@
 export interface DashboardState {
+  calendar: {
+    year: number;
+    month: number;
+  };
   timeNotes: TimeNote[];
   daysRange: string[];
   loading: boolean;
   advancedSearch: boolean;
-  dateFilters: ApiFilter[],
-  searchFilters: ApiFilter[],
+  dateFilters: ApiFilter[];
+  searchFilters: ApiFilter[];
   showPaginator: boolean;
 }
 
@@ -12,13 +16,13 @@ export interface ApiFilter {
   field: string;
   value: string;
   method: string; // '=' , 'like'
-  condition?: CONDITIONS 
-  id?:string;
+  condition?: CONDITIONS;
+  id?: string;
 }
 
 export enum CONDITIONS {
   AND = 'AND',
-  OR ='OR'
+  OR = 'OR',
 }
 
 export interface TimeNote {
@@ -43,7 +47,7 @@ export interface TimeNote {
   spentAt: string;
   glIssueIid: number;
   computed: number;
-  labels: string
+  labels: string;
 }
 
 export interface LocalTimeNote {

@@ -22,7 +22,7 @@ import * as fromAuth from '../../auth/reducers';
   selector: 'time-tracker-nx-tracker-detail-info',
   template: `
     <h2>Time notes Detail</h2>
-    <h3>Empleado: {{ (this.user$ | async)?.username }}</h3>
+    <h3>User: {{ (this.user$ | async)?.username }}</h3>
     <mat-card>
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="namespace">
@@ -136,48 +136,65 @@ export class TrackerDetailInfoComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public dataDialog: { issues: LocalIssue[]; defaultColumns: string[] },
+    public dataDialog: { issues?: LocalIssue[]; defaultColumns: string[]; timeNotes?: TimeNote[]},
     private dialogRef: MatDialogRef<TrackerDetailInfoComponent>,
     private store: Store
   ) {
     this.user$ = this.store.select(fromAuth.selectLoggeduser);
-    this.tableData = this.dataDialog.issues.reduce(
-      (tData: TimeNote[], x: LocalIssue) => {
-        const result = x.timeNotes.reduce(
-          (acc: TimeNote[], y: LocalTimeNote) => {
-            let timeNote: TimeNote = {
-              id: y.id,
-              author: y.author,
-              body: y.body,
-              computed: y.computed,
-              createdAt: y.createdAt,
-              glId: y.glId,
-              glInstance: x.glInstance,
-              issue: x.title,
-              glIssueId: x.glIssueId,
-              issueId: x.id,
-              glIssueIid: x.glIssueIid,
-              namespace: x.glNamespace,
-              project: x.glProject,
-              glProjectId: x.glProjectId,
-              secondsAdded: y.secondsAdded,
-              secondsRemoved: y.secondsRemoved,
-              secondsSubtracted: y.secondsSubstracted,
-              spentAt: y.spentAt,
-              updatedAt: y.updatedAt,
-              milestone: x.milestone,
-              labels: x.labels,
-              issueUrl: x.issueUrl,
-            };
 
-            return [...acc, timeNote];
-          },
-          []
+    if (this.dataDialog.issues) {
+      this.tableData = this.dataDialog.issues.reduce(
+        (tData: TimeNote[], x: LocalIssue) => {
+          const result = x.timeNotes.reduce(
+            (acc: TimeNote[], y: LocalTimeNote) => {
+              let timeNote: TimeNote = {
+                id: y.id,
+                author: y.author,
+                body: y.body,
+                computed: y.computed,
+                createdAt: y.createdAt,
+                glId: y.glId,
+                glInstance: x.glInstance,
+                issue: x.title,
+                glIssueId: x.glIssueId,
+                issueId: x.id,
+                glIssueIid: x.glIssueIid,
+                namespace: x.glNamespace,
+                project: x.glProject,
+                glProjectId: x.glProjectId,
+                secondsAdded: y.secondsAdded,
+                secondsRemoved: y.secondsRemoved,
+                secondsSubtracted: y.secondsSubstracted,
+                spentAt: y.spentAt,
+                updatedAt: y.updatedAt,
+                milestone: x.milestone,
+                labels: x.labels,
+                issueUrl: x.issueUrl,
+              };
+
+              return [...acc, timeNote];
+            },
+            []
+          );
+          return [...tData, ...result];
+        },
+        []
+      )
+      .sort((a, b) => {
+        const milestoneA = a.milestone ? a.milestone : '';
+        const milestoneB = b.milestone ? b.milestone : '';
+
+        return (
+          a.namespace.localeCompare(b.namespace) ||
+          a.project.localeCompare(b.project) ||
+          milestoneA.localeCompare(milestoneB) ||
+          a.issue.localeCompare(b.issue)
         );
-        return [...tData, ...result];
-      },
-      []
-    );
+      });
+    } else {
+      this.tableData = this.dataDialog.timeNotes || [];
+    }
+
 
     this.displayedColumns = [
       ...this.dataDialog.defaultColumns,

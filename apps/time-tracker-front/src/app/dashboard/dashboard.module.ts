@@ -23,7 +23,8 @@ import { RightIconsComponent } from './components/right-icons.component';
 import { DashboardPaginatorComponent } from './components/dashboard-paginator.component';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateApapter } from './services/custom-date-adapter';
-import { FiltersEffects } from '../settings/state/effects/filters.effects';
+import { CalendarGridComponent } from './components/calendar-grid.component';
+import { CalendarPickerComponent } from './components/calendar-picker.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,8 @@ import { FiltersEffects } from '../settings/state/effects/filters.effects';
     DateFilterComponent,
     RightIconsComponent,
     DashboardPaginatorComponent,
+    CalendarGridComponent,
+    CalendarPickerComponent,
   ],
   imports: [
     CommonModule,
